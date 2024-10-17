@@ -1,5 +1,4 @@
 import { FaFacebookF, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa";
-import Filter from "../components/Filter";
 
 const Footer = () => {
   const navItems = ["Blogs", "Terms of Services", "Privacy", "Content Policy"];
@@ -12,7 +11,6 @@ const Footer = () => {
 
   return (
     <>
-      <Filter />
       <footer className="bg-gray-100 py-8 px-4">
         <div className="max-w-6xl mx-auto">
           <nav className="mb-8">
@@ -42,7 +40,7 @@ const Footer = () => {
             ))}
           </div>
           <div className="text-center text-gray-500 text-sm">
-            © {new Date().getFullYear()} Osol View, Inc. All rights reserved.
+            © {new Date().getFullYear()} Neuro Blog, Inc. All rights reserved.
           </div>
         </div>
       </footer>

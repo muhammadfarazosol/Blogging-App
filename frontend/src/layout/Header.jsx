@@ -33,7 +33,7 @@ const Header = () => {
               className="text-3xl cursor-pointer lg:hidden"
             />
             <Link to="/" className="text-2xl font-mono">
-              Osol View
+              NeuroBlog
             </Link>
           </section>
         </div>

@@ -19,6 +19,7 @@ import AuthorPosts from "./pages/AuthorPosts";
 import Dashboard from "./pages/Dashboard";
 import EditPost from "./pages/EditPost";
 import Logout from "./pages/Logout";
+import DeletePost from "./pages/DeletePost";
 
 function App() {
   const router = createBrowserRouter([
@@ -52,35 +53,39 @@ function App() {
           element: <Blogs />,
         },
         {
-          index: "posts/:id",
+          path: "posts/:id",
           element: <PostDetail />,
         },
         {
-          index: "profile/:id",
+          path: "profile/:id",
           element: <UserProfile />,
         },
         {
-          index: "create",
+          path: "create",
           element: <CreatePost />,
         },
         {
-          index: "posts/categories/:category",
+          path: "posts/categories/:category",
           element: <CategoryPosts />,
         },
         {
-          index: "posts/user/:id",
+          path: "posts/users/:id",
           element: <AuthorPosts />,
         },
         {
-          index: "myposts/:id",
+          path: "myposts/:id",
           element: <Dashboard />,
         },
         {
-          index: "posts/:id/edit",
+          path: "posts/:id/edit",
           element: <EditPost />,
         },
         {
-          index: "logout",
+          path: "posts/:id/delete",
+          element: <DeletePost />,
+        },
+        {
+          path: "logout",
           element: <Logout />,
         },
       ],

@@ -1,50 +1,30 @@
 import { useState } from "react";
-import DemoImage from "../assests/assets/images/image1.jpg";
 import PostItem from "./PostItem";
-
-const DummyPosts = [
-  {
-    id: 1,
-    thumbnail: DemoImage,
-    category: "javascript",
-    title: "JS",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, suscipit?",
-    authorID: 1,
-  },
-  {
-    id: 2,
-    thumbnail: DemoImage,
-    category: "python",
-    title: "Python",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, suscipit?",
-    authorID: 2,
-  },
-  {
-    id: 3,
-    thumbnail: DemoImage,
-    category: "cpp",
-    title: "C++",
-    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, suscipit?",
-    authorID: 3,
-  },
-];
+import { DummyPosts } from "../data/Data";
 
 const Posts = () => {
   const [posts, setPosts] = useState(DummyPosts);
   return (
     <div>
-      <section>
-        {posts.map((post) => (
-          <PostItem
-            key={post.id}
-            description={post.desc}
-            thumbnail={post.thumbnail}
-            category={post.category}
-            title={post.title}
-            authorID={post.authorID}
-          />
-        ))}
-      </section>
+      {posts.length > 0 ? (
+        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <PostItem
+              id={post.id}
+              key={post.id}
+              description={post.desc}
+              thumbnail={post.thumbnail}
+              category={post.category}
+              title={post.title}
+              authorID={post.authorID}
+            />
+          ))}
+        </section>
+      ) : (
+        <h2 className="flex justify-center items-center font-bold text-2xl my-32">
+          No posts found
+        </h2>
+      )}
     </div>
   );
 };
