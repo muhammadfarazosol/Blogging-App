@@ -25,4 +25,28 @@ export const DummyPosts = [
     desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, suscipit?",
     authorID: 3,
   },
+  {
+    id: 4,
+    thumbnail: DemoImage,
+    category: "Javascript",
+    title: "JS",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, suscipit?",
+    authorID: 1,
+  },
+  {
+    id: 5,
+    thumbnail: DemoImage,
+    category: "Python",
+    title: "Python",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, suscipit?",
+    authorID: 2,
+  },
+  {
+    id: 6,
+    thumbnail: DemoImage,
+    category: "Cpp",
+    title: "C++",
+    desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis, suscipit?",
+    authorID: 3,
+  },
 ];

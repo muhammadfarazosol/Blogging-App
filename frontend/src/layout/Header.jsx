@@ -5,6 +5,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import ProfileImage from "../assests/ProfileImage.svg";
 import clsx from "clsx";
 import { IoChevronDownCircleOutline } from "react-icons/io5";
+import Logo from "../assests/assets/images/neuroNestLogo.png";
 
 const Header = () => {
   const [isSideMenuOpen, setMenu] = useState(false);
@@ -53,8 +54,8 @@ const Header = () => {
               onClick={() => setMenu(true)}
               className="text-3xl cursor-pointer lg:hidden"
             />
-            <Link to="/" className="text-2xl font-mono">
-              NeuroBlog
+            <Link to="/">
+              <img src={Logo} alt="Logo" className="w-36 h-6" />
             </Link>
           </section>
         </div>

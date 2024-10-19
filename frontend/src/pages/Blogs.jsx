@@ -4,8 +4,11 @@ import Filter from "../components/Filter";
 const Blogs = () => {
   return (
     <div>
-      <Posts />
       <Filter />
+      <h1 className="flex items-center justify-center text-3xl font-bold text-white">
+        Blogs
+      </h1>
+      <Posts />
     </div>
   );
 };

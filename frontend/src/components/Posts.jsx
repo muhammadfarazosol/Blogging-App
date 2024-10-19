@@ -5,9 +5,9 @@ import { DummyPosts } from "../data/Data";
 const Posts = () => {
   const [posts, setPosts] = useState(DummyPosts);
   return (
-    <div>
+    <div className="bg-slate-900">
       {posts.length > 0 ? (
-        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 bg-slate-900">
           {posts.map((post) => (
             <PostItem
               id={post.id}

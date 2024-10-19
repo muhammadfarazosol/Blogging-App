@@ -8,17 +8,17 @@ const PostAuthor = () => {
       <div className="flex items-center">
         {/* author image */}
         <img
-          className="h-10 w-10 rounded-full object-cover"
+          className="h-12 w-12 rounded-full object-cover"
           src={Avatar}
           alt="Profile Image"
         />
         <div className="ml-4">
           {/* author name */}
-          <strong className="block font-medium text-gray-700 text-sm">
+          <strong className="block font-medium text-gray-700 text-xs">
             By: Johanson Levinsiki
           </strong>
           {/* blog time posted */}
-          <span className="text-sm text-gray-400">Just now</span>
+          <span className="text-xs text-gray-400">Just now</span>
         </div>
       </div>
     </Link>
