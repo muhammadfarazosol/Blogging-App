@@ -1,13 +1,7 @@
-import { FaFacebookF, FaInstagram, FaTwitter, FaGithub } from "react-icons/fa";
+import SocialIcons from "../components/SocialMediaIcons";
 
 const Footer = () => {
   const navItems = ["Blogs", "Terms of Services", "Privacy", "Content Policy"];
-  const socialIcons = [
-    { Icon: FaFacebookF, href: "#" },
-    { Icon: FaInstagram, href: "#" },
-    { Icon: FaTwitter, href: "#" },
-    { Icon: FaGithub, href: "#" },
-  ];
 
   return (
     <>
@@ -28,16 +22,7 @@ const Footer = () => {
             </ul>
           </nav>
           <div className="flex justify-center space-x-6 mb-8">
-            {socialIcons.map(({ Icon, href }, index) => (
-              <a
-                key={index}
-                href={href}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-                aria-label={`Visit our ${Icon.name.replace("Fa", "")} page`}
-              >
-                <Icon className="w-6 h-6" />
-              </a>
-            ))}
+            <SocialIcons />
           </div>
           <div className="text-center text-gray-500 text-sm">
             © {new Date().getFullYear()} Neuro Blog, Inc. All rights reserved.

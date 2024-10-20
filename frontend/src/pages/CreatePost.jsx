@@ -22,14 +22,14 @@ export default function EnhancedBlogCreator() {
   const [thumbnail, setThumbnail] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.onload = (e) => setThumbnail(e.target.result);
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => setThumbnail(e.target.result);
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleCreate = () => {
     setIsLoading(true);
@@ -115,8 +115,8 @@ export default function EnhancedBlogCreator() {
               <input
                 type="file"
                 className="opacity-0"
-                // onChange={handleImageChange}
-                onChange={(e) => setCategory(e.target.value[0])}
+                onChange={handleImageChange}
+                // onChange={(e) => setCategory(e.target.value[0])}
               />
             </label>
           </div>

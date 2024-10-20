@@ -36,10 +36,6 @@ const Header = () => {
       link: "/create",
     },
     {
-      label: "Authors",
-      link: "/authors",
-    },
-    {
       label: "Logout",
       link: "/logout",
     },
@@ -47,7 +43,7 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="flex justify-between items-center px-8 py-6">
+      <nav className="flex justify-between items-center px-8 py-6 z-50 bg-gradient-to-r from-purple-50 to-indigo-100">
         <div className="flex items-center gap-8">
           <section className="flex items-center gap-4">
             <FiMenu
@@ -74,7 +70,7 @@ const Header = () => {
 
         <div
           className={clsx(
-            "fixed h-full w-screen lg:hidden bg-black/50 backdrop-blur-sm top-0 right-0 -translate-x-full transition-all",
+            "fixed h-full w-screen lg:hidden bg-black/50 backdrop-blur-sm z-50 top-0 right-0 -translate-x-full transition-all",
             isSideMenuOpen && "translate-x-0"
           )}
         >
