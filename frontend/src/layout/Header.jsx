@@ -60,7 +60,7 @@ const Header = () => {
           {navlinks.map((d, i) => (
             <Link
               key={i}
-              className="mx-4 text-gray-400 hover:text-black"
+              className="mx-4 text-black hover:text-gray-500"
               to={d.link}
             >
               {d.label}

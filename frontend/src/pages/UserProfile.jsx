@@ -116,11 +116,11 @@ const UserProfile = () => {
     //     </div>
     //   </div>
     // </div>
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-w-2xl w-full">
-        <div className="relative h-40 bg-gradient-to-r from-black to-gray-800">
-          <Link to={`/myposts/sdfsd`} className="absolute top-4 right-4">
-            <button className="px-4 py-2 bg-white text-black font-semibold rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+      <div className="bg-gradient-to-r from-purple-50 to-indigo-100 rounded-lg shadow-2xl overflow-hidden max-w-2xl w-full">
+        <div className="relative h-40 bg-gradient-to-r from-gray-400 to-gray-600 w-full flex justify-center items-center">
+          <Link to={`/myposts/sdfsd`} className="absolute">
+            <button className="px-4 py-2 bg-white text-black font-semibold rounded-full shadow-lg hover:bg-gray-100 transition duration-300 ease-in-out transform hover:scale-105 mb-10">
               My Blogs
             </button>
           </Link>
