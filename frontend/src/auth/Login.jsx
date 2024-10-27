@@ -1,9 +1,60 @@
-import { Button, Stack, TextField, Typography, colors } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  colors,
+} from "@mui/material";
 import { ScreenMode } from "./Auth";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/userContext";
+import { useContext, useState } from "react";
+import axios from "axios";
 
 const Login = ({ onSwitchMode }) => {
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { setCurrentUser } = useContext(UserContext);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/users/login`,
+        userData
+      );
+
+      const user = await response.data;
+      console.log(user);
+
+      setCurrentUser(user);
+
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "An error occurred during login");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Stack
+      component="form"
+      onSubmit={handleSubmit}
       justifyContent="center"
       alignItems="center"
       sx={{
@@ -27,18 +78,38 @@ const Login = ({ onSwitchMode }) => {
           </Typography>
         </Stack>
 
+        {error && (
+          <Alert severity="error" sx={{ width: "100%" }}>
+            {error}
+          </Alert>
+        )}
+
         <Stack spacing={4}>
           <Stack spacing={2}>
             <Stack spacing={1}>
               <Typography color={colors.grey[800]}>Email</Typography>
-              <TextField />
+              <TextField
+                name="email"
+                type="email"
+                value={userData.email}
+                onChange={handleChange}
+                required
+              />
             </Stack>
             <Stack spacing={1}>
               <Typography color={colors.grey[800]}>Password</Typography>
-              <TextField type="password" />
+              <TextField
+                name="password"
+                type="password"
+                value={userData.password}
+                onChange={handleChange}
+                required
+              />
             </Stack>
           </Stack>
           <Button
+            type="submit"
+            onSubmit={handleSubmit}
             variant="contained"
             size="large"
             sx={{
@@ -48,7 +119,7 @@ const Login = ({ onSwitchMode }) => {
               },
             }}
           >
-            Sign in
+            {isLoading ? "Signing in..." : "Sign in"}
           </Button>
         </Stack>
 

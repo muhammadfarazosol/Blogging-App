@@ -20,12 +20,17 @@ import Dashboard from "./pages/Dashboard";
 import EditPost from "./pages/EditPost";
 import Logout from "./pages/Logout";
 import DeletePost from "./pages/DeletePost";
+import UserProvider from "./context/userContext.jsx";
 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <MainLayout />,
+      element: (
+        <UserProvider>
+          <MainLayout />
+        </UserProvider>
+      ),
       errorElement: <Error />,
       children: [
         {
