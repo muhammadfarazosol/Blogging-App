@@ -25,7 +25,7 @@ const Footer = () => {
             <SocialIcons />
           </div>
           <div className="text-center text-slate-900 text-sm">
-            © {new Date().getFullYear()} Neuro Blog, Inc. All rights reserved by
+            © {new Date().getFullYear()} NeuroNest, Inc. All rights reserved by
             OSOL
           </div>
         </div>

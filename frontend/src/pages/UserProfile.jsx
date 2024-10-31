@@ -2,6 +2,9 @@ import { useRef, useState } from "react";
 import Avatar from "../assests/avatars/osolLogo.png";
 import { Link } from "react-router-dom";
 import { CiCamera } from "react-icons/ci";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const [avatar, setAvatar] = useState(Avatar);
@@ -11,6 +14,15 @@ const UserProfile = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const fileInputRef = useRef(null);
+
+  const { currentUser } = useContext(UserContext);
+  const token = currentUser?.token;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate("/auth");
+    }
+  }, []);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];

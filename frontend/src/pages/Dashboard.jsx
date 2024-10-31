@@ -3,11 +3,22 @@ import { DummyPosts } from "../data/Data";
 import { FaEye } from "react-icons/fa";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { UserContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [posts, setPosts] = useState(DummyPosts);
   const [isHovered, setIsHovered] = useState(false);
 
+  const { currentUser } = useContext(UserContext);
+  const token = currentUser?.token;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate("/auth");
+    }
+  }, []);
   return (
     <div>
       {posts.length > 0 ? (

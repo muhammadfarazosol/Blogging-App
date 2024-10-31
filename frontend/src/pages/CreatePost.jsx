@@ -1,19 +1,9 @@
-// import { useState } from "react";
-
-// const CreatePost = () => {
-//   const [title, setTitle] = useState("");
-//   const [category, setCategory] = useState("Uncategorized");
-//   const [description, setDescription] = useState("");
-//   const [thumbnail, setThumbnail] = useState("");
-
-//   return <div>CreatePost</div>;
-// };
-
-// export default CreatePost;
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { FaImage, FaSpinner } from "react-icons/fa";
+import { UserContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 export default function EnhancedBlogCreator() {
   const [title, setTitle] = useState("");
@@ -21,6 +11,15 @@ export default function EnhancedBlogCreator() {
   const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const { currentUser } = useContext(UserContext);
+  const token = currentUser?.token;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      navigate("/auth");
+    }
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
