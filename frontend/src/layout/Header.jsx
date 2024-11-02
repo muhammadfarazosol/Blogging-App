@@ -113,7 +113,9 @@ const Header = () => {
                     className="h-10 w-10 rounded-full border-2 border-gray-300"
                   />
                   <div>
-                    <p className="text-sm font-semibold text-gray-700">Faraz</p>
+                    <p className="text-sm font-semibold text-gray-700">
+                      {currentUser?.name}
+                    </p>
                   </div>
                 </div>
                 {DropdownNavlinks.map((item, index) => (

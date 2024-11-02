@@ -113,14 +113,15 @@ import { FaSearch, FaChevronDown } from "react-icons/fa";
 
 const categories = [
   { name: "Filter", path: "" },
-  { name: "C++", path: "/post/categories/Cpp" },
-  { name: "Javascript", path: "/post/categories/Javascript" },
-  { name: "Python", path: "/post/categories/Python" },
-  { name: "Ruby", path: "/post/categories/Ruby" },
-  { name: "Node JS", path: "/post/categories/Nodejs" },
-  { name: "Java", path: "/post/categories/Java" },
-  { name: "Typescript", path: "/post/categories/Typescript" },
-  { name: "PHP", path: "/post/categories/Php" },
+  { name: "C++", path: "/posts/categories/Cpp" },
+  { name: "Javascript", path: "/posts/categories/Javascript" },
+  { name: "Python", path: "/posts/categories/Python" },
+  { name: "Ruby", path: "/posts/categories/Ruby" },
+  { name: "Node JS", path: "/posts/categories/Nodejs" },
+  { name: "Java", path: "/posts/categories/Java" },
+  { name: "Typescript", path: "/posts/categories/Typescript" },
+  { name: "PHP", path: "/posts/categories/PHP" },
+  { name: "Ruby", path: "/posts/categories/Ruby" },
 ];
 
 export default function BlogFilter() {

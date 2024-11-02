@@ -1,54 +1,35 @@
-import { useState } from "react";
-import Avatar from "../assests/avatars/osolLogo.png";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-
-const authorsData = [
-  {
-    id: 1,
-    avatar: Avatar,
-    name: "Muhammad Faraz",
-    posts: 10,
-  },
-  {
-    id: 2,
-    avatar: Avatar,
-    name: "Muhammad Faraz",
-    posts: 1,
-  },
-  {
-    id: 3,
-    avatar: Avatar,
-    name: "Muhammad Faraz",
-    posts: 5,
-  },
-  {
-    id: 4,
-    avatar: Avatar,
-    name: "Muhammad Faraz",
-    posts: 8,
-  },
-  {
-    id: 5,
-    avatar: Avatar,
-    name: "Muhammad Faraz",
-    posts: 4,
-  },
-  {
-    id: 6,
-    avatar: Avatar,
-    name: "Muhammad Faraz",
-    posts: 6,
-  },
-];
+import axios from "axios";
 
 const Authors = () => {
-  const [authors, setAuthors] = useState(authorsData);
+  const [authors, setAuthors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const getAuthors = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`http://localhost:5000/api/users`);
+        setAuthors(response?.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+    getAuthors();
+  }, []);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div>
       {authors.length > 0 ? (
         <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {authors.map(({ id, avatar, name, posts }) => {
+          {authors.map(({ _id: id, avatar, name, posts }) => {
             return (
               <div className="w-full my-10">
                 <Link key={id} to={`/posts/users/${id}`}>
@@ -71,7 +52,7 @@ const Authors = () => {
                       >
                         <img
                           className="w-24 h-24 mx-auto shadow-xl rounded-full object-cover border-4 border-slate-800"
-                          src={avatar}
+                          src={`http://localhost:5000/uploads/${avatar}`}
                           alt={`${name}'s profile picture`}
                         />
                       </motion.div>

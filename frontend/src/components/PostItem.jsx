@@ -14,7 +14,7 @@ const PostItem = ({
 }) => {
   const shortDescription =
     description.length > 70 ? description.substr(0, 70) + "..." : description;
-  const shortTitle = title.length > 25 ? title.substr(0, 25) + "..." : title;
+  const shortTitle = title.length > 25 ? title.substr(0, 20) + "..." : title;
 
   return (
     <motion.div
@@ -40,7 +40,7 @@ const PostItem = ({
         <div className="p-6">
           {/* category */}
           <Link to={`/posts/categories/${category}`}>
-            <span className="inline-block mb-2 text-xs font-semibold tracking-wide text-primary uppercase">
+            <span className="inline-block mb-2 text-xs font-semibold tracking-wide text-primary">
               {category}
             </span>
           </Link>

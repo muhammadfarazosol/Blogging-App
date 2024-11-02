@@ -27,7 +27,7 @@ const PostAuthor = ({ authorID, createdAt }) => {
   }, []);
 
   return (
-    <Link to={`/posts/users/anything`}>
+    <Link to={`/posts/users/${authorID}`}>
       <div className="flex items-center">
         {/* author image */}
         <img
@@ -42,7 +42,7 @@ const PostAuthor = ({ authorID, createdAt }) => {
           </strong>
           {/* blog time posted */}
           <span className="text-xs text-gray-400">
-            <ReactTimeAgo date={new Date(createdAt)} locale="en-US" />
+            {/* <ReactTimeAgo date={new Date(createdAt)} locale="en-US" /> */}
           </span>
         </div>
       </div>
