@@ -249,7 +249,7 @@ import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function EnhancedBlogCreator() {
+export default function CreatePost() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Please Select a category");
   const [description, setDescription] = useState("");

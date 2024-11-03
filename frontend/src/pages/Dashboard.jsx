@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { DummyPosts } from "../data/Data";
 import { FaEye } from "react-icons/fa";
 import { CiEdit, CiTrash } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../context/userContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import DeletePost from "./DeletePost";
 
 const Dashboard = () => {
-  const [posts, setPosts] = useState(DummyPosts);
+  const [posts, setPosts] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { id } = useParams();
 
   const { currentUser } = useContext(UserContext);
   const token = currentUser?.token;
@@ -19,6 +22,33 @@ const Dashboard = () => {
       navigate("/auth");
     }
   }, []);
+
+  if (isLoading) {
+    <p>Loading...</p>;
+  }
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/posts/users/${id}`,
+          {
+            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setPosts(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+    fetchPosts();
+  }, [id]);
+
   return (
     <div>
       {posts.length > 0 ? (
@@ -37,7 +67,7 @@ const Dashboard = () => {
                 <div className="relative">
                   <img
                     className="w-full h-48 object-cover"
-                    src={post.thumbnail}
+                    src={`http://localhost:5000/uploads/${post.thumbnail}`}
                     alt="Avatar"
                   />
                   <div
@@ -57,24 +87,19 @@ const Dashboard = () => {
                   }`}
                 >
                   <div className="flex justify-between">
-                    <Link to={`/posts/${post.id}`}>
+                    <Link to={`/posts/${post._id}`}>
                       <button className="flex items-center text-blue-500 hover:text-blue-700 transition-colors duration-200">
                         <FaEye className="w-5 h-5 mr-1" />
                         View
                       </button>
                     </Link>
-                    <Link to={`/posts/${post.id}/edit`}>
+                    <Link to={`/posts/${post._id}/edit`}>
                       <button className="flex items-center text-green-500 hover:text-green-700 transition-colors duration-200">
                         <CiEdit className="w-5 h-5 mr-1" />
                         Edit
                       </button>
                     </Link>
-                    <Link to={`/posts/${post.id}/delete`}>
-                      <button className="flex items-center text-red-500 hover:text-red-700 transition-colors duration-200">
-                        <CiTrash className="w-5 h-5 mr-1" />
-                        Delete
-                      </button>
-                    </Link>
+                    <DeletePost postId={post._id} />
                   </div>
                 </div>
               </div>

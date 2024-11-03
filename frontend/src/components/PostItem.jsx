@@ -14,7 +14,7 @@ const PostItem = ({
 }) => {
   const shortDescription =
     description.length > 70 ? description.substr(0, 70) + "..." : description;
-  const shortTitle = title.length > 25 ? title.substr(0, 20) + "..." : title;
+  const shortTitle = title.length > 20 ? title.substr(0, 20) + "..." : title;
 
   return (
     <motion.div
@@ -50,7 +50,11 @@ const PostItem = ({
               {shortTitle}
             </h3>
           </Link>
-          <p className="mb-4 text-gray-600">{shortDescription}</p>
+          <p
+            className="mb-4 text-gray-600"
+            dangerouslySetInnerHTML={{ __html: shortDescription }}
+          />
+
           <div className="flex items-center justify-between">
             {/* Author pic and name and time div */}
             <PostAuthor authorID={authorID} createdAt={createdAt} />

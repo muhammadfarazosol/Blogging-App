@@ -20,7 +20,11 @@ const Header = () => {
   ];
 
   const DropdownNavlinks = [
-    { label: "View Profile", link: "/profile/sdfsd", icon: FiSettings },
+    {
+      label: "View Profile",
+      link: `/profile/${currentUser?.id}`,
+      icon: FiSettings,
+    },
     { label: "Create Post", link: "/create", icon: FiEdit },
     { label: "Logout", link: "/logout", icon: FiLogOut },
   ];
