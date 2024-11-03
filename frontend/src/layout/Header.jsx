@@ -91,7 +91,7 @@ const Header = () => {
           </section>
         </div>
 
-        {currentUser?.id && (
+        {/* {currentUser?.id && (
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!isDropdownOpen)}
@@ -138,6 +138,58 @@ const Header = () => {
           </div>
         )}
         {!currentUser?.id && (
+          <div>
+            <Link to={"/auth"}>
+              <button>Login</button>
+            </Link>
+          </div>
+        )} */}
+        {currentUser ? (
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setDropdownOpen(!isDropdownOpen)}
+              className="flex items-center space-x-2 focus:outline-none"
+            >
+              <img
+                src={ProfileImage}
+                alt="Profile Image Icon"
+                className="h-10 w-10 rounded-full border-2 border-gray-300"
+              />
+              <IoChevronDownCircleOutline
+                className={`h-5 w-5 text-gray-600 transition-transform duration-300 ${
+                  isDropdownOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg py-2 z-10 transition-all duration-300 ease-in-out transform origin-top-right">
+                <div className="px-4 py-3 border-b border-gray-200 flex items-center space-x-3">
+                  <img
+                    src={ProfileImage}
+                    alt="Profile"
+                    className="h-10 w-10 rounded-full border-2 border-gray-300"
+                  />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-700">
+                      {currentUser?.name}
+                    </p>
+                  </div>
+                </div>
+                {DropdownNavlinks.map((item, index) => (
+                  <Link
+                    key={index}
+                    to={item.link}
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    <item.icon className="mr-3 h-5 w-5 text-gray-400" />
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
           <div>
             <Link to={"/auth"}>
               <button>Login</button>
