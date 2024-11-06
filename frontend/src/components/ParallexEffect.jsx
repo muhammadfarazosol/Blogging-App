@@ -111,7 +111,7 @@ function BlogParallaxSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <h1 className="text-5xl font-bold text-white text-center mb-4">
+            <h1 className="text-5xl font-bold text-[#FBFFFF] text-center mb-4">
               Welcome to NeuroNest
             </h1>
           </motion.div>
@@ -121,7 +121,7 @@ function BlogParallaxSection() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 1 }}
           >
-            <p className="text-2xl text-white text-center mb-8">
+            <p className="text-2xl text-[#FBFFFF] font-semibold text-center mb-8">
               {runningText.split("").map((char, index) => (
                 <motion.span
                   key={index}
@@ -137,7 +137,7 @@ function BlogParallaxSection() {
 
           <Link to={"/blogs"}>
             <motion.button
-              className="px-6 py-3 bg-blue-600 text-white rounded-full text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              className="px-6 py-3 bg-[#3e95fb] text-white rounded-full border-2 border-white text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               initial={{ opacity: 0, y: 20 }}

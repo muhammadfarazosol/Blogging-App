@@ -7,9 +7,9 @@ const MainLayout = () => {
   return (
     <>
       <Header />
-      <div className="bg-slate-900">
-        <Outlet />
-      </div>
+
+      <Outlet />
+
       <Footer />
     </>
   );

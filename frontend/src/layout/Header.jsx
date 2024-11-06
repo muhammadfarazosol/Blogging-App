@@ -1,15 +1,16 @@
 import { useState, useRef, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FiMenu, FiEdit, FiSettings, FiLogOut } from "react-icons/fi";
 import { IoCloseOutline, IoChevronDownCircleOutline } from "react-icons/io5";
 import ProfileImage from "../assests/ProfileImage.svg";
-import Logo from "../assests/assets/images/neuroNestLogo.png";
+import Logo from "../assests/assets/images/image.png";
 import { UserContext } from "../context/userContext";
 
 const Header = () => {
   const [isSideMenuOpen, setMenu] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const location = useLocation();
 
   const { currentUser } = useContext(UserContext);
 
@@ -42,27 +43,44 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="flex justify-between items-center px-8 py-6 z-50 bg-gradient-to-r from-purple-50 to-indigo-100">
+      {/* <nav className="flex justify-between items-center px-8 py-6 z-50 bg-gradient-to-r from-purple-50 to-indigo-100"> */}
+      <nav className="flex justify-between items-center px-8 max-sm:px-4 py-6 z-50 bg-[#3e95fb]">
         <div className="flex items-center gap-8">
           <section className="flex items-center gap-4">
             <FiMenu
               onClick={() => setMenu(true)}
-              className="text-3xl cursor-pointer lg:hidden"
+              className="text-3xl cursor-pointer lg:hidden text-white max-sm:text-2xl"
             />
             <Link to="/">
-              <img src={Logo} alt="Logo" className="w-36 h-6" />
+              <img src={Logo} alt="Logo" className="w-36 h-8 max-sm:h-[22px]" />
             </Link>
           </section>
         </div>
 
+        {/* <div className="hidden lg:flex flex-grow justify-center">
+          {navlinks.map((d, i) => (
+            <Link
+              key={i}
+              className="mx-4 text-white hover:text-black"
+              to={d.link}
+            >
+              {d.label}
+            </Link>
+          ))}
+        </div> */}
         <div className="hidden lg:flex flex-grow justify-center">
           {navlinks.map((d, i) => (
             <Link
               key={i}
-              className="mx-4 text-black hover:text-gray-500"
+              className={`mx-4 text-white hover:text-black relative ${
+                location.pathname === d.link ? "font-bold" : ""
+              }`}
               to={d.link}
             >
               {d.label}
+              {location.pathname === d.link && (
+                <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
+              )}
             </Link>
           ))}
         </div>
@@ -72,7 +90,7 @@ const Header = () => {
             isSideMenuOpen ? "translate-x-0" : ""
           }`}
         >
-          <section className="text-black bg-white flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-56 flex">
+          <section className="text-white bg-[#3e95fb] flex-col absolute left-0 top-0 h-screen p-8 gap-8 z-50 w-56 flex">
             <IoCloseOutline
               onClick={() => setMenu(false)}
               className="mt-0 mb-8 text-3xl cursor-pointer"
@@ -192,7 +210,9 @@ const Header = () => {
         ) : (
           <div>
             <Link to={"/auth"}>
-              <button>Login</button>
+              <button className="px-8 py-1 text-white bg-[#3e95fb] border border-white rounded-lg font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:scale-105 max-sm:px-6">
+                Login
+              </button>
             </Link>
           </div>
         )}

@@ -50,8 +50,8 @@ const RecentPosts = () => {
   };
 
   return (
-    <div className="bg-slate-900 py-12">
-      <h2 className="text-3xl font-bold text-white text-center mb-8">
+    <div className="bg-[#c9dcf3] py-12">
+      <h2 className="text-3xl font-bold text-black text-center mb-8">
         Recent Posts
       </h2>
       {recentPosts.length > 0 ? (
@@ -85,7 +85,7 @@ const RecentPosts = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
-              <button className="px-6 py-3 bg-blue-600 text-white rounded-full text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+              <button className="px-6 py-3 bg-[#3e95fb] text-white border-2 border-white rounded-3xl text-lg font-semibold transition-all duration-300 ease-in-out transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                 View All
               </button>
             </motion.div>

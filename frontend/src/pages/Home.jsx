@@ -21,7 +21,6 @@ const Home = () => {
       <div>
         <FeaturedPosts />
       </div> */}
-      <hr className="mt-6" />
       <div>
         <Modal />
       </div>
