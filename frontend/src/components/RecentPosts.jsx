@@ -51,9 +51,7 @@ const RecentPosts = () => {
 
   return (
     <div className="bg-[#c9dcf3] py-12">
-      <h2 className="text-3xl font-bold text-black text-center mb-8">
-        Recent Posts
-      </h2>
+      <h2 className="blogs-heading">Explore Our Latest Blogs</h2>
       {recentPosts.length > 0 ? (
         <>
           <motion.section

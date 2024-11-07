@@ -1,10 +1,17 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FiMenu, FiEdit, FiSettings, FiLogOut } from "react-icons/fi";
-import { IoCloseOutline, IoChevronDownCircleOutline } from "react-icons/io5";
+import {
+  FiMenu,
+  FiEdit,
+  FiSettings,
+  FiLogOut,
+  FiChevronDown,
+} from "react-icons/fi";
+import { IoCloseOutline } from "react-icons/io5";
 import ProfileImage from "../assests/ProfileImage.svg";
 import Logo from "../assests/assets/images/image.png";
 import { UserContext } from "../context/userContext";
+import axios from "axios";
 
 const Header = () => {
   const [isSideMenuOpen, setMenu] = useState(false);
@@ -13,6 +20,30 @@ const Header = () => {
   const location = useLocation();
 
   const { currentUser } = useContext(UserContext);
+
+  const [authors, setAuthors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const getAuthors = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/users/${currentUser?.id}`
+        );
+        setAuthors(response?.data);
+        console.log(response?.data);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    };
+
+    // Only fetch if currentUser is defined
+    if (currentUser) {
+      getAuthors();
+    }
+  }, [currentUser]); // Add currentUser as a dependency here
 
   const navlinks = [
     { label: "Home", link: "/" },
@@ -57,17 +88,6 @@ const Header = () => {
           </section>
         </div>
 
-        {/* <div className="hidden lg:flex flex-grow justify-center">
-          {navlinks.map((d, i) => (
-            <Link
-              key={i}
-              className="mx-4 text-white hover:text-black"
-              to={d.link}
-            >
-              {d.label}
-            </Link>
-          ))}
-        </div> */}
         <div className="hidden lg:flex flex-grow justify-center">
           {navlinks.map((d, i) => (
             <Link
@@ -109,7 +129,79 @@ const Header = () => {
           </section>
         </div>
 
-        {/* {currentUser?.id && (
+        {currentUser ? (
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setDropdownOpen(!isDropdownOpen)}
+              className="flex items-center space-x-1 px-2 py-1 rounded-full border-2 border-white text-white transition-colors duration-300"
+            >
+              <img
+                src={
+                  authors?.avatar
+                    ? `http://localhost:5000/uploads/${authors.avatar}`
+                    : ProfileImage
+                }
+                alt={`${currentUser?.name}'s profile`}
+                className="h-8 w-8 rounded-full object-cover"
+              />
+              <span className="font-semibold text-xs text-white">
+                {currentUser?.name}
+              </span>
+              <FiChevronDown
+                className={`h-4 w-4 text-white transition-transform duration-300 ${
+                  isDropdownOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg py-2 z-10 transition-all duration-300 ease-in-out transform origin-top-right">
+                {DropdownNavlinks.map((item, index) => (
+                  <Link
+                    key={index}
+                    to={item.link}
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    <item.icon className="mr-3 h-5 w-5 text-gray-400" />
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            <Link to={"/auth"}>
+              <button className="px-8 py-1 text-white bg-[#3e95fb] border border-white rounded-lg font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:scale-105 max-sm:px-6">
+                Login
+              </button>
+            </Link>
+          </div>
+        )}
+      </nav>
+      <hr />
+    </header>
+  );
+};
+
+export default Header;
+
+{
+  /* <div className="hidden lg:flex flex-grow justify-center">
+          {navlinks.map((d, i) => (
+            <Link
+              key={i}
+              className="mx-4 text-white hover:text-black"
+              to={d.link}
+            >
+              {d.label}
+            </Link>
+          ))}
+        </div> */
+}
+
+{
+  /* {currentUser?.id && (
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen(!isDropdownOpen)}
@@ -161,27 +253,11 @@ const Header = () => {
               <button>Login</button>
             </Link>
           </div>
-        )} */}
-        {currentUser ? (
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setDropdownOpen(!isDropdownOpen)}
-              className="flex items-center space-x-2 focus:outline-none"
-            >
-              <img
-                src={ProfileImage}
-                alt="Profile Image Icon"
-                className="h-10 w-10 rounded-full border-2 border-gray-300"
-              />
-              <IoChevronDownCircleOutline
-                className={`h-5 w-5 text-gray-600 transition-transform duration-300 ${
-                  isDropdownOpen ? "rotate-180" : ""
-                }`}
-              />
-            </button>
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg py-2 z-10 transition-all duration-300 ease-in-out transform origin-top-right">
-                <div className="px-4 py-3 border-b border-gray-200 flex items-center space-x-3">
+        )} */
+}
+
+{
+  /* <div className="px-4 py-3 border-b border-gray-200 flex items-center space-x-3">
                   <img
                     src={ProfileImage}
                     alt="Profile"
@@ -192,34 +268,5 @@ const Header = () => {
                       {currentUser?.name}
                     </p>
                   </div>
-                </div>
-                {DropdownNavlinks.map((item, index) => (
-                  <Link
-                    key={index}
-                    to={item.link}
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                    onClick={() => setDropdownOpen(false)}
-                  >
-                    <item.icon className="mr-3 h-5 w-5 text-gray-400" />
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-        ) : (
-          <div>
-            <Link to={"/auth"}>
-              <button className="px-8 py-1 text-white bg-[#3e95fb] border border-white rounded-lg font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:scale-105 max-sm:px-6">
-                Login
-              </button>
-            </Link>
-          </div>
-        )}
-      </nav>
-      <hr />
-    </header>
-  );
-};
-
-export default Header;
+                </div> */
+}

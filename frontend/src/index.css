@@ -18,3 +18,28 @@ body {
     padding-right: 10px;
   }
 }
+
+.blogs-heading {
+  font-size: 2rem; /* Adjust the size as needed */
+  font-weight: 700;
+  color: black; /* Primary color */
+  text-align: center;
+  background: linear-gradient(90deg, #3e95fb, #72c0fd);
+  -webkit-background-clip: text;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+  animation: text-glow 2s ease-in-out infinite alternate;
+}
+
+/* Adding subtle animation */
+@keyframes text-glow {
+  from {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3),
+      0 0 10px rgba(62, 149, 251, 0.5);
+  }
+  to {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(114, 192, 253, 0.7);
+  }
+}

@@ -138,37 +138,79 @@ export default function BlogFilter() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4 bg-slate-900 text-black">
-      <div className="flex my-4">
-        <div className="relative w-48 mr-2">
+    // <div className="max-w-4xl mx-auto p-4 text-black">
+    //   <div className="flex my-4">
+    //     <div className="relative w-48 mr-2">
+    //       <button
+    //         onClick={() => setIsOpen(!isOpen)}
+    //         className="w-full bg-white py-2 px-4 rounded-l-md flex justify-between items-center"
+    //       >
+    //         {selectedCategory.name} <FaChevronDown className="text-black" />
+    //       </button>
+    //       {isOpen && (
+    //         <div className="absolute top-full left-0 w-full bg-white mt-1 rounded-md shadow-lg z-10">
+    //           {categories.map((category) => (
+    //             <button
+    //               key={category.name}
+    //               onClick={() => handleCategorySelect(category)}
+    //               className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
+    //             >
+    //               {category.name}
+    //             </button>
+    //           ))}
+    //         </div>
+    //       )}
+    //     </div>
+    //     <div className="flex-grow flex">
+    //       <input
+    //         type="text"
+    //         placeholder="Search"
+    //         className="flex-grow px-4 py-2 bg-white text-black rounded-l-md focus:outline-none"
+    //       />
+    //       <button className="bg-white px-4 rounded-r-md hover:bg-gray-100 transition-colors">
+    //         <FaSearch className="text-black" />
+    //       </button>
+    //     </div>
+    //   </div>
+    // </div>
+    <div className="max-w-4xl mx-auto p-6 rounded-lg">
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative w-full sm:w-48">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="w-full bg-white py-2 px-4 rounded-l-md flex justify-between items-center"
+            className="w-full bg-white py-3 px-4 rounded-md flex justify-between items-center text-gray-700 font-semibold transition-all duration-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-300"
           >
-            {selectedCategory.name} <FaChevronDown className="text-black" />
+            {selectedCategory.name}
+            <FaChevronDown
+              className={`text-gray-400 transition-transform duration-300 ${
+                isOpen ? "rotate-180" : ""
+              }`}
+            />
           </button>
           {isOpen && (
-            <div className="absolute top-full left-0 w-full bg-white mt-1 rounded-md shadow-lg z-10">
-              {categories.map((category) => (
-                <button
-                  key={category.name}
-                  onClick={() => handleCategorySelect(category)}
-                  className="block w-full text-left px-4 py-2 text-black hover:bg-gray-100"
-                >
-                  {category.name}
-                </button>
-              ))}
+            <div className="absolute top-full left-0 w-full bg-white mt-2 rounded-md shadow-lg z-10 overflow-hidden">
+              <div className="max-h-60 overflow-y-auto custom-scrollbar">
+                {categories.map((category) => (
+                  <button
+                    key={category.name}
+                    onClick={() => handleCategorySelect(category)}
+                    className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors duration-200"
+                  >
+                    {category.name}
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
         <div className="flex-grow flex">
           <input
             type="text"
-            placeholder="Search"
-            className="flex-grow px-4 py-2 bg-white text-black rounded-l-md focus:outline-none"
+            placeholder="Search for anything..."
+            className="flex-grow px-4 py-3 bg-white text-gray-700 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-300"
           />
-          <button className="bg-white px-4 rounded-r-md hover:bg-gray-100 transition-colors">
-            <FaSearch className="text-black" />
+          <button className="bg-[#3e95fb] px-6 rounded-r-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-900">
+            <FaSearch className="text-white" />
           </button>
         </div>
       </div>
