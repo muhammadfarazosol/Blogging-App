@@ -50,17 +50,14 @@ const Dashboard = () => {
   }, [id]);
 
   return (
-    <div>
+    <div className="bg-[#c9dcf3]">
+      <h2 className="blogs-heading">My Blogs</h2>
       {posts.length > 0 ? (
         <>
-          <h1 className="flex items-center justify-center text-3xl font-bold text-white pt-8">
-            My Blogs
-          </h1>
-
           <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
               <div
-                className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white transition-all duration-300 transform hover:scale-105 m-10"
+                className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white transition-all duration-300 transform hover:scale-105 mx-10 mb-10"
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
               >

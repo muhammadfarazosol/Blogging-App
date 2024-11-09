@@ -49,6 +49,9 @@ const Header = () => {
     { label: "Home", link: "/" },
     { label: "Blogs", link: "/blogs" },
     { label: "Authors", link: "/authors" },
+    ...(currentUser
+      ? [{ label: "My Blogs", link: `/myposts/${currentUser.id}` }]
+      : []),
   ];
 
   const DropdownNavlinks = [

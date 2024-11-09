@@ -26,7 +26,7 @@ body {
   text-align: center;
   background: linear-gradient(90deg, #3e95fb, #72c0fd);
   -webkit-background-clip: text;
-  margin-top: 20px;
+  padding-top: 20px;
   margin-bottom: 40px;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
   animation: text-glow 2s ease-in-out infinite alternate;
@@ -42,4 +42,28 @@ body {
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3),
       0 0 15px rgba(114, 192, 253, 0.7);
   }
+}
+
+.prose img {
+  max-width: 100%; /* Prevents overflow */
+  max-height: 350px; /* Adjust the height to your preference */
+  object-fit: contain; /* Maintain aspect ratio */
+  display: block; /* Centers image */
+  margin: 0 auto; /* Horizontal center alignment */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

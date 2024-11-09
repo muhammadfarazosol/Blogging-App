@@ -134,8 +134,8 @@ export default function EditPost() {
 
   return (
     <>
-      <section className="py-10">
-        <div className="max-w-4xl mx-auto p-8 bg-gradient-to-r from-purple-50 to-indigo-100 text-black rounded-lg">
+      <section className="py-10 bg-[#c9dcf3]">
+        <div className="max-w-4xl mx-auto p-8 bg-[#e1ebfa] text-black rounded-lg">
           {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
           <h1 className="text-4xl font-extrabold mb-8 text-center">
             Edit Your Masterpiece
@@ -234,14 +234,43 @@ export default function EditPost() {
               <label className="block text-black text-sm font-bold mb-2">
                 Description
               </label>
-              <ReactQuill
+              {/* <ReactQuill
                 theme="snow"
                 value={description}
                 onChange={setDescription}
                 modules={modules}
                 formats={formats}
                 className="bg-white rounded-lg shadow-inner text-gray-700"
+              /> */}
+              <ReactQuill
+                theme="snow"
+                value={description}
+                onChange={setDescription}
+                modules={modules}
+                formats={formats}
+                className="bg-white rounded-lg shadow-inner text-gray-700 mb-20 custom-scrollbar"
+                style={{
+                  height: "300px",
+                }}
               />
+              <style>
+                {`
+  .ql-editor {
+    max-height: 400px;
+    background: white;         
+    overflow-y: auto;          
+  }
+
+  .ql-editor img {
+  display: block;            
+  margin: 0 auto;            
+  max-width: 1000px;         
+  max-height: 300px;         
+  object-fit: contain;       
+}
+
+`}
+              </style>
             </div>
 
             {/* Create Button */}
