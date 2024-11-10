@@ -34,7 +34,7 @@
 import { useState, useEffect } from "react";
 import PostItem from "../components/PostItem";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const CategoryPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -59,9 +59,17 @@ const CategoryPosts = () => {
   }, [category]);
 
   return (
-    <div className="bg-slate-900">
+    <div className="bg-[#c9dcf3]">
+      <h1 className="blogs-heading">Filtered Blogs</h1>
+      <div className="text-center mb-4">
+        <Link to={"/blogs"}>
+          <button className="bg-[#3e95fb] text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            View All Posts
+          </button>
+        </Link>
+      </div>
       {posts.length > 0 ? (
-        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 bg-slate-900">
+        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
             <PostItem
               id={post._id}
