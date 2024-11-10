@@ -227,6 +227,30 @@ const deletePost = async (req, res, next) => {
   }
 };
 
+// postControllers.js
+
+const searchPostsByTitle = async (req, res) => {
+  const { title } = req.query;
+  try {
+    const posts = await Post.find({ title: { $regex: title, $options: "i" } });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Error searching posts" });
+  }
+};
+
+const getTitleSuggestions = async (req, res) => {
+  const { title } = req.query;
+  try {
+    const suggestions = await Post.find({
+      title: { $regex: title, $options: "i" },
+    }).select("title");
+    res.json(suggestions);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching suggestions" });
+  }
+};
+
 module.exports = {
   createPost,
   getCatPosts,
@@ -235,4 +259,18 @@ module.exports = {
   getUserPosts,
   editPost,
   deletePost,
+  searchPostsByTitle,
+  getTitleSuggestions,
+};
+
+module.exports = {
+  createPost,
+  getCatPosts,
+  getPost,
+  getPosts,
+  getUserPosts,
+  editPost,
+  deletePost,
+  searchPostsByTitle,
+  getTitleSuggestions,
 };

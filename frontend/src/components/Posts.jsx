@@ -1,25 +1,6 @@
-import { useState, useEffect } from "react";
 import PostItem from "./PostItem";
-import axios from "axios";
 
-const Posts = () => {
-  const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const fetchedPosts = async () => {
-      setIsLoading(true);
-      try {
-        const response = await axios.get(`http://localhost:5000/api/posts`);
-        setPosts(response?.data);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    };
-    fetchedPosts();
-  }, []);
-
+const Posts = ({ posts }) => {
   return (
     <div className="bg-[#c9dcf3]">
       {posts.length > 0 ? (
