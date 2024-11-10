@@ -376,7 +376,7 @@ export default function CreatePost() {
               >
                 Cover Image
               </label>
-              <div className="flex items-center justify-center w-full">
+              <div className="flex items-center justify-center w-full bg-white">
                 <label className="flex flex-col w-full h-36 border-2 border-dashed border-gray-300 hover:border-gray-400 rounded-lg transition duration-300 ease-in-out cursor-pointer">
                   {thumbnail ? (
                     <img

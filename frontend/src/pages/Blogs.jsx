@@ -130,16 +130,19 @@ import { useState, useEffect } from "react";
 import Posts from "../components/Posts";
 import Filter from "../components/Filter";
 import axios from "axios";
+import Loader from "../components/Loader";
 
 export default function Blogs() {
   const [allPosts, setAllPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
   useEffect(() => {
     const fetchAllPosts = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get("http://localhost:5000/api/posts");
         setAllPosts(response.data);
@@ -147,6 +150,7 @@ export default function Blogs() {
       } catch (error) {
         console.error("Error fetching all posts:", error);
       }
+      setIsLoading(false);
     };
     fetchAllPosts();
   }, []);
@@ -167,6 +171,14 @@ export default function Blogs() {
     setIsFiltered(false);
     setCurrentPage(1);
   };
+
+  if (isLoading) {
+    return (
+      <div className="bg-[#c9dcf3] flex items-center justify-center min-h-screen py-32">
+        <Loader />
+      </div>
+    );
+  }
 
   // Get current posts
   const indexOfLastPost = currentPage * postsPerPage;

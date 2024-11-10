@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import PostItem from "../components/PostItem";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const AuthorPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -24,8 +25,24 @@ const AuthorPosts = () => {
     fetchedPosts();
   }, [id]);
 
+  if (isLoading) {
+    return (
+      <div className="min-h-[400px] bg-[#c9dcf3] pt-32">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[#c9dcf3]">
+      <h2 className="blogs-heading">Insights from Our Featured Writers</h2>
+      <div className="text-center mb-4">
+        <Link to={"/authors"}>
+          <button className="bg-[#3e95fb] text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
+            Go Back
+          </button>
+        </Link>
+      </div>
       {posts.length > 0 ? (
         <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
@@ -42,7 +59,7 @@ const AuthorPosts = () => {
           ))}
         </section>
       ) : (
-        <h2 className="flex justify-center items-center font-bold text-2xl my-32 text-white">
+        <h2 className="flex justify-center items-center font-bold text-2xl py-32 text-white">
           No posts found
         </h2>
       )}

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ProfileImage from "../assests/ProfileImage.svg";
+import Loader from "../components/Loader";
 
 const Authors = () => {
   const [authors, setAuthors] = useState([]);
@@ -23,7 +24,11 @@ const Authors = () => {
   }, []);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="min-h-[400px] bg-[#c9dcf3] pt-32">
+        <Loader />
+      </div>
+    );
   }
 
   return (
@@ -123,7 +128,9 @@ const Authors = () => {
           ))}
         </section>
       ) : (
-        <h2 className="text-center text-2xl text-gray-600">No users found</h2>
+        <h2 className="text-center text-2xl text-gray-600 py-32">
+          No users found
+        </h2>
       )}
     </div>
   );

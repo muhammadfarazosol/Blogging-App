@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { FaEye } from "react-icons/fa";
-import { CiEdit, CiTrash } from "react-icons/ci";
+import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../context/userContext";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import DeletePost from "./DeletePost";
+import Loader from "../components/Loader";
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
@@ -48,6 +49,14 @@ const Dashboard = () => {
     };
     fetchPosts();
   }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="bg-[#c9dcf3] flex items-center justify-center min-h-screen py-32">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#c9dcf3]">
@@ -104,7 +113,7 @@ const Dashboard = () => {
           </section>
         </>
       ) : (
-        <h2 className="flex justify-center items-center font-bold text-2xl my-32">
+        <h2 className="flex justify-center text-white items-center font-bold text-2xl py-32">
           No posts found
         </h2>
       )}

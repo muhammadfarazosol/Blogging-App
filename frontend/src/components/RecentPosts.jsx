@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import PostItem from "./PostItem";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Loader from "../components/Loader";
 
 const RecentPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -25,6 +26,14 @@ const RecentPosts = () => {
   const recentPosts = posts
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 3);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[400px] bg-[#c9dcf3] pt-32">
+        <Loader />
+      </div>
+    );
+  }
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -91,7 +100,7 @@ const RecentPosts = () => {
         </>
       ) : (
         <motion.h2
-          className="flex justify-center items-center font-bold text-2xl my-32 text-white"
+          className="flex justify-center items-center font-bold text-2xl py-32 text-white"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}

@@ -19,7 +19,7 @@ const Posts = ({ posts }) => {
           ))}
         </section>
       ) : (
-        <h2 className="flex justify-center items-center font-bold text-2xl my-32 text-white">
+        <h2 className="flex justify-center items-center font-bold text-2xl py-32 text-white">
           No posts found
         </h2>
       )}

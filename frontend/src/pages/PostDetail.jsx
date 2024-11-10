@@ -1,12 +1,11 @@
-import { MdEdit, MdDeleteSweep } from "react-icons/md";
 import PostAuthor from "../components/PostAuthor";
-import BlogImage from "../assests/assets/images/image1.jpg";
 import { useContext, useEffect, useState } from "react";
 import DeletePost from "./DeletePost";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import axios from "axios";
 import { CiEdit } from "react-icons/ci";
+import Loader from "../components/Loader";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -34,7 +33,11 @@ const PostDetail = () => {
   }, []);
 
   if (isLoading) {
-    <p>Loading...</p>;
+    return (
+      <div className="bg-[#c9dcf3] flex items-center justify-center min-h-screen py-32">
+        <Loader />
+      </div>
+    );
   }
 
   return (

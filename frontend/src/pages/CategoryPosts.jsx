@@ -35,6 +35,7 @@ import { useState, useEffect } from "react";
 import PostItem from "../components/PostItem";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import Loader from "../components/Loader";
 
 const CategoryPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -57,6 +58,14 @@ const CategoryPosts = () => {
     };
     fetchedPosts();
   }, [category]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[400px] bg-[#c9dcf3] pt-32">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#c9dcf3]">
@@ -84,7 +93,7 @@ const CategoryPosts = () => {
           ))}
         </section>
       ) : (
-        <h2 className="flex justify-center items-center font-bold text-2xl my-32 text-white">
+        <h2 className="flex justify-center items-center font-bold text-2xl py-32 text-white">
           No posts found
         </h2>
       )}
