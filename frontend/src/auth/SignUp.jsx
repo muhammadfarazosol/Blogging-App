@@ -19,10 +19,10 @@
 //         }}
 //       >
 //         <Stack>
-//           <Typography color={colors.grey[800]} className="text-center">
+//           <Typography color="#000000" className="text-center">
 //             This is error message
 //           </Typography>
-//           <Typography variant="h4" fontWeight={600} color={colors.grey[800]}>
+//           <Typography variant="h4" fontWeight={600} color="#000000">
 //             Create an account
 //           </Typography>
 //           <Typography color={colors.grey[600]}>
@@ -33,19 +33,19 @@
 //         <Stack spacing={4}>
 //           <Stack spacing={2}>
 //             <Stack spacing={1}>
-//               <Typography color={colors.grey[800]}>Name</Typography>
+//               <Typography color="#000000">Name</Typography>
 //               <TextField />
 //             </Stack>
 //             <Stack spacing={1}>
-//               <Typography color={colors.grey[800]}>Email</Typography>
+//               <Typography color="#000000">Email</Typography>
 //               <TextField />
 //             </Stack>
 //             <Stack spacing={1}>
-//               <Typography color={colors.grey[800]}>Password</Typography>
+//               <Typography color="#000000">Password</Typography>
 //               <TextField type="password" />
 //             </Stack>
 //             <Stack spacing={1}>
-//               <Typography color={colors.grey[800]}>Confirm Password</Typography>
+//               <Typography color="#000000">Confirm Password</Typography>
 //               <TextField type="password" />
 //             </Stack>
 //           </Stack>
@@ -154,7 +154,7 @@ const SignUp = ({ onSwitchMode }) => {
         }}
       >
         <Stack>
-          <Typography variant="h4" fontWeight={600} color={colors.grey[800]}>
+          <Typography variant="h4" fontWeight={600} color="#000000">
             Create an account
           </Typography>
           <Typography color={colors.grey[600]}>
@@ -171,7 +171,7 @@ const SignUp = ({ onSwitchMode }) => {
         <Stack spacing={4}>
           <Stack spacing={2}>
             <Stack spacing={1}>
-              <Typography color={colors.grey[800]}>Name</Typography>
+              <Typography color="#000000">Name</Typography>
               <TextField
                 name="name"
                 value={formData.name}
@@ -180,7 +180,7 @@ const SignUp = ({ onSwitchMode }) => {
               />
             </Stack>
             <Stack spacing={1}>
-              <Typography color={colors.grey[800]}>Email</Typography>
+              <Typography color="#000000">Email</Typography>
               <TextField
                 name="email"
                 type="email"
@@ -190,7 +190,7 @@ const SignUp = ({ onSwitchMode }) => {
               />
             </Stack>
             <Stack spacing={1}>
-              <Typography color={colors.grey[800]}>Password</Typography>
+              <Typography color="#000000">Password</Typography>
               <TextField
                 name="password"
                 type="password"
@@ -200,7 +200,7 @@ const SignUp = ({ onSwitchMode }) => {
               />
             </Stack>
             <Stack spacing={1}>
-              <Typography color={colors.grey[800]}>Confirm Password</Typography>
+              <Typography color="#000000">Confirm Password</Typography>
               <TextField
                 name="password2"
                 type="password"
@@ -217,7 +217,7 @@ const SignUp = ({ onSwitchMode }) => {
             size="large"
             disabled={isLoading}
             sx={{
-              bgcolor: colors.grey[800],
+              bgcolor: "#000000",
               "&:hover": {
                 bgcolor: colors.grey[600],
               },

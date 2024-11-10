@@ -272,7 +272,10 @@ const Auth = () => {
   };
 
   return (
-    <Grid container sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
+    <Grid
+      container
+      sx={{ minHeight: "100vh", bgcolor: "#c9dcf3", color: "#000000" }}
+    >
       <Grid
         item
         xs={12}
@@ -283,8 +286,8 @@ const Auth = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          bgcolor: "background.paper",
-          backgroundImage: "linear-gradient(to right, #F3E8FF, #E0E7FF)",
+          bgcolor: "#c9dcf3",
+          color: "#000000",
         }}
       >
         <Box sx={{ maxWidth: 500, mx: "auto", width: "100%" }}>
@@ -317,6 +320,7 @@ const Auth = () => {
           backgroundPosition: "center",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
+          display: { xs: "none", md: "block" },
         }}
       >
         <Box

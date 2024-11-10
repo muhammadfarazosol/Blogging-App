@@ -70,7 +70,7 @@ const Login = ({ onSwitchMode }) => {
         }}
       >
         <Stack>
-          <Typography variant="h4" fontWeight={600} color={colors.grey[800]}>
+          <Typography variant="h4" fontWeight={600} color="#000000">
             Welcome back
           </Typography>
           <Typography color={colors.grey[600]}>
@@ -87,7 +87,7 @@ const Login = ({ onSwitchMode }) => {
         <Stack spacing={4}>
           <Stack spacing={2}>
             <Stack spacing={1}>
-              <Typography color={colors.grey[800]}>Email</Typography>
+              <Typography color="#000000">Email</Typography>
               <TextField
                 name="email"
                 type="email"
@@ -97,7 +97,7 @@ const Login = ({ onSwitchMode }) => {
               />
             </Stack>
             <Stack spacing={1}>
-              <Typography color={colors.grey[800]}>Password</Typography>
+              <Typography color="#000000">Password</Typography>
               <TextField
                 name="password"
                 type="password"
@@ -113,9 +113,9 @@ const Login = ({ onSwitchMode }) => {
             variant="contained"
             size="large"
             sx={{
-              bgcolor: colors.grey[800],
+              bgcolor: "#000000",
               "&:hover": {
-                bgcolor: colors.grey[600],
+                bgcolor: colors.grey[800],
               },
             }}
           >
