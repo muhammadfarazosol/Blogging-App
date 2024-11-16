@@ -3,6 +3,7 @@ const cors = require("cors");
 const { connect } = require("mongoose");
 require("dotenv").config();
 const upload = require("express-fileupload");
+const session = require("express-session");
 
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
@@ -14,13 +15,25 @@ app.use(
   cors({
     origin: true,
     credentials: true,
-    // methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   })
 );
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(upload());
-// app.use("/");
+
+// Session middleware
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your_session_secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: false,
+      maxAge: 1000 * 60 * 10, // 10 minutes
+    },
+  })
+);
+
 app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.use("/api/users", userRoutes);

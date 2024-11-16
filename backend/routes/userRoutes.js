@@ -2,6 +2,7 @@ const { Router } = require("express");
 
 const {
   registerUser,
+  verifyOTPAndRegister,
   loginUser,
   getUser,
   changeAvatar,
@@ -13,6 +14,7 @@ const authMiddleware = require("../middleware/authMiddleware.js");
 const router = Router();
 
 router.post("/register", registerUser);
+router.post("/verify-otp", verifyOTPAndRegister);
 router.post("/login", loginUser);
 router.get("/:id", getUser);
 router.get("/", getAuthors);

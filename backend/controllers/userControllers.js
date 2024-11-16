@@ -7,11 +7,106 @@ const { v4: uuid } = require("uuid");
 const User = require("../models/userModel");
 const HttpError = require("../models/errorModel");
 const { randomUUID } = require("crypto");
+const nodemailer = require("nodemailer");
 
-//==============================REGISTER NEW USER
-//POST: api/users/register
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
 
-//UNPROTECTED
+// Send OTP via email
+const sendOTP = async (email, otp) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Your OTP for registration",
+      text: `Your OTP is: ${otp}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error("Error sending email:", error);
+    throw new Error("Failed to send OTP email");
+  }
+};
+
+// Modified registerUser function
+// const registerUser = async (req, res, next) => {
+//   try {
+//     const { name, email, password, password2 } = req.body;
+//     if (!name || !email || !password) {
+//       return next(new HttpError("Fill in all fields.", 422));
+//     }
+//     const newEmail = email.toLowerCase();
+
+//     const emailExists = await User.findOne({ email: newEmail });
+//     if (emailExists) {
+//       return next(new HttpError("Email Already Exists.", 422));
+//     }
+//     if (password.trim().length < 6) {
+//       return next(
+//         new HttpError("Password should be at least 6 characters.", 422)
+//       );
+//     }
+//     if (password != password2) {
+//       return next(new HttpError("Passwords do not match.", 422));
+//     }
+
+//     const otp = generateOTP();
+//     await sendOTP(newEmail, otp);
+
+//     // Store user data and OTP temporarily
+//     if (!req.session) {
+//       return next(new HttpError("Session not initialized", 500));
+//     }
+//     req.session.pendingUser = { name, email: newEmail, password, otp };
+
+//     res.status(200).json({ message: "OTP sent to your email." });
+//   } catch (error) {
+//     console.error("Registration error:", error);
+//     return next(new HttpError("User Registration Failed.", 422));
+//   }
+// };
+
+// // New function to verify OTP and complete registration
+// const verifyOTPAndRegister = async (req, res, next) => {
+//   try {
+//     const { otp } = req.body;
+//     if (!req.session || !req.session.pendingUser) {
+//       return next(new HttpError("No pending registration found.", 422));
+//     }
+//     const pendingUser = req.session.pendingUser;
+
+//     if (otp !== pendingUser.otp) {
+//       return next(new HttpError("Invalid OTP.", 422));
+//     }
+
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPass = await bcrypt.hash(pendingUser.password, salt);
+//     const newUser = await User.create({
+//       name: pendingUser.name,
+//       email: pendingUser.email,
+//       password: hashedPass,
+//     });
+
+//     // Clear the pending user data
+//     delete req.session.pendingUser;
+
+//     res.status(201).json(`New user ${newUser.email} registered.`);
+//   } catch (error) {
+//     console.error("OTP verification error:", error);
+//     return next(new HttpError("User Registration Failed.", 422));
+//   }
+// };
+
 const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, password2 } = req.body;
@@ -32,18 +127,88 @@ const registerUser = async (req, res, next) => {
     if (password != password2) {
       return next(new HttpError("Passwords do not match.", 422));
     }
-    const salt = await bcrypt.genSalt(10);
-    const hashedPass = await bcrypt.hash(password, salt);
-    const newUser = await User.create({
-      name,
-      email: newEmail,
-      password: hashedPass,
-    });
-    res.status(201).json(`New user ${newUser.email} registered.`);
+
+    const otp = generateOTP();
+    await sendOTP(newEmail, otp);
+
+    // Store user data and OTP in session
+    req.session.pendingUser = { name, email: newEmail, password, otp };
+    await req.session.save();
+
+    res.status(200).json({ message: "OTP sent to your email." });
   } catch (error) {
+    console.error("Registration error:", error);
     return next(new HttpError("User Registration Failed.", 422));
   }
 };
+
+const verifyOTPAndRegister = async (req, res, next) => {
+  try {
+    const { otp } = req.body;
+    if (!req.session || !req.session.pendingUser) {
+      return next(new HttpError("No pending registration found.", 422));
+    }
+    const pendingUser = req.session.pendingUser;
+
+    if (otp !== pendingUser.otp) {
+      return next(new HttpError("Invalid OTP.", 422));
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(pendingUser.password, salt);
+    const newUser = await User.create({
+      name: pendingUser.name,
+      email: pendingUser.email,
+      password: hashedPass,
+    });
+
+    // Clear the pending user data
+    delete req.session.pendingUser;
+    await req.session.save();
+
+    res.status(201).json(`New user ${newUser.email} registered.`);
+  } catch (error) {
+    console.error("OTP verification error:", error);
+    return next(new HttpError("User Registration Failed.", 422));
+  }
+};
+
+//==============================REGISTER NEW USER
+//POST: api/users/register
+
+//UNPROTECTED
+// const registerUser = async (req, res, next) => {
+//   try {
+//     const { name, email, password, password2 } = req.body;
+//     if (!name || !email || !password) {
+//       return next(new HttpError("Fill in all fields.", 422));
+//     }
+//     const newEmail = email.toLowerCase();
+
+//     const emailExists = await User.findOne({ email: newEmail });
+//     if (emailExists) {
+//       return next(new HttpError("Email Already Exists.", 422));
+//     }
+//     if (password.trim().length < 6) {
+//       return next(
+//         new HttpError("Password should be at least 6 characters.", 422)
+//       );
+//     }
+//     if (password != password2) {
+//       return next(new HttpError("Passwords do not match.", 422));
+//     }
+//     const salt = await bcrypt.genSalt(10);
+//     const hashedPass = await bcrypt.hash(password, salt);
+//     const newUser = await User.create({
+//       name,
+//       email: newEmail,
+//       password: hashedPass,
+//     });
+//     res.status(201).json(`New user ${newUser.email} registered.`);
+//   } catch (error) {
+//     return next(new HttpError("User Registration Failed.", 422));
+//   }
+// };
 
 //==============================LOGIN A REGISTERED USER
 //POST: api/users/login
@@ -222,6 +387,7 @@ const getAuthors = async (req, res, next) => {
 
 module.exports = {
   registerUser,
+  verifyOTPAndRegister,
   loginUser,
   getUser,
   changeAvatar,
