@@ -119,8 +119,20 @@ const addReply = async (req, res, next) => {
   }
 };
 
+// Get all comments (excluding replies)
+const getAllComments = async (req, res, next) => {
+  try {
+    const comments = await Comment.find({}, { replies: 0 }) // Exclude the replies field
+      .populate("author");
+    res.status(200).json(comments);
+  } catch (error) {
+    next(new HttpError("Failed to fetch all comments.", 500));
+  }
+};
+
 module.exports = {
   addComment,
   getComments,
   addReply,
+  getAllComments,
 };

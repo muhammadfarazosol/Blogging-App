@@ -2,6 +2,7 @@ const { Router } = require("express");
 const {
   addComment,
   getComments,
+  getAllComments,
   addReply,
 } = require("../controllers/commentControllers");
 const authMiddleware = require("../middleware/authMiddleware");
@@ -16,5 +17,8 @@ router.get("/posts/:postId", getComments);
 
 // Add a reply to a specific comment
 router.post("/:commentId/replies", authMiddleware, addReply);
+
+// Get all comments (excluding replies)
+router.get("/all", getAllComments);
 
 module.exports = router;

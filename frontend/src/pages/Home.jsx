@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import RecentPosts from "../components/RecentPosts";
 import FeaturedPosts from "../components/FeaturedPosts";
 import BlogParallaxLanding from "../components/ParallexEffect";
+import CommentDisplay from "../components/commentDisplay";
 
 const Home = () => {
   return (
@@ -23,6 +24,9 @@ const Home = () => {
       </div> */}
       <div>
         <Modal />
+      </div>
+      <div>
+        <CommentDisplay />
       </div>
     </>
   );
