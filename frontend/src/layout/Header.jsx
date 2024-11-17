@@ -8,7 +8,7 @@ import {
   FiChevronDown,
 } from "react-icons/fi";
 import { IoCloseOutline } from "react-icons/io5";
-import ProfileImage from "../assests/ProfileImage.svg";
+import ProfileImage from "../assests/ProfileImageW.svg";
 import Logo from "../assests/assets/images/image.png";
 import { UserContext } from "../context/userContext";
 import axios from "axios";

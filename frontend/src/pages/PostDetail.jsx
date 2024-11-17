@@ -237,7 +237,7 @@ const PostDetail = () => {
                       />
                       <button
                         onClick={() => handleAddReply(comment._id)}
-                        className="bg-blue-500 text-white rounded-full px-4 py-2 text-sm hover:bg-blue-600 transition duration-300"
+                        className="bg-[#3e95fb] text-white rounded-full px-4 py-2 text-sm hover:bg-blue-400 transition duration-300"
                       >
                         Reply
                       </button>
@@ -248,7 +248,7 @@ const PostDetail = () => {
 
               {/* Add New Comment */}
               <div className="mt-8">
-                <div className="flex items-start space-x-3">
+                <div className="flex items-center space-x-2 w-full">
                   <img
                     src={getAvatarUrl(author.avatar)}
                     alt={currentUser?.name}
@@ -258,21 +258,20 @@ const PostDetail = () => {
                       e.target.src = ProfileImage;
                     }}
                   />
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      placeholder="Add a comment..."
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    />
-                    <button
-                      onClick={handleAddComment}
-                      className="mt-2 bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600 transition duration-300"
-                    >
-                      Post Comment
-                    </button>
-                  </div>
+
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    className="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  />
+                  <button
+                    onClick={handleAddComment}
+                    className="bg-[#3e95fb] text-white rounded-full px-4 py-2 text-sm hover:bg-blue-400 transition duration-300"
+                  >
+                    Post Comment
+                  </button>
                 </div>
                 {error && <p className="text-red-600 mt-2">{error}</p>}
               </div>
