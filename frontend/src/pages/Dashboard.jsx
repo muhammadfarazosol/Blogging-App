@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import DeletePost from "./DeletePost";
 import Loader from "../components/Loader";
+import NoPostFound from "../components/NoPostFound";
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
@@ -113,9 +114,9 @@ const Dashboard = () => {
           </section>
         </>
       ) : (
-        <h2 className="flex justify-center text-white items-center font-bold text-2xl py-32">
-          No posts found
-        </h2>
+        <div>
+          <NoPostFound />
+        </div>
       )}
     </div>
   );

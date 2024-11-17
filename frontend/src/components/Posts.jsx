@@ -1,4 +1,5 @@
 import PostItem from "./PostItem";
+import NoPostFound from "../components/NoPostFound";
 
 const Posts = ({ posts }) => {
   return (
@@ -19,9 +20,9 @@ const Posts = ({ posts }) => {
           ))}
         </section>
       ) : (
-        <h2 className="flex justify-center items-center font-bold text-2xl py-32 text-white">
-          No posts found
-        </h2>
+        <div>
+          <NoPostFound />
+        </div>
       )}
     </div>
   );

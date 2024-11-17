@@ -3,6 +3,7 @@ import PostItem from "../components/PostItem";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Loader from "../components/Loader";
+import NoPostFound from "../components/NoPostFound";
 
 const AuthorPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -59,9 +60,9 @@ const AuthorPosts = () => {
           ))}
         </section>
       ) : (
-        <h2 className="flex justify-center items-center font-bold text-2xl py-32 text-white">
-          No posts found
-        </h2>
+        <div>
+          <NoPostFound />
+        </div>
       )}
     </div>
   );

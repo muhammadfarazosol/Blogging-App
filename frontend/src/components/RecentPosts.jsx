@@ -4,6 +4,7 @@ import PostItem from "./PostItem";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/Loader";
+import NoPostFound from "../components/NoPostFound";
 
 const RecentPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -99,14 +100,13 @@ const RecentPosts = () => {
           </Link>
         </>
       ) : (
-        <motion.h2
-          className="flex justify-center items-center font-bold text-2xl py-32 text-white"
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          No posts found
-        </motion.h2>
+          <NoPostFound />
+        </motion.div>
       )}
     </div>
   );
