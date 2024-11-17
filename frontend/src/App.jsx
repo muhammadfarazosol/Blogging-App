@@ -21,6 +21,7 @@ import EditPost from "./pages/EditPost";
 import Logout from "./pages/Logout";
 import DeletePost from "./pages/DeletePost";
 import UserProvider from "./context/userContext.jsx";
+import ForgotPassword from "./auth/ForgotPassword.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -92,6 +93,10 @@ function App() {
         {
           path: "logout",
           element: <Logout />,
+        },
+        {
+          path: "forgot-password",
+          element: <ForgotPassword />,
         },
       ],
     },

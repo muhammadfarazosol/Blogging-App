@@ -79,7 +79,7 @@ const CommentDisplay = () => {
                 </div>
                 <div className="mt-4 text-center">
                   <span className="w-12 h-1 my-2 rounded-lg bg-[#3e95fb] inline-block"></span>
-                  <p>{comment.author.name}</p>
+                  <p>{comment?.author?.name}</p>
                 </div>
               </div>
             </div>

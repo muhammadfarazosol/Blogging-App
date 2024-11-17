@@ -5,6 +5,7 @@ import {
   TextField,
   Typography,
   colors,
+  Link,
 } from "@mui/material";
 import { ScreenMode } from "./Auth";
 import { useNavigate } from "react-router-dom";
@@ -121,6 +122,14 @@ const Login = ({ onSwitchMode }) => {
           >
             {isLoading ? "Signing in..." : "Sign in"}
           </Button>
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => navigate("/forgot-password")}
+            sx={{ alignSelf: "flex-start" }}
+          >
+            Forgot Password?
+          </Link>
         </Stack>
 
         <Stack direction="row" spacing={2}>

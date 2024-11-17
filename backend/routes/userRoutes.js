@@ -8,6 +8,8 @@ const {
   changeAvatar,
   editUser,
   getAuthors,
+  forgotPassword,
+  resetPassword,
 } = require("../controllers/userControllers.js");
 const authMiddleware = require("../middleware/authMiddleware.js");
 
@@ -20,6 +22,8 @@ router.get("/:id", getUser);
 router.get("/", getAuthors);
 router.post("/change-avatar", authMiddleware, changeAvatar);
 router.patch("/edit-user", authMiddleware, editUser);
+router.post("/forgot-password", forgotPassword);
+router.post("/reset-password", resetPassword);
 
 router.get("/", (req, res, next) => {
   res.json("this is user route");

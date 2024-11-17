@@ -38,75 +38,6 @@ const sendOTP = async (email, otp) => {
   }
 };
 
-// Modified registerUser function
-// const registerUser = async (req, res, next) => {
-//   try {
-//     const { name, email, password, password2 } = req.body;
-//     if (!name || !email || !password) {
-//       return next(new HttpError("Fill in all fields.", 422));
-//     }
-//     const newEmail = email.toLowerCase();
-
-//     const emailExists = await User.findOne({ email: newEmail });
-//     if (emailExists) {
-//       return next(new HttpError("Email Already Exists.", 422));
-//     }
-//     if (password.trim().length < 6) {
-//       return next(
-//         new HttpError("Password should be at least 6 characters.", 422)
-//       );
-//     }
-//     if (password != password2) {
-//       return next(new HttpError("Passwords do not match.", 422));
-//     }
-
-//     const otp = generateOTP();
-//     await sendOTP(newEmail, otp);
-
-//     // Store user data and OTP temporarily
-//     if (!req.session) {
-//       return next(new HttpError("Session not initialized", 500));
-//     }
-//     req.session.pendingUser = { name, email: newEmail, password, otp };
-
-//     res.status(200).json({ message: "OTP sent to your email." });
-//   } catch (error) {
-//     console.error("Registration error:", error);
-//     return next(new HttpError("User Registration Failed.", 422));
-//   }
-// };
-
-// // New function to verify OTP and complete registration
-// const verifyOTPAndRegister = async (req, res, next) => {
-//   try {
-//     const { otp } = req.body;
-//     if (!req.session || !req.session.pendingUser) {
-//       return next(new HttpError("No pending registration found.", 422));
-//     }
-//     const pendingUser = req.session.pendingUser;
-
-//     if (otp !== pendingUser.otp) {
-//       return next(new HttpError("Invalid OTP.", 422));
-//     }
-
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPass = await bcrypt.hash(pendingUser.password, salt);
-//     const newUser = await User.create({
-//       name: pendingUser.name,
-//       email: pendingUser.email,
-//       password: hashedPass,
-//     });
-
-//     // Clear the pending user data
-//     delete req.session.pendingUser;
-
-//     res.status(201).json(`New user ${newUser.email} registered.`);
-//   } catch (error) {
-//     console.error("OTP verification error:", error);
-//     return next(new HttpError("User Registration Failed.", 422));
-//   }
-// };
-
 const registerUser = async (req, res, next) => {
   try {
     const { name, email, password, password2 } = req.body;
@@ -172,43 +103,6 @@ const verifyOTPAndRegister = async (req, res, next) => {
     return next(new HttpError("User Registration Failed.", 422));
   }
 };
-
-//==============================REGISTER NEW USER
-//POST: api/users/register
-
-//UNPROTECTED
-// const registerUser = async (req, res, next) => {
-//   try {
-//     const { name, email, password, password2 } = req.body;
-//     if (!name || !email || !password) {
-//       return next(new HttpError("Fill in all fields.", 422));
-//     }
-//     const newEmail = email.toLowerCase();
-
-//     const emailExists = await User.findOne({ email: newEmail });
-//     if (emailExists) {
-//       return next(new HttpError("Email Already Exists.", 422));
-//     }
-//     if (password.trim().length < 6) {
-//       return next(
-//         new HttpError("Password should be at least 6 characters.", 422)
-//       );
-//     }
-//     if (password != password2) {
-//       return next(new HttpError("Passwords do not match.", 422));
-//     }
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPass = await bcrypt.hash(password, salt);
-//     const newUser = await User.create({
-//       name,
-//       email: newEmail,
-//       password: hashedPass,
-//     });
-//     res.status(201).json(`New user ${newUser.email} registered.`);
-//   } catch (error) {
-//     return next(new HttpError("User Registration Failed.", 422));
-//   }
-// };
 
 //==============================LOGIN A REGISTERED USER
 //POST: api/users/login
@@ -385,7 +279,78 @@ const getAuthors = async (req, res, next) => {
   }
 };
 
+const otpStorage = new Map();
+
+const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(new HttpError("User not found.", 404));
+    }
+
+    const otp = generateOTP();
+    await sendOTP(email, otp, "Your OTP for Password Reset");
+
+    otpStorage.set(email, { otp, timestamp: Date.now() });
+
+    res
+      .status(200)
+      .json({ message: "OTP sent to your email for password reset." });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    return next(
+      new HttpError("Failed to process forgot password request.", 500)
+    );
+  }
+};
+
+const resetPassword = async (req, res, next) => {
+  try {
+    const { email, newPassword, otp } = req.body;
+    if (!email || !newPassword || !otp) {
+      return next(new HttpError("Fill in all fields.", 422));
+    }
+
+    const storedData = otpStorage.get(email);
+    if (!storedData) {
+      return next(new HttpError("No OTP request found.", 422));
+    }
+
+    // Check if OTP is expired (e.g., after 10 minutes)
+    if (Date.now() - storedData.timestamp > 10 * 60 * 1000) {
+      otpStorage.delete(email);
+      return next(new HttpError("OTP has expired.", 422));
+    }
+
+    if (storedData.otp !== otp) {
+      return next(new HttpError("Invalid OTP.", 422));
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(new HttpError("User not found.", 404));
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(newPassword, salt);
+
+    user.password = hashedPass;
+    await user.save();
+
+    // Clear the OTP data
+    otpStorage.delete(email);
+
+    res.status(200).json({ message: "Password reset successfully." });
+  } catch (error) {
+    console.error("Password reset error:", error);
+    return next(new HttpError("Password reset failed.", 500));
+  }
+};
+
 module.exports = {
+  resetPassword,
+  forgotPassword,
   registerUser,
   verifyOTPAndRegister,
   loginUser,
