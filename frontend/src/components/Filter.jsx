@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ const categories = [
   { name: "Java", path: "/posts/categories/Java" },
   { name: "Typescript", path: "/posts/categories/Typescript" },
   { name: "PHP", path: "/posts/categories/PHP" },
-  { name: "Ruby", path: "/posts/categories/Ruby" },
+  // { name: "Ruby", path: "/posts/categories/Ruby" },
 ];
 
 export default function Filter({ onFilter }) {

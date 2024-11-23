@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import ReactTimeAgo from "react-time-ago";
@@ -42,7 +42,7 @@ const PostAuthor = ({ authorID, createdAt }) => {
           </strong>
           {/* blog time posted */}
           <span className="text-xs text-gray-400">
-            {/* <ReactTimeAgo date={new Date(createdAt)} locale="en-US" /> */}
+            <ReactTimeAgo date={new Date(createdAt)} locale="en-US" />
           </span>
         </div>
       </div>
