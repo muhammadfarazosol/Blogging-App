@@ -219,51 +219,72 @@ const editUser = async (req, res, next) => {
   try {
     const { name, email, currentPassword, newPassword, confirmNewPassword } =
       req.body;
-    if (!name || !email || !currentPassword || !newPassword) {
-      return next(new HttpError("Fill in all fields.", 422));
-    }
 
-    // get user from database
-
+    // Get user from the database
     const user = await User.findById(req.user.id);
-
     if (!user) {
-      return next(new HttpError("user not found.", 403));
-    }
-    // make sure new email doesn't already exist
-
-    const emailExist = await User.findOne({ email });
-
-    // we want to update other details with/without changing the email (which is a unique id because we use it to login).
-
-    if (emailExist && emailExist._id != req.user.id) {
-      return next(new HttpError("Email already exist.", 422));
-    }
-    //compare current password to db password
-    const validateUserPassword = await bcrypt.compare(
-      currentPassword,
-      user.password
-    );
-    if (!validateUserPassword) {
-      return next(new HttpError("invalid current password", 422));
+      return next(new HttpError("User not found.", 403));
     }
 
-    //compare new password
-    if (newPassword !== confirmNewPassword) {
-      return next(new HttpError("new passwords do not match.", 422));
+    // Object to hold updated fields
+    const updates = {};
+
+    // Update name if provided
+    if (name) {
+      updates.name = name;
     }
-    //hash new password
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(newPassword, salt);
-    //update user info in database
-    const newInfo = await User.findByIdAndUpdate(
-      req.user.id,
-      { name, email, password: hash },
-      { new: true }
-    );
-    res.status(200).json(newInfo);
+
+    // Update email if provided and not already in use
+    if (email) {
+      const emailExist = await User.findOne({ email });
+      if (emailExist && emailExist._id.toString() !== req.user.id) {
+        return next(new HttpError("Email already exists.", 422));
+      }
+      updates.email = email;
+    }
+
+    // Update password if currentPassword, newPassword, and confirmNewPassword are provided
+    if (currentPassword || newPassword || confirmNewPassword) {
+      if (!currentPassword || !newPassword || !confirmNewPassword) {
+        return next(new HttpError("All password fields are required.", 422));
+      }
+
+      // Compare current password with the one in the database
+      const isPasswordValid = await bcrypt.compare(
+        currentPassword,
+        user.password
+      );
+      if (!isPasswordValid) {
+        return next(new HttpError("Invalid current password.", 422));
+      }
+
+      // Ensure new passwords match
+      if (newPassword !== confirmNewPassword) {
+        return next(new HttpError("New passwords do not match.", 422));
+      }
+
+      // Hash new password
+      const salt = await bcrypt.genSalt(10);
+      updates.password = await bcrypt.hash(newPassword, salt);
+    }
+
+    // If no updates are provided, throw an error
+    if (Object.keys(updates).length === 0) {
+      return next(new HttpError("No valid fields to update.", 422));
+    }
+
+    // Update user in the database
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, updates, {
+      new: true,
+    });
+    res.status(200).json(updatedUser);
   } catch (error) {
-    return next(new HttpError(error));
+    return next(
+      new HttpError(
+        error.message || "An error occurred while updating user details.",
+        500
+      )
+    );
   }
 };
 
