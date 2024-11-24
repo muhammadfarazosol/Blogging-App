@@ -75,7 +75,7 @@ const Login = ({ onSwitchMode }) => {
             Welcome back
           </Typography>
           <Typography color={colors.grey[600]}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit
+            Unlock your world with just one click
           </Typography>
         </Stack>
 
