@@ -1,16 +1,19 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { FaImage, FaSpinner } from "react-icons/fa";
 import { UserContext } from "../context/userContext";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
 
 export default function EditPost() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("Please Select a category");
   const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailURL, setThumbnailURL] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -18,6 +21,12 @@ export default function EditPost() {
   const token = currentUser?.token;
   const navigate = useNavigate();
   const { id } = useParams();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!token) {
@@ -79,6 +88,7 @@ export default function EditPost() {
   ];
 
   useEffect(() => {
+    setIsLoading(true);
     const getPost = async () => {
       try {
         const response = await axios.get(
@@ -87,8 +97,11 @@ export default function EditPost() {
         setTitle(response.data.title);
         setDescription(response.data.description);
         setCategory(response.data.category);
+        setThumbnailURL(response.data.thumbnail);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getPost();
@@ -120,10 +133,11 @@ export default function EditPost() {
         }
       );
       if (response.status === 200) {
-        navigate(`/blogs`);
+        toast.success("Blog post updated successfully");
+        navigate(`/posts/${id}`);
       }
     } catch (err) {
-      setError(
+      toast.error(
         err.response?.data?.message ||
           "An error occurred while creating the post."
       );
@@ -132,11 +146,19 @@ export default function EditPost() {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-[400px] bg-[#c9dcf3] pt-32">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <>
       <section className="py-10 bg-[#c9dcf3]">
         <div className="max-w-4xl mx-auto p-8 bg-[#e1ebfa] text-black rounded-lg">
-          {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+          {/* {error && <p className="text-red-600 text-sm mb-4">{error}</p>} */}
           <h1 className="text-4xl font-extrabold mb-8 text-center">
             Edit Your Masterpiece
           </h1>
@@ -155,8 +177,14 @@ export default function EditPost() {
                   {thumbnail ? (
                     <img
                       src={URL.createObjectURL(thumbnail)}
-                      alt="Preview"
+                      alt="Selected Preview"
                       className="h-full w-full object-cover rounded-lg"
+                    />
+                  ) : thumbnailURL ? (
+                    <img
+                      src={`http://localhost:5000/uploads/${thumbnailURL}`}
+                      alt="Existing Thumbnail"
+                      className="h-full w-full object-fit rounded-lg"
                     />
                   ) : (
                     <div className="flex flex-col items-center justify-center pt-7">

@@ -241,13 +241,14 @@
 //   );
 // }
 
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { FaImage, FaSpinner } from "react-icons/fa";
 import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
@@ -260,6 +261,12 @@ export default function CreatePost() {
   const { currentUser } = useContext(UserContext);
   const token = currentUser?.token;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!token) {
@@ -300,10 +307,11 @@ export default function CreatePost() {
         }
       );
       if (response.status === 201) {
+        toast.success("Your masterpiece has been posted");
         navigate(`/blogs`);
       }
     } catch (err) {
-      setError(
+      toast.error(
         err.response?.data?.message ||
           "An error occurred while creating the post."
       );
@@ -362,7 +370,7 @@ export default function CreatePost() {
     <>
       <section className="py-10 bg-[#c9dcf3]">
         <div className="max-w-4xl mx-auto p-8 bg-[#e1ebfa] text-black rounded-lg">
-          {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+          {/* {error && <p className="text-red-600 text-sm mb-4">{error}</p>} */}
           <h1 className="text-4xl font-extrabold mb-8 text-center">
             Create Your Masterpiece
           </h1>
@@ -382,7 +390,7 @@ export default function CreatePost() {
                     <img
                       src={URL.createObjectURL(thumbnail)}
                       alt="Preview"
-                      className="h-full w-full object-cover rounded-lg"
+                      className="h-full w-full object-fit rounded-lg"
                     />
                   ) : (
                     <div className="flex flex-col items-center justify-center pt-7">

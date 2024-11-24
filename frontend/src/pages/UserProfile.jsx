@@ -2,6 +2,7 @@ import { useRef, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const UserProfile = () => {
   const [avatar, setAvatar] = useState("");
@@ -18,6 +19,16 @@ const UserProfile = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const token = currentUser?.token;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+
+    if (updateMessage) {
+      toast.success(updateMessage);
+    }
+  }, [error, updateMessage]);
 
   useEffect(() => {
     if (!token) {
@@ -47,7 +58,7 @@ const UserProfile = () => {
       );
       setCurrentUser({ ...currentUser, ...userData });
     } catch (err) {
-      setError("Failed to fetch user data");
+      toast.error("Failed to fetch user data");
       console.error("Error fetching user data:", err);
     }
   };
@@ -77,7 +88,7 @@ const UserProfile = () => {
         return newAvatarUrl;
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to update avatar");
+      toast.error(err.response?.data?.message || "Failed to update avatar");
       return null;
     } finally {
       setIsLoading(false);
@@ -89,7 +100,7 @@ const UserProfile = () => {
     if (file) {
       const updatedAvatarUrl = await updateAvatar(file);
       if (updatedAvatarUrl) {
-        console.log("Avatar updated successfully");
+        toast.success("Avatar updated successfully");
       }
     }
   };
@@ -101,12 +112,12 @@ const UserProfile = () => {
 
     const [firstName, lastName] = name.split(" ");
     if (!firstName?.trim() || !lastName?.trim()) {
-      setError("First name and last name are required.");
+      toast.error("First name and last name are required.");
       return;
     }
 
     if (!email.trim()) {
-      setError("Email cannot be empty.");
+      toast.error("Email cannot be empty.");
       return;
     }
 
@@ -140,7 +151,7 @@ const UserProfile = () => {
         setConfirmNewPassword("");
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to update profile");
+      toast.error(err.response?.data?.message || "Failed to update profile");
     } finally {
       setIsLoading(false);
     }
@@ -315,11 +326,6 @@ const UserProfile = () => {
                 </div>
               </div>
             </div>
-
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-            {updateMessage && (
-              <p className="text-green-500 text-sm">{updateMessage}</p>
-            )}
 
             <div className="flex justify-center items-center">
               <button

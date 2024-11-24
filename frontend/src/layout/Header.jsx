@@ -175,7 +175,7 @@ const Header = () => {
         ) : (
           <div>
             <Link to={"/auth"}>
-              <button className="px-8 py-1 text-white bg-[#3e95fb] border border-white rounded-lg font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:scale-105 max-sm:px-6">
+              <button className="px-8 py-1 text-white bg-[#3e95fb] border-[1.5px] border-white rounded-lg font-medium transition-all duration-300 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] hover:scale-105 max-sm:px-6">
                 Login
               </button>
             </Link>
