@@ -503,7 +503,7 @@ export default function CreatePost() {
             {/* Create Button */}
             <div className="flex items-center justify-center">
               <button
-                className={`bg-black hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline ${
+                className={`bg-black max-sm:mt-10 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline ${
                   isLoading ? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 type="submit"
