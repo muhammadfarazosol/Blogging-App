@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   Alert,
   Button,
@@ -8,6 +9,7 @@ import {
   colors,
 } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -17,6 +19,13 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const handleGenerateOTP = async (e) => {
     e.preventDefault();
@@ -28,10 +37,10 @@ const ForgotPassword = () => {
         "http://localhost:5000/api/users/forgot-password",
         { email }
       );
-      setMessage(response.data.message);
+      toast.success(response.data.message);
       setOtpSent(true);
     } catch (err) {
-      setError(
+      toast.error(
         err.response?.data?.message || "An error occurred while generating OTP"
       );
     }
@@ -43,7 +52,7 @@ const ForgotPassword = () => {
     setMessage("");
 
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -56,9 +65,10 @@ const ForgotPassword = () => {
           otp,
         }
       );
-      setMessage(response.data.message);
+      toast.success(response.data.message);
+      navigate("/auth");
     } catch (err) {
-      setError(
+      toast.error(
         err.response?.data?.message ||
           "An error occurred while resetting password"
       );
@@ -77,6 +87,7 @@ const ForgotPassword = () => {
         bgcolor: "#c9dcf3",
         padding: "100px",
       }}
+      className="min-h-screen"
     >
       <Stack
         spacing={5}
@@ -89,7 +100,7 @@ const ForgotPassword = () => {
           Forgot Password
         </Typography>
 
-        {message && (
+        {/* {message && (
           <Alert severity="success" sx={{ width: "100%" }}>
             {message}
           </Alert>
@@ -99,7 +110,7 @@ const ForgotPassword = () => {
           <Alert severity="error" sx={{ width: "100%" }}>
             {error}
           </Alert>
-        )}
+        )} */}
 
         <Stack spacing={4}>
           <Stack spacing={2}>

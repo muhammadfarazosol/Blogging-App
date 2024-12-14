@@ -260,7 +260,7 @@
 // };
 
 // export default SignUp;
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Button,
@@ -271,6 +271,7 @@ import {
   Alert,
 } from "@mui/material";
 import OTPVerification from "./OTPVerification";
+import { toast } from "react-toastify";
 
 const SignUp = ({ onSwitchMode }) => {
   const [formData, setFormData] = useState({
@@ -282,6 +283,12 @@ const SignUp = ({ onSwitchMode }) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showOTPVerification, setShowOTPVerification] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -303,7 +310,7 @@ const SignUp = ({ onSwitchMode }) => {
         setShowOTPVerification(true);
       }
     } catch (err) {
-      setError(
+      toast.error(
         err.response?.data?.message || "An error occurred during registration."
       );
     } finally {
@@ -351,11 +358,11 @@ const SignUp = ({ onSwitchMode }) => {
           </Typography>
         </Stack>
 
-        {error && (
+        {/* {error && (
           <Alert severity="error" sx={{ width: "100%" }}>
             {error}
           </Alert>
-        )}
+        )} */}
 
         <Stack spacing={4}>
           <Stack spacing={2}>

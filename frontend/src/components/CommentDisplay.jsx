@@ -52,7 +52,7 @@ const CommentDisplay = () => {
           {comments.concat(comments).map((comment, index) => (
             <div
               key={`${comment._id}-${index}`}
-              className="inline-block min-w-[320px] px-4"
+              className="inline-block min-w-[500px] px-4"
               style={{ width: "fit-content" }}
             >
               <div className="bg-white rounded-lg shadow-lg p-6 h-[180px] flex flex-col relative">

@@ -38,7 +38,7 @@ const PostAuthor = ({ authorID, createdAt }) => {
         <div className="ml-4">
           {/* author name */}
           <strong className="block font-medium text-gray-700 text-xs">
-            By: {author?.name}
+            {author?.name}
           </strong>
           {/* blog time posted */}
           <span className="text-xs text-gray-400">

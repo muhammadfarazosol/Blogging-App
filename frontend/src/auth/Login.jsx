@@ -10,7 +10,8 @@ import {
 import { ScreenMode } from "./Auth";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 const Login = ({ onSwitchMode }) => {
@@ -23,6 +24,12 @@ const Login = ({ onSwitchMode }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const handleChange = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -43,10 +50,12 @@ const Login = ({ onSwitchMode }) => {
       console.log(user);
 
       setCurrentUser(user);
-
+      toast.success("Welcome to NeuroNest");
       navigate("/");
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred during login");
+      toast.error(
+        err.response?.data?.message || "An error occurred during login"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -79,11 +88,11 @@ const Login = ({ onSwitchMode }) => {
           </Typography>
         </Stack>
 
-        {error && (
+        {/* {error && (
           <Alert severity="error" sx={{ width: "100%" }}>
             {error}
           </Alert>
-        )}
+        )} */}
 
         <Stack spacing={4}>
           <Stack spacing={2}>

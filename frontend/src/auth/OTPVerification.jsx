@@ -100,8 +100,9 @@
 // };
 
 // export default OTPVerification;
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import {
   Button,
   Stack,
@@ -115,6 +116,12 @@ const OTPVerification = ({ email, onVerificationSuccess }) => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -131,7 +138,7 @@ const OTPVerification = ({ email, onVerificationSuccess }) => {
         onVerificationSuccess();
       }
     } catch (err) {
-      setError(
+      toast.error(
         err.response?.data?.message ||
           "An error occurred during OTP verification."
       );
@@ -167,11 +174,11 @@ const OTPVerification = ({ email, onVerificationSuccess }) => {
           </Typography>
         </Stack>
 
-        {error && (
+        {/* {error && (
           <Alert severity="error" sx={{ width: "100%" }}>
             {error}
           </Alert>
-        )}
+        )} */}
 
         <Stack spacing={4}>
           <Stack spacing={1}>
