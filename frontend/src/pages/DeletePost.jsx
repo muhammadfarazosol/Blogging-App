@@ -47,7 +47,7 @@ const DeletePost = ({ postId: id, variant = "default" }) => {
     default:
       "flex items-center text-red-500 hover:text-red-700 transition-colors duration-200",
     alternative:
-      "flex items-center justify-center w-full px-3 py-1 text-sm font-bold leading-6 capitalize duration-100 transform border-2 rounded-sm cursor-pointer border-red-500 focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-red-500 focus:outline-none border-text  hover:shadow-lg hover:-translate-y-1",
+      "flex items-center justify-center w-full px-3 py-1 text-sm font-normal leading-6 capitalize duration-100 transform border-[1px] rounded-lg cursor-pointer border-red-500 focus:ring-4 focus:ring-red-500 focus:ring-opacity-50 text-red-500 focus:outline-none border-text  hover:shadow-lg hover:-translate-y-1",
   };
 
   return (
