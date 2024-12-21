@@ -60,7 +60,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="bg-[#c9dcf3] min-h-screen">
+    <div className="bg-[#c9dcf3] min-h-screen pt-6">
       <h2 className="blogs-heading">My Blogs</h2>
       {posts.length > 0 ? (
         <>

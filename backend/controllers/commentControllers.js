@@ -79,7 +79,7 @@ const addComment = async (req, res, next) => {
     });
     res.status(201).json(comment);
   } catch (error) {
-    next(new HttpError("Failed to add comment.", 500));
+    next(new HttpError("Failed to add comment", 500));
   }
 };
 
@@ -93,7 +93,7 @@ const getComments = async (req, res, next) => {
       .populate("replies.author", "name avatar");
     res.status(200).json(comments);
   } catch (error) {
-    next(new HttpError("Failed to fetch comments.", 500));
+    next(new HttpError("Failed to fetch comments", 500));
   }
 };
 
@@ -106,7 +106,7 @@ const addReply = async (req, res, next) => {
   try {
     const comment = await Comment.findById(commentId);
     if (!comment) {
-      return next(new HttpError("Comment not found.", 404));
+      return next(new HttpError("Comment not found", 404));
     }
 
     const reply = { content, author: userId };
@@ -115,7 +115,7 @@ const addReply = async (req, res, next) => {
 
     res.status(201).json(reply);
   } catch (error) {
-    next(new HttpError("Failed to add reply.", 500));
+    next(new HttpError("Failed to add reply", 500));
   }
 };
 
@@ -126,7 +126,7 @@ const getAllComments = async (req, res, next) => {
       .populate("author");
     res.status(200).json(comments);
   } catch (error) {
-    next(new HttpError("Failed to fetch all comments.", 500));
+    next(new HttpError("Failed to fetch all comments", 500));
   }
 };
 

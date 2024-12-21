@@ -118,7 +118,7 @@ const Authors = () => {
                     <div className="bg-[#4285F4] text-white rounded-tl-[1.25rem] rounded-br-[1.25rem] p-4 text-center shadow-lg">
                       <h3 className="text-xl font-semibold mb-1">{name}</h3>
                       <p className="text-sm text-white/90 mb-3">
-                        Posts: {posts}
+                        Blogs Published: {posts}
                       </p>
                     </div>
                   </div>

@@ -1,265 +1,3 @@
-// import { Button, Stack, TextField, Typography, colors } from "@mui/material";
-// import { ScreenMode } from "./Auth";
-
-// const SignUp = ({ onSwitchMode }) => {
-//   return (
-//     <Stack
-//       justifyContent="center"
-//       alignItems="center"
-//       sx={{
-//         height: "100%",
-//         color: colors.grey[800],
-//       }}
-//     >
-//       <Stack
-//         spacing={5}
-//         sx={{
-//           width: "100%",
-//           maxWidth: "500px",
-//         }}
-//       >
-//         <Stack>
-//           <Typography color="#000000" className="text-center">
-//             This is error message
-//           </Typography>
-//           <Typography variant="h4" fontWeight={600} color="#000000">
-//             Create an account
-//           </Typography>
-//           <Typography color={colors.grey[600]}>
-//             Doloribus dolorem impedit aliquam sit veniam
-//           </Typography>
-//         </Stack>
-
-//         <Stack spacing={4}>
-//           <Stack spacing={2}>
-//             <Stack spacing={1}>
-//               <Typography color="#000000">Name</Typography>
-//               <TextField />
-//             </Stack>
-//             <Stack spacing={1}>
-//               <Typography color="#000000">Email</Typography>
-//               <TextField />
-//             </Stack>
-//             <Stack spacing={1}>
-//               <Typography color="#000000">Password</Typography>
-//               <TextField type="password" />
-//             </Stack>
-//             <Stack spacing={1}>
-//               <Typography color="#000000">Confirm Password</Typography>
-//               <TextField type="password" />
-//             </Stack>
-//           </Stack>
-//           <Button
-//             variant="contained"
-//             size="large"
-//             sx={{
-//               bgcolor: colors.grey[800],
-//               "&:hover": {
-//                 bgcolor: colors.grey[600],
-//               },
-//             }}
-//           >
-//             Sign in
-//           </Button>
-//         </Stack>
-
-//         <Stack direction="row" spacing={2}>
-//           <Typography>Already have an account?</Typography>
-//           <Typography
-//             onClick={() => onSwitchMode(ScreenMode.SIGN_IN)}
-//             fontWeight={600}
-//             sx={{
-//               cursor: "pointer",
-//               userSelect: "none",
-//             }}
-//           >
-//             Sign in
-//           </Typography>
-//         </Stack>
-//       </Stack>
-//     </Stack>
-//   );
-// };
-
-// export default SignUp;
-
-// working code
-
-// import { useState } from "react";
-// import axios from "axios";
-// import {
-//   Button,
-//   Stack,
-//   TextField,
-//   Typography,
-//   colors,
-//   Alert,
-// } from "@mui/material";
-// import { ScreenMode } from "./Auth";
-// import OTPVerification from "./OTPVerification";
-
-// const SignUp = ({ onSwitchMode }) => {
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     email: "",
-//     password: "",
-//     password2: "",
-//   });
-//   const [error, setError] = useState("");
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [showOTPVerification, setShowOTPVerification] = useState(false);
-
-//   const handleChange = (e) => {
-//     setFormData({ ...formData, [e.target.name]: e.target.value });
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setError("");
-//     setIsLoading(true);
-
-//     try {
-//       const response = await axios.post(
-//         `http://localhost:5000/api/users/register`,
-//         formData,
-//         { withCredentials: true }
-//       );
-
-//       if (response.status === 200) {
-//         setShowOTPVerification(true);
-//       }
-//     } catch (err) {
-//       setError(
-//         err.response?.data?.message || "An error occurred during registration."
-//       );
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   const handleVerificationSuccess = () => {
-//     onSwitchMode(ScreenMode.SIGN_IN);
-//   };
-
-//   if (showOTPVerification) {
-//     return (
-//       <OTPVerification
-//         email={formData.email}
-//         onVerificationSuccess={handleVerificationSuccess}
-//       />
-//     );
-//   }
-
-//   return (
-//     <Stack
-//       component="form"
-//       onSubmit={handleSubmit}
-//       justifyContent="center"
-//       alignItems="center"
-//       sx={{
-//         height: "100%",
-//         color: colors.grey[800],
-//       }}
-//     >
-//       <Stack
-//         spacing={5}
-//         sx={{
-//           width: "100%",
-//           maxWidth: "500px",
-//         }}
-//       >
-//         <Stack>
-//           <Typography variant="h4" fontWeight={600} color="#000000">
-//             Create an account
-//           </Typography>
-//           <Typography color={colors.grey[600]}>
-//             Fill in your details to get started
-//           </Typography>
-//         </Stack>
-
-//         {error && (
-//           <Alert severity="error" sx={{ width: "100%" }}>
-//             {error}
-//           </Alert>
-//         )}
-
-//         <Stack spacing={4}>
-//           <Stack spacing={2}>
-//             <Stack spacing={1}>
-//               <Typography color="#000000">Name</Typography>
-//               <TextField
-//                 name="name"
-//                 value={formData.name}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </Stack>
-//             <Stack spacing={1}>
-//               <Typography color="#000000">Email</Typography>
-//               <TextField
-//                 name="email"
-//                 type="email"
-//                 value={formData.email}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </Stack>
-//             <Stack spacing={1}>
-//               <Typography color="#000000">Password</Typography>
-//               <TextField
-//                 name="password"
-//                 type="password"
-//                 value={formData.password}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </Stack>
-//             <Stack spacing={1}>
-//               <Typography color="#000000">Confirm Password</Typography>
-//               <TextField
-//                 name="password2"
-//                 type="password"
-//                 value={formData.password2}
-//                 onChange={handleChange}
-//                 required
-//               />
-//             </Stack>
-//           </Stack>
-//           <Button
-//             type="submit"
-//             variant="contained"
-//             size="large"
-//             disabled={isLoading}
-//             sx={{
-//               bgcolor: "#000000",
-//               "&:hover": {
-//                 bgcolor: colors.grey[600],
-//               },
-//             }}
-//           >
-//             {isLoading ? "Signing up..." : "Sign up"}
-//           </Button>
-//         </Stack>
-
-//         <Stack direction="row" spacing={2}>
-//           <Typography>Already have an account?</Typography>
-//           <Typography
-//             onClick={() => onSwitchMode(ScreenMode.SIGN_IN)}
-//             fontWeight={600}
-//             sx={{
-//               cursor: "pointer",
-//               userSelect: "none",
-//             }}
-//           >
-//             Sign in
-//           </Typography>
-//         </Stack>
-//       </Stack>
-//     </Stack>
-//   );
-// };
-
-// export default SignUp;
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -283,6 +21,8 @@ const SignUp = ({ onSwitchMode }) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showOTPVerification, setShowOTPVerification] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [isSignUpDisabled, setIsSignUpDisabled] = useState(true);
 
   useEffect(() => {
     if (error) {
@@ -290,8 +30,27 @@ const SignUp = ({ onSwitchMode }) => {
     }
   }, [error]);
 
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "password") {
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{6,}$/;
+
+      if (value.length > 0 && !passwordRegex.test(value)) {
+        setPasswordError(
+          "Password must have at least 6 characters,one uppercase n lowercase letter,number and symbol."
+        );
+        setIsSignUpDisabled(true);
+      } else {
+        setPasswordError("");
+        setIsSignUpDisabled(false);
+      }
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -394,6 +153,11 @@ const SignUp = ({ onSwitchMode }) => {
                 onChange={handleChange}
                 required
               />
+              {passwordError && (
+                <Typography color="error" variant="body2">
+                  {passwordError}
+                </Typography>
+              )}
             </Stack>
             <Stack spacing={1}>
               <Typography color="#000000">Confirm Password</Typography>
@@ -410,11 +174,11 @@ const SignUp = ({ onSwitchMode }) => {
             type="submit"
             variant="contained"
             size="large"
-            disabled={isLoading}
+            disabled={isSignUpDisabled || isLoading}
             sx={{
-              bgcolor: "#000000",
+              bgcolor: isSignUpDisabled ? colors.grey[400] : "#000000",
               "&:hover": {
-                bgcolor: colors.grey[600],
+                bgcolor: isSignUpDisabled ? colors.grey[400] : colors.grey[600],
               },
             }}
           >

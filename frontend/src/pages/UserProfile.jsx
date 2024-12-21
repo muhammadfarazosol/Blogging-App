@@ -112,12 +112,12 @@ const UserProfile = () => {
 
     const [firstName, lastName] = name.split(" ");
     if (!firstName?.trim() || !lastName?.trim()) {
-      toast.error("First name and last name are required.");
+      toast.error("First name and last name are required");
       return;
     }
 
     if (!email.trim()) {
-      toast.error("Email cannot be empty.");
+      toast.error("Email cannot be empty");
       return;
     }
 

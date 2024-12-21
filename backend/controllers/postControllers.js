@@ -12,15 +12,11 @@ const createPost = async (req, res, next) => {
   try {
     let { title, category, description } = req.body;
     if (!title || !category || !description || !req.files) {
-      return next(
-        new HttpError(" Fill in all fields and choose thumbnail", 422)
-      );
+      return next(new HttpError("Fill in all the fields", 422));
     }
     const { thumbnail } = req.files;
     if (thumbnail.size > 2000000) {
-      return next(
-        new HttpError("Thumbnail size is too big, File should be less than 2mb")
-      );
+      return next(new HttpError("Thumbnail size should be less than 2mb"));
     }
 
     let fileName = thumbnail.name;
@@ -44,7 +40,7 @@ const createPost = async (req, res, next) => {
             creator: req.user.id,
           });
           if (!newPost) {
-            return next(new HttpError("Post couldn't be created"), 422);
+            return next(new HttpError("Couldn't create post"), 422);
           }
           // finding user and count increase posts by 1
           const currentUSer = await User.findById(req.user.id);
@@ -127,7 +123,7 @@ const editPost = async (req, res, next) => {
     //React quill has a paragraph opening and closing tag with a break tag in between so there are 11 characters in there already
 
     if (!title || !category || description.length < 12) {
-      return next(new HttpError("fill in all fields.", 422));
+      return next(new HttpError("Fill in all fields", 422));
     }
     //get old post from database
     const oldPost = await Post.findById(postId);
@@ -153,7 +149,7 @@ const editPost = async (req, res, next) => {
         //check file size
         if (thumbnail.size > 2000000) {
           return next(
-            new HttpError("Thumbnail is too big . should be less than 2mb")
+            new HttpError("Thumbnail size should be less than 2mb")
           );
         }
         fileName = thumbnail.name;
@@ -180,7 +176,7 @@ const editPost = async (req, res, next) => {
     }
 
     if (!updatedPost) {
-      return next(new HttpError("could not update post.", 400));
+      return next(new HttpError("Couldn't update post", 400));
     }
 
     res.status(200).json(updatedPost);
@@ -196,7 +192,7 @@ const deletePost = async (req, res, next) => {
   try {
     const postId = req.params.id;
     if (!postId) {
-      return next(new HttpError("Post unavailable.", 400));
+      return next(new HttpError("Post unavailable", 400));
     }
     const post = await Post.findById(postId);
     const fileName = post?.thumbnail;
