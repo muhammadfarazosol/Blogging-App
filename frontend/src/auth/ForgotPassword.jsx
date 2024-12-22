@@ -19,6 +19,7 @@ const ForgotPassword = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const ForgotPassword = () => {
     e.preventDefault();
     setError("");
     setMessage("");
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -43,6 +45,8 @@ const ForgotPassword = () => {
       toast.error(
         err.response?.data?.message || "An error occurred while generating OTP"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,6 +59,8 @@ const ForgotPassword = () => {
       toast.error("Passwords do not match");
       return;
     }
+
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -72,6 +78,8 @@ const ForgotPassword = () => {
         err.response?.data?.message ||
           "An error occurred while resetting password"
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,7 +98,7 @@ const ForgotPassword = () => {
       className="min-h-screen"
     >
       <Stack
-        spacing={5}
+        spacing={3}
         sx={{
           width: "100%",
           maxWidth: "500px",
@@ -98,6 +106,14 @@ const ForgotPassword = () => {
       >
         <Typography variant="h4" fontWeight={600} color="#000000">
           Forgot Password
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          fontWeight={500}
+          color="#555555"
+          // textAlign="center"
+        >
+          Oops! Forgot something? Let’s get you back on track
         </Typography>
 
         {/* {message && (
@@ -170,8 +186,15 @@ const ForgotPassword = () => {
                 bgcolor: colors.grey[800],
               },
             }}
+            disabled={loading}
           >
-            {otpSent ? "Reset Password" : "Generate OTP"}
+            {loading
+              ? otpSent
+                ? "Resetting..."
+                : "Generating..."
+              : otpSent
+              ? "Reset Password"
+              : "Generate OTP"}
           </Button>
         </Stack>
       </Stack>

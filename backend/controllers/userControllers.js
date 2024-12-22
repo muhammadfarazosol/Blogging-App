@@ -517,6 +517,19 @@ const resetPassword = async (req, res, next) => {
       return next(new HttpError("Fill in all fields", 422));
     }
 
+    if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{6,}$/.test(
+        newPassword.trim()
+      )
+    ) {
+      return next(
+        new HttpError(
+          "Password must be at least 6 characters and include one lowercase n uppercase letter,number,symbol",
+          422
+        )
+      );
+    }
+
     const storedData = otpStorage.get(email);
     if (!storedData) {
       return next(new HttpError("No OTP request found", 422));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import DoubleQuoteL from "../assests/svgs/DoubleQuoteL.svg";
 import LoaderGif from "../components/Loader";
 
@@ -6,6 +6,7 @@ const CommentDisplay = () => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
+  const marqueeRef = useRef(null);
 
   useEffect(() => {
     fetchComments();
@@ -44,12 +45,15 @@ const CommentDisplay = () => {
         onMouseLeave={() => setIsPaused(false)}
       >
         <div
+          ref={marqueeRef}
           className="flex whitespace-normal"
           style={{
-            animation: isPaused ? "none" : "marquee 30s linear infinite",
+            animation: isPaused
+              ? "none"
+              : `marquee ${comments.length * 5}s linear infinite`,
           }}
         >
-          {comments.concat(comments).map((comment, index) => (
+          {comments.map((comment, index) => (
             <div
               key={`${comment._id}-${index}`}
               className="inline-block min-w-[500px] px-4"
@@ -92,7 +96,7 @@ const CommentDisplay = () => {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(-100%);
           }
         }
       `}</style>
