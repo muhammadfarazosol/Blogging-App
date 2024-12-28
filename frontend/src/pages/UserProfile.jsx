@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import DeleteProfileModal from "../modals/DeleteProfile";
 
 const UserProfile = () => {
   const [avatar, setAvatar] = useState("");
@@ -14,6 +15,7 @@ const UserProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [updateMessage, setUpdateMessage] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -154,6 +156,24 @@ const UserProfile = () => {
       toast.error(err.response?.data?.message || "Failed to update profile");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleDelete = async (password) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/api/users/${currentUser?.id}`,
+        { password },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.status === 200) {
+        toast.success("Profile deleted successfully!");
+        setCurrentUser(null);
+        navigate("/auth");
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Invalid credentials");
     }
   };
 
@@ -337,6 +357,20 @@ const UserProfile = () => {
               </button>
             </div>
           </form>
+          <div className="flex justify-center items-center mt-4">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
+              disabled={isLoading}
+            >
+              Delete Profile
+            </button>
+            <DeleteProfileModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onConfirm={handleDelete}
+            />
+          </div>
         </div>
       </div>
     </div>

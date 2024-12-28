@@ -5,6 +5,9 @@ const path = require("path");
 const { v4: uuid } = require("uuid");
 
 const User = require("../models/userModel");
+const Post = require("../models/postModels");
+const Comment = require("../models/commentModel");
+
 const HttpError = require("../models/errorModel");
 const { randomUUID } = require("crypto");
 const nodemailer = require("nodemailer");
@@ -566,6 +569,68 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+// const deleteUser = async (req, res, next) => {
+//   const userId = req.params.id;
+
+//   try {
+//     // Check if the user exists
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return next(new HttpError("User not found", 404));
+//     }
+
+//     // Delete all posts by the user
+//     await Post.deleteMany({ creator: userId });
+
+//     // Delete all comments by the user
+//     await Comment.deleteMany({ author: userId });
+
+//     // Remove replies authored by the user from all comments
+//     await Comment.updateMany(
+//       { "replies.author": userId },
+//       { $pull: { replies: { author: userId } } }
+//     );
+
+//     // Finally, delete the user
+//     await User.findByIdAndDelete(userId);
+
+//     res.status(200).json({
+//       message: `User ${userId} and all related data deleted successfully`,
+//     });
+//   } catch (error) {
+//     next(new HttpError("Failed to delete user and related data", 500));
+//   }
+// };
+
+const deleteUser = async (req, res, next) => {
+  const userId = req.params.id;
+  const { password } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(new HttpError("User not found", 404));
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return next(new HttpError("Invalid credentials", 403));
+    }
+
+    await Post.deleteMany({ creator: userId });
+    await Comment.deleteMany({ author: userId });
+    await Comment.updateMany(
+      { "replies.author": userId },
+      { $pull: { replies: { author: userId } } }
+    );
+    await User.findByIdAndDelete(userId);
+
+    res.status(200).json({ message: "User and related data deleted" });
+  } catch (error) {
+    next(new HttpError("Failed to delete user and related data", 500));
+  }
+};
+
 module.exports = {
   resetPassword,
   forgotPassword,
@@ -576,4 +641,5 @@ module.exports = {
   changeAvatar,
   editUser,
   getAuthors,
+  deleteUser,
 };
