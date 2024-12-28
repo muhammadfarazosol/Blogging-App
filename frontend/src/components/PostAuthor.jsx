@@ -5,6 +5,7 @@ import ReactTimeAgo from "react-time-ago";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
 import ru from "javascript-time-ago/locale/ru.json";
+import ProfileImage from "../assests/ProfileImage.svg";
 
 TimeAgo.addDefaultLocale(en);
 TimeAgo.addLocale(ru);
@@ -32,7 +33,11 @@ const PostAuthor = ({ authorID, createdAt }) => {
         {/* author image */}
         <img
           className="h-12 w-12 rounded-full object-cover"
-          src={`http://localhost:5000/uploads/${author?.avatar}`}
+          src={
+            author?.avatar
+              ? `http://localhost:5000/uploads/${author?.avatar}`
+              : ProfileImage
+          }
           alt="Profile Image"
         />
         <div className="ml-4">
