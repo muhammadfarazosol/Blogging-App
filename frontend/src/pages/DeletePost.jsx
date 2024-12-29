@@ -1,13 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/userContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CiTrash } from "react-icons/ci";
 import { toast } from "react-toastify";
+import DeletePostModal from "../modals/PostDelete";
 
 const DeletePost = ({ postId: id, variant = "default" }) => {
   const { currentUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const token = currentUser?.token;
   const navigate = useNavigate();
   useEffect(() => {
@@ -29,18 +31,31 @@ const DeletePost = ({ postId: id, variant = "default" }) => {
         }
       );
       if (response.status === 200) {
-        if (location.pathname == `/myposts/${currentUser.id}`) {
-          toast.success("Blog post deleted successfully");
+        toast.success("Blog post deleted successfully");
+        if (location.pathname === `/myposts/${currentUser.id}`) {
           navigate(0);
         } else {
-          toast.success("Blog post deleted successfully");
           navigate(`/myposts/${currentUser.id}`);
         }
       }
-      setIsLoading(false);
     } catch (error) {
-      toast.error(error || "Couldn't delete post");
+      toast.error(error.message || "Couldn't delete post");
+    } finally {
+      setIsLoading(false);
+      setIsModalOpen(false);
     }
+  };
+
+  const handleDelete = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    removePost();
+  };
+
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
   };
 
   const buttonStyles = {
@@ -52,17 +67,17 @@ const DeletePost = ({ postId: id, variant = "default" }) => {
 
   return (
     <div>
-      {" "}
-      <Link onClick={() => removePost(id)}>
-        {/* <button className="flex items-center text-red-500 hover:text-red-700 transition-colors duration-200">
-          <CiTrash className="w-5 h-5 mr-1" />
-          {isLoading ? "Deleting.." : "Delete"}
-        </button> */}
-        <button className={buttonStyles[variant]}>
-          <CiTrash className="w-5 h-5 mr-1" />
-          {isLoading ? "Deleting.." : "Delete"}
-        </button>
-      </Link>
+      <button onClick={handleDelete} className={buttonStyles[variant]}>
+        <CiTrash className="w-5 h-5 mr-1" />
+        Delete
+      </button>
+
+      <DeletePostModal
+        isOpen={isModalOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

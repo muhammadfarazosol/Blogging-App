@@ -112,6 +112,18 @@ export default function EditPost() {
     setIsLoading(true);
     setError("");
 
+    if (title.length <= 3) {
+      setIsLoading(false);
+      toast.error("Title must be greater than 3 characters");
+      return;
+    }
+
+    if (description.length <= 3500) {
+      setIsLoading(false);
+      toast.error("Description must be greater than 3500 characters");
+      return;
+    }
+
     const postData = new FormData();
     postData.append("title", title);
     postData.append("category", category);
