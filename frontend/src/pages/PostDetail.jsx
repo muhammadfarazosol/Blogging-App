@@ -170,7 +170,7 @@ const PostDetail = () => {
 
   return (
     <div className="bg-[#c9dcf3]">
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto max-w-[2000px] px-4 py-8">
         {error && <p className="text-red-600">{error}</p>}
 
         {post && (

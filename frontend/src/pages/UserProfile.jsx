@@ -347,30 +347,33 @@ const UserProfile = () => {
               </div>
             </div>
 
-            <div className="flex justify-center items-center">
-              <button
-                type="submit"
-                className="px-4 py-2 bg-[#3e95fb] text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
-                disabled={isLoading}
-              >
-                {isLoading ? "Updating..." : "Update changes"}
-              </button>
+            <div className="flex justify-between items-center mt-4">
+              <div className="flex justify-center items-center">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(true)}
+                  className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
+                  disabled={isLoading}
+                >
+                  Delete Profile
+                </button>
+              </div>
+              <div className="flex justify-center items-center">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#3e95fb] text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Updating..." : "Update changes"}
+                </button>
+              </div>
             </div>
           </form>
-          <div className="flex justify-center items-center mt-4">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
-              disabled={isLoading}
-            >
-              Delete Profile
-            </button>
-            <DeleteProfileModal
-              isOpen={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              onConfirm={handleDelete}
-            />
-          </div>
+          <DeleteProfileModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onConfirm={handleDelete}
+          />
         </div>
       </div>
     </div>
