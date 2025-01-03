@@ -10,6 +10,8 @@ import ProfileImage from "../assests/ProfileImage.svg";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { FaReplyAll } from "react-icons/fa";
 import SidebarPosts from "../components/SidebarPosts";
+import { toast } from "react-toastify";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 const COMMENTS_PER_PAGE = 1;
 
@@ -24,9 +26,15 @@ const PostDetail = () => {
   const { currentUser } = useContext(UserContext);
   const [displayedComments, setDisplayedComments] = useState([]);
   const [page, setPage] = useState(1);
-  const [editingComment, setEditingComment] = useState(null); // Track the comment being edited
-  const [editingReply, setEditingReply] = useState({}); // Track the reply being edited
-  const [editContent, setEditContent] = useState(""); // Current content being edited
+  const [editingComment, setEditingComment] = useState(null);
+  const [editingReply, setEditingReply] = useState({});
+  const [editContent, setEditContent] = useState("");
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const refreshComments = async () => {
     try {
@@ -38,7 +46,7 @@ const PostDetail = () => {
         commentsResponse.data.slice(0, COMMENTS_PER_PAGE * page)
       );
     } catch (error) {
-      setError("Failed to load comments");
+      toast.error("Failed to load comments");
     }
   };
 
@@ -52,7 +60,7 @@ const PostDetail = () => {
         setPost(postResponse.data);
         await refreshComments();
       } catch (error) {
-        setError(error);
+        toast.error(error);
       }
       setIsLoading(false);
     };
@@ -85,7 +93,7 @@ const PostDetail = () => {
         ...prevDisplayed.slice(0, COMMENTS_PER_PAGE - 1),
       ]);
     } catch (error) {
-      setError("Failed to add comment");
+      toast.error("Failed to add comment");
     }
   };
 
@@ -126,7 +134,7 @@ const PostDetail = () => {
         )
       );
     } catch (error) {
-      setError("Failed to add reply");
+      toast.error("Failed to add reply");
     }
   };
 
@@ -177,8 +185,9 @@ const PostDetail = () => {
       setDisplayedComments((prevDisplayed) =>
         prevDisplayed.filter((comment) => comment._id !== commentId)
       );
+      toast.success("Comment deleted successfully");
     } catch (error) {
-      setError("Failed to delete comment");
+      toast.error("Failed to delete comment");
     }
   };
 
@@ -217,8 +226,9 @@ const PostDetail = () => {
             : comment
         )
       );
+      toast.success("Reply deleted successfully");
     } catch (error) {
-      setError("Failed to delete reply");
+      toast.error("Failed to delete reply");
     }
   };
 
@@ -238,10 +248,19 @@ const PostDetail = () => {
         )
       );
 
+      setDisplayedComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment._id === commentId
+            ? { ...comment, content: editContent }
+            : comment
+        )
+      );
+
       setEditingComment(null);
       setEditContent("");
+      toast.success("Comment edited successfully");
     } catch (error) {
-      setError("Failed to edit comment");
+      toast.error("Failed to edit comment");
     }
   };
 
@@ -268,10 +287,26 @@ const PostDetail = () => {
         )
       );
 
+      setDisplayedComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment._id === commentId
+            ? {
+                ...comment,
+                replies: comment.replies.map((reply) =>
+                  reply._id === replyId
+                    ? { ...reply, content: editContent }
+                    : reply
+                ),
+              }
+            : comment
+        )
+      );
+
       setEditingReply({});
       setEditContent("");
+      toast.success("Reply edited successfully");
     } catch (error) {
-      setError("Failed to edit reply");
+      toast.error("Failed to edit reply");
     }
   };
 
@@ -381,18 +416,18 @@ const PostDetail = () => {
                               {comment.content}
                             </p> */}
                             {editingComment === comment._id ? (
-                              <div className="flex items-center">
+                              <div className="flex items-center max-sm:mt-2">
                                 <input
                                   type="text"
                                   value={editContent}
                                   onChange={(e) =>
                                     setEditContent(e.target.value)
                                   }
-                                  className="flex-1 border rounded-full px-4 py-2 text-sm"
+                                  className="flex-1 border rounded-full px-4 py-2 max-sm:px-2 max-sm:py-1 max-sm:text-xs text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
                                 />
                                 <button
                                   onClick={() => handleEditComment(comment._id)}
-                                  className="bg-green-500 text-white px-4 py-1 rounded ml-2"
+                                  className="bg-[#3e95fb] flex-shrink text-white rounded-full px-4 py-1 max-sm:px-2 max-sm:text-xs text-sm hover:bg-blue-400 transition duration-300 ml-2"
                                 >
                                   Save
                                 </button>
@@ -401,34 +436,34 @@ const PostDetail = () => {
                                     setEditingComment(null);
                                     setEditContent("");
                                   }}
-                                  className="bg-gray-400 text-white px-4 py-1 rounded ml-2"
+                                  className="bg-gray-400 flex-shrink text-white rounded-full px-4 py-1 max-sm:px-2 max-sm:text-xs text-sm hover:bg-gray-600 transition duration-300 ml-2"
                                 >
                                   Cancel
                                 </button>
                               </div>
                             ) : (
-                              <p className="text-gray-600 mt-1">
+                              <p className="text-gray-600 mt-1 max-sm:text-sm">
                                 {comment.content}
                               </p>
                             )}
                           </div>
                         </div>
                         {currentUser?.id === comment.author?._id && (
-                          <div className="flex space-x-2">
+                          <div className="flex space-x-3">
                             <p
-                              className="text-xs text-green-600 cursor-pointer"
+                              className="text-green-600 cursor-pointer"
                               onClick={() => {
                                 setEditingComment(comment._id);
                                 setEditContent(comment.content);
                               }}
                             >
-                              Edit
+                              <CiEdit className="text-lg" />
                             </p>
                             <p
-                              className="text-xs text-red-600 cursor-pointer"
+                              className="text-red-600 cursor-pointer"
                               onClick={() => handleDeleteComment(comment._id)}
                             >
-                              Delete
+                              <RiDeleteBin5Line className="text-lg" />
                             </p>
                           </div>
                         )}
@@ -463,20 +498,20 @@ const PostDetail = () => {
                                   {reply.content}
                                 </p> */}
                                 {editingReply[reply._id] ? (
-                                  <div className="flex items-center">
+                                  <div className="flex items-center max-sm:mt-2">
                                     <input
                                       type="text"
                                       value={editContent}
                                       onChange={(e) =>
                                         setEditContent(e.target.value)
                                       }
-                                      className="flex-1 border rounded-full px-4 py-2 text-sm"
+                                      className="flex-1 border rounded-full px-4 py-2 max-sm:px-2 max-sm:py-1 max-sm:text-xs text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
                                     />
                                     <button
                                       onClick={() =>
                                         handleEditReply(comment._id, reply._id)
                                       }
-                                      className="bg-green-500 text-white px-4 py-1 rounded ml-2"
+                                      className="bg-[#3e95fb] flex-shrink text-white rounded-full px-4 py-1 max-sm:px-2 max-sm:text-xs text-sm hover:bg-blue-400 transition duration-300 ml-2"
                                     >
                                       Save
                                     </button>
@@ -485,20 +520,20 @@ const PostDetail = () => {
                                         setEditingReply({});
                                         setEditContent("");
                                       }}
-                                      className="bg-gray-400 text-white px-4 py-1 rounded ml-2"
+                                      className="bg-gray-400 flex-shrink text-white rounded-full px-4 py-1 max-sm:px-2 max-sm:text-xs text-sm hover:bg-gray-600 transition duration-300 ml-2"
                                     >
                                       Cancel
                                     </button>
                                   </div>
                                 ) : (
-                                  <p className="text-gray-600 mt-1">
+                                  <p className="text-gray-600 mt-1 max-sm:text-xs">
                                     {reply.content}
                                   </p>
                                 )}
                               </div>
                             </div>
                             {currentUser?.id === reply.author?._id && (
-                              <div className="flex space-x-2">
+                              <div className="flex space-x-3">
                                 <p
                                   className="text-xs text-green-600 cursor-pointer"
                                   onClick={() => {
@@ -506,7 +541,7 @@ const PostDetail = () => {
                                     setEditContent(reply.content);
                                   }}
                                 >
-                                  Edit
+                                  <CiEdit className="text-lg" />
                                 </p>
 
                                 <p
@@ -515,7 +550,7 @@ const PostDetail = () => {
                                     handleDeleteReply(comment._id, reply._id)
                                   }
                                 >
-                                  Delete
+                                  <RiDeleteBin5Line className="text-lg" />
                                 </p>
                               </div>
                             )}

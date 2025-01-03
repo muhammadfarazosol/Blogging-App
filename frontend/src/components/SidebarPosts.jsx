@@ -66,7 +66,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
           {fallbackPosts.map((post) => (
             <div
               key={post._id}
-              className="max-w-sm rounded-lg shadow dark:bg-gray-900 dark:border-gray-700"
+              className="min-w-sm rounded-lg shadow dark:bg-gray-900 dark:border-gray-700"
             >
               <img
                 className="rounded-t-lg w-full h-full min-h-24 object-fill"
@@ -95,7 +95,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
           {posts.map((post) => (
             <div
               key={post._id}
-              className="max-w-sm rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+              className="min-w-sm rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
             >
               <img
                 className="rounded-t-lg w-full h-full min-h-24 object-fill"
