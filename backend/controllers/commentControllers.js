@@ -130,9 +130,138 @@ const getAllComments = async (req, res, next) => {
   }
 };
 
+// Delete a specific comment and its replies
+const deleteComment = async (req, res, next) => {
+  const { commentId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return next(new HttpError("Comment not found", 404));
+    }
+
+    if (comment.author.toString() !== userId) {
+      return next(
+        new HttpError("You are not authorized to delete this comment", 403)
+      );
+    }
+
+    await Comment.findByIdAndDelete(commentId); // Automatically removes replies as they're embedded in the comment
+    res
+      .status(200)
+      .json({ message: "Comment and its replies deleted successfully" });
+  } catch (error) {
+    next(new HttpError("Failed to delete comment", 500));
+  }
+};
+
+// Delete a specific reply
+const deleteReply = async (req, res, next) => {
+  const { commentId, replyId } = req.params;
+  const userId = req.user.id;
+
+  try {
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return next(new HttpError("Comment not found", 404));
+    }
+
+    const replyIndex = comment.replies.findIndex(
+      (reply) => reply._id.toString() === replyId
+    );
+    if (replyIndex === -1) {
+      return next(new HttpError("Reply not found", 404));
+    }
+
+    if (comment.replies[replyIndex].author.toString() !== userId) {
+      return next(
+        new HttpError("You are not authorized to delete this reply", 403)
+      );
+    }
+
+    comment.replies.splice(replyIndex, 1); // Remove the reply from the array
+    await comment.save();
+
+    res.status(200).json({ message: "Reply deleted successfully" });
+  } catch (error) {
+    next(new HttpError("Failed to delete reply", 500));
+  }
+};
+
+// Edit a specific comment
+const editComment = async (req, res, next) => {
+  const { commentId } = req.params;
+  const { content } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return next(new HttpError("Comment not found", 404));
+    }
+
+    // Ensure the user owns the comment
+    if (comment.author.toString() !== userId) {
+      return next(
+        new HttpError("You are not authorized to edit this comment", 403)
+      );
+    }
+
+    comment.content = content;
+    await comment.save();
+
+    res.status(200).json({ message: "Comment updated successfully", comment });
+  } catch (error) {
+    next(new HttpError("Failed to update comment", 500));
+  }
+};
+
+// Edit a specific reply
+const editReply = async (req, res, next) => {
+  const { commentId, replyId } = req.params;
+  const { content } = req.body;
+  const userId = req.user.id;
+
+  try {
+    const comment = await Comment.findById(commentId);
+
+    if (!comment) {
+      return next(new HttpError("Comment not found", 404));
+    }
+
+    const reply = comment.replies.find(
+      (reply) => reply._id.toString() === replyId
+    );
+
+    if (!reply) {
+      return next(new HttpError("Reply not found", 404));
+    }
+
+    // Ensure the user owns the reply
+    if (reply.author.toString() !== userId) {
+      return next(
+        new HttpError("You are not authorized to edit this reply", 403)
+      );
+    }
+
+    reply.content = content;
+    await comment.save();
+
+    res.status(200).json({ message: "Reply updated successfully", reply });
+  } catch (error) {
+    next(new HttpError("Failed to update reply", 500));
+  }
+};
+
 module.exports = {
   addComment,
   getComments,
   addReply,
   getAllComments,
+  deleteComment,
+  deleteReply,
+  editComment,
+  editReply,
 };

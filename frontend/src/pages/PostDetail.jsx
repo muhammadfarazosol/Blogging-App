@@ -24,6 +24,9 @@ const PostDetail = () => {
   const { currentUser } = useContext(UserContext);
   const [displayedComments, setDisplayedComments] = useState([]);
   const [page, setPage] = useState(1);
+  const [editingComment, setEditingComment] = useState(null); // Track the comment being edited
+  const [editingReply, setEditingReply] = useState({}); // Track the reply being edited
+  const [editContent, setEditContent] = useState(""); // Current content being edited
 
   const refreshComments = async () => {
     try {
@@ -160,6 +163,118 @@ const PostDetail = () => {
     setPage(nextPage);
   };
 
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/comments/${commentId}`, {
+        headers: { Authorization: `Bearer ${currentUser?.token}` },
+      });
+
+      // Remove the deleted comment from state
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment._id !== commentId)
+      );
+
+      setDisplayedComments((prevDisplayed) =>
+        prevDisplayed.filter((comment) => comment._id !== commentId)
+      );
+    } catch (error) {
+      setError("Failed to delete comment");
+    }
+  };
+
+  const handleDeleteReply = async (commentId, replyId) => {
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/comments/${commentId}/replies/${replyId}`,
+        {
+          headers: { Authorization: `Bearer ${currentUser?.token}` },
+        }
+      );
+
+      // Remove the deleted reply from state
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment._id === commentId
+            ? {
+                ...comment,
+                replies: comment.replies.filter(
+                  (reply) => reply._id !== replyId
+                ),
+              }
+            : comment
+        )
+      );
+
+      setDisplayedComments((prevDisplayed) =>
+        prevDisplayed.map((comment) =>
+          comment._id === commentId
+            ? {
+                ...comment,
+                replies: comment.replies.filter(
+                  (reply) => reply._id !== replyId
+                ),
+              }
+            : comment
+        )
+      );
+    } catch (error) {
+      setError("Failed to delete reply");
+    }
+  };
+
+  const handleEditComment = async (commentId) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/comments/${commentId}`,
+        { content: editContent },
+        { headers: { Authorization: `Bearer ${currentUser?.token}` } }
+      );
+
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment._id === commentId
+            ? { ...comment, content: editContent }
+            : comment
+        )
+      );
+
+      setEditingComment(null);
+      setEditContent("");
+    } catch (error) {
+      setError("Failed to edit comment");
+    }
+  };
+
+  const handleEditReply = async (commentId, replyId) => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/comments/${commentId}/replies/${replyId}`,
+        { content: editContent },
+        { headers: { Authorization: `Bearer ${currentUser?.token}` } }
+      );
+
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment._id === commentId
+            ? {
+                ...comment,
+                replies: comment.replies.map((reply) =>
+                  reply._id === replyId
+                    ? { ...reply, content: editContent }
+                    : reply
+                ),
+              }
+            : comment
+        )
+      );
+
+      setEditingReply({});
+      setEditContent("");
+    } catch (error) {
+      setError("Failed to edit reply");
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="bg-[#c9dcf3] flex items-center justify-center min-h-screen py-32">
@@ -243,26 +358,80 @@ const PostDetail = () => {
                       key={comment._id}
                       className="mb-4 bg-gray-50 rounded-lg p-4 shadow"
                     >
-                      <div className="flex items-start space-x-3">
-                        <img
-                          src={getAvatarUrl(comment.author?.avatar)}
-                          alt={
-                            comment.author ? comment.author.name : "Anonymous"
-                          }
-                          className="w-6 h-6 sm:w-10 sm:h-10 rounded-full object-cover"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = ProfileImage;
-                          }}
-                        />
-                        <div className="flex-1 break-words">
-                          <p className="font-semibold text-gray-800 max-sm:text-sm">
-                            {comment.author ? comment.author.name : "Anonymous"}
-                          </p>
-                          <p className="text-gray-600 mt-1 max-sm:text-sm">
-                            {comment.content}
-                          </p>
+                      <div className="flex justify-between">
+                        <div className="flex items-start space-x-3">
+                          <img
+                            src={getAvatarUrl(comment.author?.avatar)}
+                            alt={
+                              comment.author ? comment.author.name : "Anonymous"
+                            }
+                            className="w-6 h-6 sm:w-10 sm:h-10 rounded-full object-cover"
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = ProfileImage;
+                            }}
+                          />
+                          <div className="flex-1 break-words">
+                            <p className="font-semibold text-gray-800 max-sm:text-sm">
+                              {comment.author
+                                ? comment.author.name
+                                : "Anonymous"}
+                            </p>
+                            {/* <p className="text-gray-600 mt-1 max-sm:text-sm">
+                              {comment.content}
+                            </p> */}
+                            {editingComment === comment._id ? (
+                              <div className="flex items-center">
+                                <input
+                                  type="text"
+                                  value={editContent}
+                                  onChange={(e) =>
+                                    setEditContent(e.target.value)
+                                  }
+                                  className="flex-1 border rounded-full px-4 py-2 text-sm"
+                                />
+                                <button
+                                  onClick={() => handleEditComment(comment._id)}
+                                  className="bg-green-500 text-white px-4 py-1 rounded ml-2"
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setEditingComment(null);
+                                    setEditContent("");
+                                  }}
+                                  className="bg-gray-400 text-white px-4 py-1 rounded ml-2"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            ) : (
+                              <p className="text-gray-600 mt-1">
+                                {comment.content}
+                              </p>
+                            )}
+                          </div>
                         </div>
+                        {currentUser?.id === comment.author?._id && (
+                          <div className="flex space-x-2">
+                            <p
+                              className="text-xs text-green-600 cursor-pointer"
+                              onClick={() => {
+                                setEditingComment(comment._id);
+                                setEditContent(comment.content);
+                              }}
+                            >
+                              Edit
+                            </p>
+                            <p
+                              className="text-xs text-red-600 cursor-pointer"
+                              onClick={() => handleDeleteComment(comment._id)}
+                            >
+                              Delete
+                            </p>
+                          </div>
+                        )}
                       </div>
 
                       {/* Replies */}
@@ -271,26 +440,85 @@ const PostDetail = () => {
                           key={reply._id}
                           className="ml-6 sm:ml-12 mt-3 bg-white rounded-lg p-3 shadow-sm max-sm:text-sm"
                         >
-                          <div className="flex items-start space-x-3">
-                            <img
-                              src={getAvatarUrl(reply.author?.avatar)}
-                              alt={
-                                reply.author ? reply.author.name : "Anonymous"
-                              }
-                              className="w-4 h-4 sm:w-8 sm:h-8 rounded-full object-cover"
-                              onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = ProfileImage;
-                              }}
-                            />
-                            <div className="flex-1 break-words">
-                              <p className="font-semibold text-gray-800 max-sm:text-xs">
-                                {reply.author ? reply.author.name : "Anonymous"}
-                              </p>
-                              <p className="text-gray-600 mt-1 max-sm:text-xs">
-                                {reply.content}
-                              </p>
+                          <div className="flex justify-between">
+                            <div className="flex items-start space-x-3">
+                              <img
+                                src={getAvatarUrl(reply.author?.avatar)}
+                                alt={
+                                  reply.author ? reply.author.name : "Anonymous"
+                                }
+                                className="w-4 h-4 sm:w-8 sm:h-8 rounded-full object-cover"
+                                onError={(e) => {
+                                  e.target.onerror = null;
+                                  e.target.src = ProfileImage;
+                                }}
+                              />
+                              <div className="flex-1 break-words">
+                                <p className="font-semibold text-gray-800 max-sm:text-xs">
+                                  {reply.author
+                                    ? reply.author.name
+                                    : "Anonymous"}
+                                </p>
+                                {/* <p className="text-gray-600 mt-1 max-sm:text-xs">
+                                  {reply.content}
+                                </p> */}
+                                {editingReply[reply._id] ? (
+                                  <div className="flex items-center">
+                                    <input
+                                      type="text"
+                                      value={editContent}
+                                      onChange={(e) =>
+                                        setEditContent(e.target.value)
+                                      }
+                                      className="flex-1 border rounded-full px-4 py-2 text-sm"
+                                    />
+                                    <button
+                                      onClick={() =>
+                                        handleEditReply(comment._id, reply._id)
+                                      }
+                                      className="bg-green-500 text-white px-4 py-1 rounded ml-2"
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        setEditingReply({});
+                                        setEditContent("");
+                                      }}
+                                      className="bg-gray-400 text-white px-4 py-1 rounded ml-2"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <p className="text-gray-600 mt-1">
+                                    {reply.content}
+                                  </p>
+                                )}
+                              </div>
                             </div>
+                            {currentUser?.id === reply.author?._id && (
+                              <div className="flex space-x-2">
+                                <p
+                                  className="text-xs text-green-600 cursor-pointer"
+                                  onClick={() => {
+                                    setEditingReply({ [reply._id]: true });
+                                    setEditContent(reply.content);
+                                  }}
+                                >
+                                  Edit
+                                </p>
+
+                                <p
+                                  className="text-xs text-red-600 cursor-pointer"
+                                  onClick={() =>
+                                    handleDeleteReply(comment._id, reply._id)
+                                  }
+                                >
+                                  Delete
+                                </p>
+                              </div>
+                            )}
                           </div>
                         </div>
                       ))}

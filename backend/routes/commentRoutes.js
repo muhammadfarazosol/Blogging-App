@@ -4,6 +4,10 @@ const {
   getComments,
   getAllComments,
   addReply,
+  deleteComment,
+  deleteReply,
+  editComment,
+  editReply,
 } = require("../controllers/commentControllers");
 const authMiddleware = require("../middleware/authMiddleware");
 
@@ -20,5 +24,10 @@ router.post("/:commentId/replies", authMiddleware, addReply);
 
 // Get all comments (excluding replies)
 router.get("/all", getAllComments);
+
+router.delete("/:commentId", authMiddleware, deleteComment);
+router.delete("/:commentId/replies/:replyId", authMiddleware, deleteReply);
+router.put("/:commentId", authMiddleware, editComment);
+router.put("/:commentId/replies/:replyId", authMiddleware, editReply);
 
 module.exports = router;
