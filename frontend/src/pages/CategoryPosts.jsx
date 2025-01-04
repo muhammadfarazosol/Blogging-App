@@ -69,35 +69,37 @@ const CategoryPosts = () => {
   }
 
   return (
-    <div className="bg-[#c9dcf3]">
-      <h1 className="blogs-heading">Filtered Blogs</h1>
-      <div className="text-center mb-4">
+    <div className="bg-[#c9dcf3] pt-7">
+      <div className="min-h-screen">
+        <h1 className="blogs-heading">Filtered Blogs</h1>
+        {posts.length > 0 ? (
+          <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <PostItem
+                id={post._id}
+                key={post._id}
+                description={post.description}
+                thumbnail={post.thumbnail}
+                category={post.category}
+                title={post.title}
+                authorID={post.creator}
+                createdAt={post.createdAt}
+              />
+            ))}
+          </section>
+        ) : (
+          <div>
+            <NoPostFound />
+          </div>
+        )}
+      </div>
+      <div className="text-center py-7">
         <Link to={"/blogs"}>
           <button className="bg-[#3e95fb] text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300">
-            View All Posts
+            Go Back
           </button>
         </Link>
       </div>
-      {posts.length > 0 ? (
-        <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <PostItem
-              id={post._id}
-              key={post._id}
-              description={post.description}
-              thumbnail={post.thumbnail}
-              category={post.category}
-              title={post.title}
-              authorID={post.creator}
-              createdAt={post.createdAt}
-            />
-          ))}
-        </section>
-      ) : (
-        <div>
-          <NoPostFound />
-        </div>
-      )}
     </div>
   );
 };

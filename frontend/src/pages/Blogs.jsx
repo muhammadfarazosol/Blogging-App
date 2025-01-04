@@ -65,23 +65,26 @@ export default function Blogs() {
 
   return (
     <div className="bg-[#c9dcf3]">
-      <Filter onFilter={handleFilteredPosts} />
-      {isFiltered ? (
-        <h1 className="blogs-heading">Search Results</h1>
-      ) : (
-        <h1 className="blogs-heading">Explore Our Blogs</h1>
-      )}
-      {isFiltered && (
-        <div className="text-center mt-4 mb-4">
-          <button
-            onClick={handleViewAll}
-            className="bg-[#3e95fb] text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
-          >
-            View All Posts
-          </button>
-        </div>
-      )}
-      <Posts posts={currentPosts} />
+      <div className="min-h-screen">
+        <Filter onFilter={handleFilteredPosts} />
+        {isFiltered && (
+          <div className="text-center mt-4 mb-4">
+            <button
+              onClick={handleViewAll}
+              className="bg-[#3e95fb] text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
+            >
+              View All Blogs
+            </button>
+          </div>
+        )}
+        {isFiltered ? (
+          <h1 className="blogs-heading">Search Results</h1>
+        ) : (
+          <h1 className="blogs-heading">Explore Our Blogs</h1>
+        )}
+
+        <Posts posts={currentPosts} />
+      </div>
       {/* Pagination */}
       <div className="flex justify-center space-x-1 dark:text-gray-800 py-4">
         <button

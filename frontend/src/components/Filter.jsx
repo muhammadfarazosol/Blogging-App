@@ -116,7 +116,7 @@ export default function Filter({ onFilter }) {
           >
             <FaSearch className="text-white" />
           </button>
-          {suggestions.length > 0 && (
+          {suggestions.length > 0 ? (
             <div className="absolute top-full left-0 w-full bg-white mt-1 rounded-md shadow-lg z-10">
               {suggestions.map((suggestion) => (
                 <div
@@ -128,6 +128,14 @@ export default function Filter({ onFilter }) {
                 </div>
               ))}
             </div>
+          ) : (
+            searchInput && (
+              <div className="absolute top-full left-0 w-full bg-white mt-1 rounded-md shadow-lg z-10">
+                <div className="px-4 py-2 text-gray-500">
+                  No suggestions found
+                </div>
+              </div>
+            )
           )}
         </div>
       </div>
