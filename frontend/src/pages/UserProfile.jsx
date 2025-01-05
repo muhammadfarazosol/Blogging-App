@@ -4,6 +4,7 @@ import { UserContext } from "../context/userContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import DeleteProfileModal from "../modals/DeleteProfile";
+import { IoEye, IoEyeOff } from "react-icons/io5";
 
 const UserProfile = () => {
   const [avatar, setAvatar] = useState("");
@@ -21,6 +22,23 @@ const UserProfile = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const token = currentUser?.token;
   const navigate = useNavigate();
+  // State for password visibility
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+
+  // Password visibility handlers
+  const toggleCurrentPasswordVisibility = () => {
+    setShowCurrentPassword((prev) => !prev);
+  };
+
+  const toggleNewPasswordVisibility = () => {
+    setShowNewPassword((prev) => !prev);
+  };
+
+  const toggleConfirmNewPasswordVisibility = () => {
+    setShowConfirmNewPassword((prev) => !prev);
+  };
 
   useEffect(() => {
     if (error) {
@@ -299,7 +317,7 @@ const UserProfile = () => {
                 Modify your current password.
               </p>
               <div className="space-y-4">
-                <div>
+                <div className="relative">
                   <label
                     htmlFor="currentPassword"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -309,12 +327,19 @@ const UserProfile = () => {
                   <input
                     id="currentPassword"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    type="password"
+                    type={showCurrentPassword ? "text" : "password"}
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
                   />
+                  <button
+                    type="button"
+                    onClick={toggleCurrentPasswordVisibility}
+                    className="absolute right-2 top-9 text-gray-600 focus:outline-none"
+                  >
+                    {showCurrentPassword ? <IoEye /> : <IoEyeOff />}
+                  </button>
                 </div>
-                <div>
+                <div className="relative">
                   <label
                     htmlFor="newPassword"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -324,12 +349,19 @@ const UserProfile = () => {
                   <input
                     id="newPassword"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    type="password"
+                    type={showNewPassword ? "text" : "password"}
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                   />
+                  <button
+                    type="button"
+                    onClick={toggleNewPasswordVisibility}
+                    className="absolute right-2 top-9 text-gray-600 focus:outline-none"
+                  >
+                    {showNewPassword ? <IoEye /> : <IoEyeOff />}
+                  </button>
                 </div>
-                <div>
+                <div className="relative">
                   <label
                     htmlFor="confirmPassword"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -339,10 +371,17 @@ const UserProfile = () => {
                   <input
                     id="confirmPassword"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    type="password"
+                    type={showConfirmNewPassword ? "text" : "password"}
                     value={confirmNewPassword}
                     onChange={(e) => setConfirmNewPassword(e.target.value)}
                   />
+                  <button
+                    type="button"
+                    onClick={toggleConfirmNewPasswordVisibility}
+                    className="absolute right-2 top-9 text-gray-600 focus:outline-none"
+                  >
+                    {showConfirmNewPassword ? <IoEye /> : <IoEyeOff />}
+                  </button>
                 </div>
               </div>
             </div>
