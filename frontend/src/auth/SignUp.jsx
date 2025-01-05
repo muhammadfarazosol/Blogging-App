@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import OTPVerification from "./OTPVerification";
 import { toast } from "react-toastify";
+import { InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const SignUp = ({ onSwitchMode }) => {
   const [formData, setFormData] = useState({
@@ -23,6 +25,16 @@ const SignUp = ({ onSwitchMode }) => {
   const [showOTPVerification, setShowOTPVerification] = useState(false);
   const [passwordError, setPasswordError] = useState("");
   const [isSignUpDisabled, setIsSignUpDisabled] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword((prev) => !prev);
+  };
 
   useEffect(() => {
     if (error) {
@@ -148,10 +160,19 @@ const SignUp = ({ onSwitchMode }) => {
               <Typography color="#000000">Password</Typography>
               <TextField
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={formData.password}
                 onChange={handleChange}
                 required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={togglePasswordVisibility} edge="end">
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               {passwordError && (
                 <Typography color="error" variant="body2">
@@ -163,10 +184,26 @@ const SignUp = ({ onSwitchMode }) => {
               <Typography color="#000000">Confirm Password</Typography>
               <TextField
                 name="password2"
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 value={formData.password2}
                 onChange={handleChange}
                 required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={toggleConfirmPasswordVisibility}
+                        edge="end"
+                      >
+                        {showConfirmPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Stack>
           </Stack>

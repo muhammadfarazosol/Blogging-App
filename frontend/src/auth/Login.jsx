@@ -13,6 +13,8 @@ import { UserContext } from "../context/userContext";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = ({ onSwitchMode }) => {
   const [userData, setUserData] = useState({
@@ -24,6 +26,7 @@ const Login = ({ onSwitchMode }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (error) {
@@ -59,6 +62,10 @@ const Login = ({ onSwitchMode }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
   };
 
   return (
@@ -110,10 +117,19 @@ const Login = ({ onSwitchMode }) => {
               <Typography color="#000000">Password</Typography>
               <TextField
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={userData.password}
                 onChange={handleChange}
                 required
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={togglePasswordVisibility} edge="end">
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
             </Stack>
           </Stack>
