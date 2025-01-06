@@ -235,7 +235,7 @@ const UserProfile = () => {
               <div className="flex gap-4">
                 <button
                   onClick={() => fileInputRef.current.click()}
-                  className="px-3 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="px-3 py-2 bg-white border border-gray-300 rounded-2xl text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   disabled={isLoading}
                 >
                   Upload new picture
@@ -246,18 +246,22 @@ const UserProfile = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <h2 className="text-lg font-medium text-black mb-2">Full name</h2>
+              <h2 className="text-lg font-bold text-black">Full name</h2>
+              <p className="text-sm text-gray-500 font-bold mb-4">
+                Modify your name
+              </p>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
                     htmlFor="firstName"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-[17px] font-medium text-gray-700 mb-2"
                   >
                     First name
                   </label>
                   <input
                     id="firstName"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-6 py-3 border border-gray-300 rounded-2xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3e95fb] focus:border-[#3e95fb] placeholder:text-[15px]"
+                    placeholder="Enter your first name"
                     type="text"
                     value={name.split(" ")[0]}
                     onChange={(e) =>
@@ -268,13 +272,14 @@ const UserProfile = () => {
                 <div>
                   <label
                     htmlFor="lastName"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-[17px] font-medium text-gray-700 mb-2"
                   >
                     Last name
                   </label>
                   <input
                     id="lastName"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-6 py-3 border border-gray-300 rounded-2xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3e95fb] focus:border-[#3e95fb] placeholder:text-[15px]"
+                    placeholder="Enter your last name"
                     type="text"
                     value={name.split(" ")[1] || ""}
                     onChange={(e) =>
@@ -285,7 +290,7 @@ const UserProfile = () => {
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <h2 className="text-lg font-medium text-black mb-2">
                 Contact email
               </h2>
@@ -309,24 +314,25 @@ const UserProfile = () => {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <div>
-              <h2 className="text-lg font-medium text-black mb-2">Password</h2>
-              <p className="text-sm text-gray-500 mb-4">
-                Modify your current password.
+              <h2 className="text-lg font-bold text-black">Password</h2>
+              <p className="text-sm text-gray-500 font-bold mb-4">
+                Modify your current password
               </p>
               <div className="space-y-4">
                 <div className="relative">
                   <label
                     htmlFor="currentPassword"
-                    className="block text-sm font-medium text-gray-700 mb-1"
+                    className="block text-[17px] font-medium text-gray-700 mb-2"
                   >
                     Current password
                   </label>
                   <input
                     id="currentPassword"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-6 py-3 border border-gray-300 rounded-2xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3e95fb] focus:border-[#3e95fb] placeholder:text-[15px]"
+                    placeholder="Enter your current password"
                     type={showCurrentPassword ? "text" : "password"}
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -334,78 +340,82 @@ const UserProfile = () => {
                   <button
                     type="button"
                     onClick={toggleCurrentPasswordVisibility}
-                    className="absolute right-2 top-9 text-gray-600 focus:outline-none"
+                    className="absolute right-4 top-[46.5px] text-gray-600 focus:outline-none text-xl"
                   >
                     {showCurrentPassword ? <IoEye /> : <IoEyeOff />}
                   </button>
                 </div>
-                <div className="relative">
-                  <label
-                    htmlFor="newPassword"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    New password
-                  </label>
-                  <input
-                    id="newPassword"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    type={showNewPassword ? "text" : "password"}
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    onClick={toggleNewPasswordVisibility}
-                    className="absolute right-2 top-9 text-gray-600 focus:outline-none"
-                  >
-                    {showNewPassword ? <IoEye /> : <IoEyeOff />}
-                  </button>
-                </div>
-                <div className="relative">
-                  <label
-                    htmlFor="confirmPassword"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Confirm new password
-                  </label>
-                  <input
-                    id="confirmPassword"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    type={showConfirmNewPassword ? "text" : "password"}
-                    value={confirmNewPassword}
-                    onChange={(e) => setConfirmNewPassword(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    onClick={toggleConfirmNewPasswordVisibility}
-                    className="absolute right-2 top-9 text-gray-600 focus:outline-none"
-                  >
-                    {showConfirmNewPassword ? <IoEye /> : <IoEyeOff />}
-                  </button>
+                <div className="grid max-sm:grid-cols-1 grid-cols-2 gap-4 pt-2">
+                  <div className="relative">
+                    <label
+                      htmlFor="newPassword"
+                      className="block text-[17px] font-medium text-gray-700 mb-2"
+                    >
+                      New password
+                    </label>
+                    <input
+                      id="newPassword"
+                      className="w-full px-6 py-3 border border-gray-300 rounded-2xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3e95fb] focus:border-[#3e95fb] placeholder:text-[15px]"
+                      placeholder="Enter your new password"
+                      type={showNewPassword ? "text" : "password"}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      onClick={toggleNewPasswordVisibility}
+                      className="absolute right-4 top-[46.5px] text-gray-600 focus:outline-none text-xl"
+                    >
+                      {showNewPassword ? <IoEye /> : <IoEyeOff />}
+                    </button>
+                  </div>
+                  <div className="relative">
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-[17px] font-medium text-gray-700 mb-2"
+                    >
+                      Confirm new password
+                    </label>
+                    <input
+                      id="confirmPassword"
+                      className="w-full px-6 py-3 border border-gray-300 rounded-2xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3e95fb] focus:border-[#3e95fb] placeholder:text-[15px]"
+                      placeholder="Enter your confirm password"
+                      type={showConfirmNewPassword ? "text" : "password"}
+                      value={confirmNewPassword}
+                      onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      onClick={toggleConfirmNewPasswordVisibility}
+                      className="absolute right-4 top-[46.5px] text-gray-600 focus:outline-none text-xl"
+                    >
+                      {showConfirmNewPassword ? <IoEye /> : <IoEyeOff />}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="flex justify-between items-center mt-4">
-              <div className="flex justify-center items-center">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(true)}
-                  className="px-4 py-2 bg-red-600 text-white font-medium rounded-md hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
-                  disabled={isLoading}
-                >
-                  Delete Profile
-                </button>
-              </div>
-              <div className="flex justify-center items-center">
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-[#3e95fb] text-white font-medium rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
-                  disabled={isLoading}
-                >
-                  {isLoading ? "Updating..." : "Update changes"}
-                </button>
-              </div>
+            <div className="flex justify-between items-center pt-2">
+              {/* <div className=""> */}
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 bg-red-600 text-white font-medium rounded-2xl hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
+                disabled={isLoading}
+              >
+                Delete Profile
+              </button>
+              {/* </div> */}
+              {/* <div className=""> */}
+              <button
+                type="submit"
+                className="px-4 py-2 bg-[#3e95fb] text-white font-medium rounded-2xl hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black transition duration-300 ease-in-out"
+                disabled={isLoading}
+              >
+                {isLoading ? "Updating..." : "Update changes"}
+              </button>
+              {/* </div> */}
             </div>
           </form>
           <DeleteProfileModal

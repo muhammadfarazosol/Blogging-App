@@ -31,7 +31,7 @@ const PostItem = ({
         {/* image div */}
         <div className="w-full h-[220px] overflow-hidden">
           <motion.img
-            className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-110"
+            className="w-full h-full object-fill transition-transform duration-300 ease-in-out hover:scale-110"
             src={`http://localhost:5000/uploads/${thumbnail}`}
             alt={title}
             whileHover={{ scale: 1.1 }}
