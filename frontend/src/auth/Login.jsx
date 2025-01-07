@@ -104,7 +104,9 @@ const Login = ({ onSwitchMode }) => {
         <Stack spacing={4}>
           <Stack spacing={2}>
             <Stack spacing={1}>
-              <Typography color="#000000">Email</Typography>
+              <Typography color="#000000">
+                Email <span style={{ color: "red" }}>*</span>
+              </Typography>
               <TextField
                 name="email"
                 type="email"
@@ -114,7 +116,9 @@ const Login = ({ onSwitchMode }) => {
               />
             </Stack>
             <Stack spacing={1}>
-              <Typography color="#000000">Password</Typography>
+              <Typography color="#000000">
+                Password <span style={{ color: "red" }}>*</span>
+              </Typography>
               <TextField
                 name="password"
                 type={showPassword ? "text" : "password"}

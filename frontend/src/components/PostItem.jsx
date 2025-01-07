@@ -15,7 +15,11 @@ const PostItem = ({
   const shortDescription =
     description.length > 70 ? description.substr(0, 70) + "..." : description;
   const shortTitle = title.length > 20 ? title.substr(0, 20) + "..." : title;
-
+  const date = new Date(createdAt);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  const formattedDate = `${day}-${month}-${year}`;
   return (
     <motion.div
       className="px-8 py-6"
@@ -38,6 +42,12 @@ const PostItem = ({
           />
         </div>
         <div className="p-6">
+          <div>
+            {" "}
+            <p className="inline-block text-xs font-semibold tracking-wide text-gray-500">
+              {formattedDate}
+            </p>
+          </div>
           {/* category */}
           <Link to={`/posts/categories/${category}`}>
             <span className="inline-block mb-2 text-xs font-semibold tracking-wide text-primary">

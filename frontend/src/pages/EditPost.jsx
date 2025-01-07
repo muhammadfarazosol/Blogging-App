@@ -118,6 +118,12 @@ export default function EditPost() {
       return;
     }
 
+    if (category === "Please Select a category") {
+      setIsLoading(false);
+      toast.error("Please select a valid category");
+      return;
+    }
+
     if (description.length <= 3500) {
       setIsLoading(false);
       toast.error("Description must be greater than 3500 characters");

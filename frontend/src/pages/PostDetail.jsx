@@ -345,10 +345,12 @@ const PostDetail = () => {
                   </p>
                 </div>
                 <div className="border-t pt-4">
-                  <p className="text-sm text-black font-semibold">Tag</p>
-                  <span className="inline-flex rounded-lg bg-[#3e95fb] px-3 py-1 text-sm mt-2 font-medium text-white space-y-6">
-                    {post.category}
-                  </span>
+                  <p className="text-sm text-black font-semibold">Category</p>
+                  <Link to={`/posts/categories/${post.category}`}>
+                    <span className="inline-flex rounded-lg bg-[#3e95fb] px-3 py-1 text-sm mt-2 font-medium text-white space-y-6">
+                      {post.category}
+                    </span>
+                  </Link>
                 </div>
                 {currentUser?.id === post?.creator && (
                   <div className="flex space-x-4 sm:space-x-8 border-t py-4">

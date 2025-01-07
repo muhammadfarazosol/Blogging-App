@@ -27,6 +27,8 @@ const SignUp = ({ onSwitchMode }) => {
   const [isSignUpDisabled, setIsSignUpDisabled] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [nameError, setNameError] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -48,6 +50,28 @@ const SignUp = ({ onSwitchMode }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === "name") {
+      const nameRegex = /^[A-Za-z\s]+$/;
+      if (value.length > 0 && !nameRegex.test(value)) {
+        setNameError("Name must only contain alphabets");
+        setIsSignUpDisabled(true);
+      } else {
+        setNameError("");
+        setIsSignUpDisabled(false);
+      }
+    }
+
+    if (name === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (value.length > 0 && !emailRegex.test(value)) {
+        setEmailError("Invalid email address");
+        setIsSignUpDisabled(true);
+      } else {
+        setEmailError("");
+        setIsSignUpDisabled(false);
+      }
+    }
 
     if (name === "password") {
       const passwordRegex =
@@ -138,16 +162,25 @@ const SignUp = ({ onSwitchMode }) => {
         <Stack spacing={4}>
           <Stack spacing={2}>
             <Stack spacing={1}>
-              <Typography color="#000000">Name</Typography>
+              <Typography color="#000000">
+                Name <span style={{ color: "red" }}>*</span>
+              </Typography>
               <TextField
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
                 required
               />
+              {nameError && (
+                <Typography color="error" variant="body2">
+                  {nameError}
+                </Typography>
+              )}
             </Stack>
             <Stack spacing={1}>
-              <Typography color="#000000">Email</Typography>
+              <Typography color="#000000">
+                Email <span style={{ color: "red" }}>*</span>
+              </Typography>
               <TextField
                 name="email"
                 type="email"
@@ -155,9 +188,16 @@ const SignUp = ({ onSwitchMode }) => {
                 onChange={handleChange}
                 required
               />
+              {emailError && (
+                <Typography color="error" variant="body2">
+                  {emailError}
+                </Typography>
+              )}
             </Stack>
             <Stack spacing={1}>
-              <Typography color="#000000">Password</Typography>
+              <Typography color="#000000">
+                Password <span style={{ color: "red" }}>*</span>
+              </Typography>
               <TextField
                 name="password"
                 type={showPassword ? "text" : "password"}
@@ -181,7 +221,9 @@ const SignUp = ({ onSwitchMode }) => {
               )}
             </Stack>
             <Stack spacing={1}>
-              <Typography color="#000000">Confirm Password</Typography>
+              <Typography color="#000000">
+                Confirm Password <span style={{ color: "red" }}>*</span>
+              </Typography>
               <TextField
                 name="password2"
                 type={showConfirmPassword ? "text" : "password"}
