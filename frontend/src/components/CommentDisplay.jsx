@@ -81,7 +81,7 @@ const CommentDisplay = () => {
                     </svg>
                   </div>
                 </div>
-                <div className="mt-4 text-center">
+                <div className="mt-4 font-semibold text-center">
                   <span className="w-12 h-1 my-2 rounded-lg bg-[#3e95fb] inline-block"></span>
                   <p>{comment?.author?.name}</p>
                 </div>
