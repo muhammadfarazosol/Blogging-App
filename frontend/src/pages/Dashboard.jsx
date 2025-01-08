@@ -66,12 +66,12 @@ const Dashboard = () => {
         <>
           <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
-              <Link to={`/posts/${post._id}`}>
-                <div
-                  className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white transition-all duration-300 transform hover:scale-105 mx-10 mb-10"
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
+              <div
+                className="max-w-sm rounded-lg overflow-hidden shadow-lg bg-white transition-all duration-300 transform hover:scale-105 mx-10 mb-10"
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <Link to={`/posts/${post._id}`}>
                   <div className="relative">
                     <img
                       className="w-full h-48 object-cover"
@@ -126,8 +126,8 @@ const Dashboard = () => {
                       <DeletePost postId={post._id} variant="alternative" />
                     </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))}
           </section>
         </>
