@@ -118,6 +118,16 @@ const UserProfile = () => {
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
+      const validTypes = ["image/jpeg", "image/png"];
+      if (!validTypes.includes(file.type)) {
+        toast.error("Only JPEG and PNG files are allowed");
+        return;
+      }
+      const maxSizeInBytes = 5 * 1024 * 1024;
+      if (file.size > maxSizeInBytes) {
+        toast.error("Profile picture should be less than 5mb");
+        return;
+      }
       const updatedAvatarUrl = await updateAvatar(file);
       if (updatedAvatarUrl) {
         toast.success("Avatar updated successfully");
@@ -130,9 +140,10 @@ const UserProfile = () => {
     setError("");
     setUpdateMessage("");
 
-    const [firstName, lastName] = name.split(" ");
-    if (!firstName?.trim() || !lastName?.trim()) {
-      toast.error("First name and last name are required");
+    // const [firstName, lastName] = name.split(" ");
+    // if (!firstName?.trim() || !lastName?.trim()) {
+    if (!name?.trim()) {
+      toast.error("Name cannot be empty");
       return;
     }
 
@@ -200,9 +211,7 @@ const UserProfile = () => {
       <div className="bg-[#e1ebfa] rounded-lg shadow-md overflow-hidden max-w-2xl w-full">
         <div className="p-8">
           <div className="flex justify-center items-center mb-6">
-            <h1 className="text-2xl font-semibold text-black">
-              Account Details
-            </h1>
+            <h1 className="text-2xl font-semibold text-black">{name}</h1>
           </div>
 
           <div className="mb-8 flex flex-col items-center">
@@ -227,11 +236,11 @@ const UserProfile = () => {
                   className="hidden"
                 />
               </div>
-              <div>
+              {/* <div>
                 <h3 className="text-3xl flex justify-center items-center font-bold text-black">
                   {name}
                 </h3>
-              </div>
+              </div> */}
               <div className="flex gap-4">
                 <button
                   onClick={() => fileInputRef.current.click()}
@@ -245,7 +254,7 @@ const UserProfile = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
+            {/* <div>
               <h2 className="text-lg font-bold text-black">Full name</h2>
               <p className="text-sm text-gray-500 font-bold mb-4">
                 Modify your name
@@ -288,6 +297,22 @@ const UserProfile = () => {
                   />
                 </div>
               </div>
+            </div> */}
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-[17px] font-medium text-gray-700 mb-2"
+              >
+                Edit your name here
+              </label>
+              <input
+                id="name"
+                className="w-full px-6 py-3 border border-gray-300 rounded-2xl shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#3e95fb] focus:border-[#3e95fb] placeholder:text-[15px]"
+                placeholder="Enter your full name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
             </div>
 
             {/* <div>
@@ -317,10 +342,10 @@ const UserProfile = () => {
             </div> */}
 
             <div>
-              <h2 className="text-lg font-bold text-black">Password</h2>
+              {/* <h2 className="text-lg font-bold text-black">Password</h2>
               <p className="text-sm text-gray-500 font-bold mb-4">
                 Modify your current password
-              </p>
+              </p> */}
               <div className="space-y-4">
                 <div className="relative">
                   <label

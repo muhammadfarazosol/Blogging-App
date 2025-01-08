@@ -15,8 +15,8 @@ const createPost = async (req, res, next) => {
       return next(new HttpError("Fill in all the fields", 422));
     }
     const { thumbnail } = req.files;
-    if (thumbnail.size > 2000000) {
-      return next(new HttpError("Thumbnail size should be less than 2mb"));
+    if (thumbnail.size > 5 * 1024 * 1024) {
+      return next(new HttpError("Thumbnail size should be less than 5mb"));
     }
 
     let fileName = thumbnail.name;
@@ -147,10 +147,8 @@ const editPost = async (req, res, next) => {
         //upload new thumbnail
         const { thumbnail } = req.files;
         //check file size
-        if (thumbnail.size > 2000000) {
-          return next(
-            new HttpError("Thumbnail size should be less than 2mb")
-          );
+        if (thumbnail.size > 5 * 1024 * 1024) {
+          return next(new HttpError("Thumbnail size should be less than 5mb"));
         }
         fileName = thumbnail.name;
         let splittedFilename = fileName.split(".");

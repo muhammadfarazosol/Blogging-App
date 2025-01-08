@@ -36,9 +36,23 @@ export default function EditPost() {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setThumbnail(file);
+    const validTypes = ["image/jpeg", "image/png"];
+    const maxSizeInBytes = 5 * 1024 * 1024;
+
+    if (!validTypes.includes(file.type)) {
+      toast.error("File must be in JPEG or PNG");
+      return;
     }
+
+    if (file.size > maxSizeInBytes) {
+      toast.error("File size should not exceed 5 MB");
+      return;
+    }
+    setThumbnail(file);
+    setError("");
+    // if (file) {
+    //   setThumbnail(file);
+    // }
   };
 
   const modules = {
@@ -111,6 +125,12 @@ export default function EditPost() {
     e.preventDefault();
     setIsLoading(true);
     setError("");
+
+    if (!title || !category || !description) {
+      setIsLoading(false);
+      toast.error("Please fill all the fields");
+      return;
+    }
 
     if (title.length <= 3) {
       setIsLoading(false);
