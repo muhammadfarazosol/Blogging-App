@@ -13,7 +13,7 @@ const PostItem = ({
   createdAt,
 }) => {
   const shortDescription =
-    description.length > 70 ? description.substr(0, 70) + "..." : description;
+    description.length > 70 ? description.substr(0, 60) + "..." : description;
   const shortTitle = title.length > 20 ? title.substr(0, 20) + "..." : title;
   const date = new Date(createdAt);
   const day = String(date.getDate()).padStart(2, "0");
