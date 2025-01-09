@@ -111,7 +111,13 @@ function BlogParallaxSection() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1 }}
           >
-            <h1 className="text-5xl font-bold text-[#FBFFFF] text-center mb-4">
+            <h1
+              className="text-4xl font-extrabold text-[#FBFFFF] text-center mb-4 relative"
+              style={{
+                textShadow:
+                  "0px 4px 10px rgba(0, 0, 0, 0.5), 0px 0px 20px rgba(62, 149, 251, 0.8)",
+              }}
+            >
               Welcome to NeuroNest
             </h1>
           </motion.div>
@@ -121,7 +127,13 @@ function BlogParallaxSection() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 1 }}
           >
-            <p className="text-2xl text-[#FBFFFF] font-semibold text-center mb-8">
+            <p
+              className="text-2xl text-[#FBFFFF] font-bold text-center mb-8"
+              style={{
+                textShadow:
+                  "0px 4px 10px rgba(0, 0, 0, 0.5), 0px 0px 20px rgba(62, 149, 251, 0.8)",
+              }}
+            >
               {runningText.split("").map((char, index) => (
                 <motion.span
                   key={index}

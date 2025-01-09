@@ -105,28 +105,29 @@ const Dashboard = () => {
                       }}
                     />
                   </div>
-                  <div
-                    className={`px-6 pb-4 transition-all duration-300 ${
-                      isHovered ? "opacity-100" : "opacity-100"
-                    }`}
-                  >
-                    <div className="flex justify-center space-x-20">
-                      {/* <Link to={`/posts/${post._id}`}>
+                </Link>
+
+                <div
+                  className={`px-6 pb-4 transition-all duration-300 ${
+                    isHovered ? "opacity-100" : "opacity-100"
+                  }`}
+                >
+                  <div className="flex justify-center space-x-20">
+                    {/* <Link to={`/posts/${post._id}`}>
                       <button className="flex items-center text-blue-500 hover:text-blue-700 transition-colors duration-200">
                         <FaEye className="w-5 h-5 mr-1" />
                         View
                       </button>
                     </Link> */}
-                      <Link to={`/posts/${post._id}/edit`}>
-                        <button className="flex items-center justify-center w-full px-3 py-1 text-sm font-normal leading-6 text-green-500 capitalize duration-100 transform border-[1px] rounded-lg cursor-pointer border-green-500 focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none border-text  hover:shadow-lg hover:-translate-y-1">
-                          <CiEdit className="w-5 h-5 mr-1" />
-                          Edit
-                        </button>
-                      </Link>
-                      <DeletePost postId={post._id} variant="alternative" />
-                    </div>
+                    <Link to={`/posts/${post._id}/edit`}>
+                      <button className="flex items-center justify-center w-full px-3 py-1 text-sm font-normal leading-6 text-green-500 capitalize duration-100 transform border-[1px] rounded-lg cursor-pointer border-green-500 focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 focus:outline-none border-text  hover:shadow-lg hover:-translate-y-1">
+                        <CiEdit className="w-5 h-5 mr-1" />
+                        Edit
+                      </button>
+                    </Link>
+                    <DeletePost postId={post._id} variant="alternative" />
                   </div>
-                </Link>
+                </div>
               </div>
             ))}
           </section>

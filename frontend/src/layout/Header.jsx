@@ -157,7 +157,7 @@ const Header = () => {
               />
             </button>
             {isDropdownOpen && (
-              <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg py-2 z-10 transition-all duration-300 ease-in-out transform origin-top-right">
+              <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg py-2 z-50 transition-all duration-300 ease-in-out transform origin-top-right">
                 {DropdownNavlinks.map((item, index) => (
                   <Link
                     key={index}

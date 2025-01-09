@@ -104,9 +104,11 @@ const CategoryPosts = () => {
             </Link>
           </div>
         )}
-        <h1 className="blogs-heading">
-          {isFiltered ? "Search Results" : `Blogs in ${category}`}
-        </h1>
+        {isFiltered ? (
+          <h1 className="blogs-heading">Search Results</h1>
+        ) : (
+          <h1 className="blogs-heading">Blogs in {category}</h1>
+        )}
         {currentPosts.length > 0 ? (
           <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {currentPosts.map((post) => (

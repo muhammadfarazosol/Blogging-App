@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaSearch, FaChevronDown } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +22,20 @@ export default function Filter({ onFilter }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
@@ -74,7 +88,7 @@ export default function Filter({ onFilter }) {
   return (
     <div className="max-w-4xl mx-auto p-6 rounded-lg">
       <div className="flex flex-col sm:flex-row gap-4">
-        <div className="relative w-full sm:w-48">
+        <div className="relative w-full sm:w-48" ref={dropdownRef}>
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="w-full bg-white py-3 px-4 rounded-md flex justify-between items-center text-gray-700 font-semibold transition-all duration-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-300"

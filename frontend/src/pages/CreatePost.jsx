@@ -8,7 +8,7 @@
 
 // export default function EnhancedBlogCreator() {
 //   const [title, setTitle] = useState("");
-//   const [category, setCategory] = useState("Please Select a category");
+//   const [category, setCategory] = useState("Please select a category");
 //   const [description, setDescription] = useState("");
 //   const [thumbnail, setThumbnail] = useState(null);
 //   const [isLoading, setIsLoading] = useState(false);
@@ -252,7 +252,7 @@ import { toast } from "react-toastify";
 
 export default function CreatePost() {
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("Please Select a category");
+  const [category, setCategory] = useState("Please select a category");
   const [description, setDescription] = useState("");
   const [thumbnail, setThumbnail] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -317,7 +317,7 @@ export default function CreatePost() {
       return;
     }
 
-    if (category === "Please Select a category") {
+    if (category === "Please select a category") {
       setIsLoading(false);
       toast.error("Please select a valid category");
       return;
@@ -412,7 +412,7 @@ export default function CreatePost() {
   return (
     <>
       <section className="py-10 bg-[#c9dcf3]">
-        <div className="max-w-4xl mx-auto p-8 bg-[#e1ebfa] text-black rounded-lg">
+        <div className="max-w-2xl mx-auto p-8 bg-[#e1ebfa] text-black rounded-lg">
           {/* {error && <p className="text-red-600 text-sm mb-4">{error}</p>} */}
           <h1 className="text-4xl font-extrabold mb-8 text-center">
             Create Your Masterpiece
@@ -427,8 +427,8 @@ export default function CreatePost() {
               >
                 Cover Image
               </label>
-              <div className="flex items-center justify-center w-full bg-white">
-                <label className="flex flex-col w-full h-36 border-2 border-dashed border-gray-300 hover:border-gray-400 rounded-lg transition duration-300 ease-in-out cursor-pointer">
+              <div className="flex items-center justify-center h-[220px] w-full bg-white">
+                <label className="flex flex-col w-full h-[220px] border-2 border-dashed border-gray-300 hover:border-gray-400 rounded-lg transition duration-300 ease-in-out cursor-pointer">
                   {thumbnail ? (
                     <img
                       src={URL.createObjectURL(thumbnail)}
@@ -436,7 +436,7 @@ export default function CreatePost() {
                       className="h-full w-full object-fit rounded-lg"
                     />
                   ) : (
-                    <div className="flex flex-col items-center justify-center pt-7">
+                    <div className="flex flex-col items-center justify-center pt-[78px]">
                       <FaImage className="w-8 h-8 text-gray-400" />
                       <p className="pt-1 text-sm text-gray-400">
                         Select a photo
@@ -487,7 +487,7 @@ export default function CreatePost() {
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                 >
-                  <option disabled>Please Select a category</option>
+                  <option disabled>Please select a category</option>
                   {POST_Categories.map((cat) => (
                     <option key={cat} value={cat}>
                       {cat}

@@ -58,7 +58,10 @@ const PostItem = ({
           </Link>
           {/* title */}
           <Link to={`/posts/${id}`}>
-            <h3 className="mb-3 text-2xl font-bold leading-tight text-gray-900 hover:text-primary transition-colors duration-200">
+            <h3
+              className="mb-3 text-2xl font-bold leading-tight text-gray-900 hover:text-primary transition-colors duration-200"
+              title={title}
+            >
               {shortTitle}
             </h3>
           </Link>
