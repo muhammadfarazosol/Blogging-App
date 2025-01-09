@@ -133,8 +133,15 @@ const Dashboard = () => {
           </section>
         </>
       ) : (
-        <div>
+        <div className="-mt-9">
           <NoPostFound />
+          <Link to={`/create`}>
+            <div className="flex items-center justify-center">
+              <button className="bg-black max-sm:mt-10 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:shadow-outline">
+                Create now
+              </button>
+            </div>
+          </Link>
         </div>
       )}
     </div>
