@@ -56,6 +56,9 @@ const SignUp = ({ onSwitchMode }) => {
       if (value.length > 0 && !nameRegex.test(value)) {
         setNameError("Name must only contain alphabets");
         setIsSignUpDisabled(true);
+      } else if (value.length > 30) {
+        setNameError("Cannot exceed 30 characters");
+        setIsSignUpDisabled(true);
       } else {
         setNameError("");
         setIsSignUpDisabled(false);

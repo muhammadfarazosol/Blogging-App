@@ -1,5 +1,5 @@
-import signinBg from "./images/image1.jpg";
-import signupBg from "./images/image2.jpg";
+import signinBg from "./images/background.jpg";
+import signupBg from "./images/background.jpg";
 
 const assets = {
   images: {

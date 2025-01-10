@@ -311,9 +311,13 @@ export default function CreatePost() {
       return;
     }
 
-    if (title.length <= 3) {
+    if (title.length <= 3 || title.length > 200) {
       setIsLoading(false);
-      toast.error("Title must be greater than 3 characters");
+      if (title.length <= 3) {
+        toast.error("Title must be greater than 3 characters");
+      } else {
+        toast.error("Title must not exceed 200 characters");
+      }
       return;
     }
 
@@ -323,9 +327,13 @@ export default function CreatePost() {
       return;
     }
 
-    if (description.length <= 3500) {
+    if (description.length <= 3500 || description.length > 6000) {
       setIsLoading(false);
-      toast.error("Description must be greater than 3500 characters");
+      if (description.length <= 3500) {
+        toast.error("Description must be greater than 3500 characters");
+      } else {
+        toast.error("Description must not exceed 6000 characters");
+      }
       return;
     }
 

@@ -151,6 +151,7 @@ const ForgotPassword = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="Enter you email address"
+                disabled={otpSent}
               />
             </Stack>
             {otpSent && (
