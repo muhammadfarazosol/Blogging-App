@@ -13,7 +13,7 @@ import SidebarPosts from "../components/SidebarPosts";
 import { toast } from "react-toastify";
 import { RiDeleteBin5Line } from "react-icons/ri";
 
-const COMMENTS_PER_PAGE = 1;
+// const COMMENTS_PER_PAGE = 1;
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -42,9 +42,7 @@ const PostDetail = () => {
         `http://localhost:5000/api/comments/posts/${id}`
       );
       setComments(commentsResponse.data);
-      setDisplayedComments(
-        commentsResponse.data.slice(0, COMMENTS_PER_PAGE * page)
-      );
+      // setDisplayedComments(commentsResponse.data);
     } catch (error) {
       toast.error("Failed to load comments");
     }
@@ -67,8 +65,38 @@ const PostDetail = () => {
     getPost();
   }, [id]);
 
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/comments/posts/${id}`,
+        {
+          headers: { Authorization: `Bearer ${currentUser?.token}` },
+        }
+      );
+
+      const updatedComments = response.data.map((comment) => ({
+        ...comment,
+        author: {
+          _id: comment.author._id,
+          name: comment.author.name,
+          avatar: comment.author.avatar,
+        },
+      }));
+
+      setComments(updatedComments);
+      // setDisplayedComments(updatedComments);
+    } catch (error) {
+      toast.error("Failed to fetch comments");
+    }
+  };
+
   const handleAddComment = async () => {
-    if (!newComment) return;
+    // if (!newComment) return;
+
+    if (!newComment || newComment.length > 200) {
+      toast.error("Comment must be between 1 and 200 characters");
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -88,17 +116,22 @@ const PostDetail = () => {
 
       setNewComment("");
       setComments((prevComments) => [newCommentWithUser, ...prevComments]);
-      setDisplayedComments((prevDisplayed) => [
-        newCommentWithUser,
-        ...prevDisplayed.slice(0, COMMENTS_PER_PAGE - 1),
-      ]);
+      // setDisplayedComments((prevDisplayed) => [
+      //   newCommentWithUser,
+      //   ...prevDisplayed,
+      // ]);
     } catch (error) {
       toast.error("Failed to add comment");
     }
   };
 
   const handleAddReply = async (commentId) => {
-    if (!replyContent[commentId]) return;
+    // if (!replyContent[commentId]) return;
+
+    if (!replyContent[commentId] || replyContent[commentId].length > 200) {
+      toast.error("Reply must be between 1 and 200 characters");
+      return;
+    }
 
     try {
       const response = await axios.post(
@@ -126,13 +159,14 @@ const PostDetail = () => {
         )
       );
 
-      setDisplayedComments((prevDisplayed) =>
-        prevDisplayed.map((comment) =>
-          comment._id === commentId
-            ? { ...comment, replies: [...comment.replies, newReplyWithUser] }
-            : comment
-        )
-      );
+      // setDisplayedComments((prevDisplayed) =>
+      //   prevDisplayed.map((comment) =>
+      //     comment._id === commentId
+      //       ? { ...comment, replies: [...comment.replies, newReplyWithUser] }
+      //       : comment
+      //   )
+      // );
+      await fetchComments();
     } catch (error) {
       toast.error("Failed to add reply");
     }
@@ -160,16 +194,16 @@ const PostDetail = () => {
     return avatar ? `http://localhost:5000/uploads/${avatar}` : ProfileImage;
   };
 
-  const loadMoreComments = () => {
-    const nextPage = page + 1;
-    const startIndex = (nextPage - 1) * COMMENTS_PER_PAGE;
-    const endIndex = Math.min(startIndex + COMMENTS_PER_PAGE, comments.length);
-    setDisplayedComments([
-      ...displayedComments,
-      ...comments.slice(startIndex, endIndex),
-    ]);
-    setPage(nextPage);
-  };
+  // const loadMoreComments = () => {
+  //   const nextPage = page + 1;
+  //   const startIndex = (nextPage - 1) * COMMENTS_PER_PAGE;
+  //   const endIndex = Math.min(startIndex + COMMENTS_PER_PAGE, comments.length);
+  //   setDisplayedComments([
+  //     ...displayedComments,
+  //     ...comments.slice(startIndex, endIndex),
+  //   ]);
+  //   setPage(nextPage);
+  // };
 
   const handleDeleteComment = async (commentId) => {
     try {
@@ -182,9 +216,9 @@ const PostDetail = () => {
         prevComments.filter((comment) => comment._id !== commentId)
       );
 
-      setDisplayedComments((prevDisplayed) =>
-        prevDisplayed.filter((comment) => comment._id !== commentId)
-      );
+      // setDisplayedComments((prevDisplayed) =>
+      //   prevDisplayed.filter((comment) => comment._id !== commentId)
+      // );
       toast.success("Comment deleted successfully");
     } catch (error) {
       toast.error("Failed to delete comment");
@@ -214,18 +248,18 @@ const PostDetail = () => {
         )
       );
 
-      setDisplayedComments((prevDisplayed) =>
-        prevDisplayed.map((comment) =>
-          comment._id === commentId
-            ? {
-                ...comment,
-                replies: comment.replies.filter(
-                  (reply) => reply._id !== replyId
-                ),
-              }
-            : comment
-        )
-      );
+      // setDisplayedComments((prevDisplayed) =>
+      //   prevDisplayed.map((comment) =>
+      //     comment._id === commentId
+      //       ? {
+      //           ...comment,
+      //           replies: comment.replies.filter(
+      //             (reply) => reply._id !== replyId
+      //           ),
+      //         }
+      //       : comment
+      //   )
+      // );
       toast.success("Reply deleted successfully");
     } catch (error) {
       toast.error("Failed to delete reply");
@@ -233,6 +267,11 @@ const PostDetail = () => {
   };
 
   const handleEditComment = async (commentId) => {
+    if (editContent.length < 1 || editContent.length > 200) {
+      toast.error("Comment must be between 1 and 200 characters");
+      return;
+    }
+
     try {
       await axios.put(
         `http://localhost:5000/api/comments/${commentId}`,
@@ -248,13 +287,13 @@ const PostDetail = () => {
         )
       );
 
-      setDisplayedComments((prevComments) =>
-        prevComments.map((comment) =>
-          comment._id === commentId
-            ? { ...comment, content: editContent }
-            : comment
-        )
-      );
+      // setDisplayedComments((prevComments) =>
+      //   prevComments.map((comment) =>
+      //     comment._id === commentId
+      //       ? { ...comment, content: editContent }
+      //       : comment
+      //   )
+      // );
 
       setEditingComment(null);
       setEditContent("");
@@ -265,6 +304,11 @@ const PostDetail = () => {
   };
 
   const handleEditReply = async (commentId, replyId) => {
+    if (editContent.length < 1 || editContent.length > 200) {
+      toast.error("Comment must be between 1 and 200 characters");
+      return;
+    }
+
     try {
       await axios.put(
         `http://localhost:5000/api/comments/${commentId}/replies/${replyId}`,
@@ -287,20 +331,20 @@ const PostDetail = () => {
         )
       );
 
-      setDisplayedComments((prevComments) =>
-        prevComments.map((comment) =>
-          comment._id === commentId
-            ? {
-                ...comment,
-                replies: comment.replies.map((reply) =>
-                  reply._id === replyId
-                    ? { ...reply, content: editContent }
-                    : reply
-                ),
-              }
-            : comment
-        )
-      );
+      // setDisplayedComments((prevComments) =>
+      //   prevComments.map((comment) =>
+      //     comment._id === commentId
+      //       ? {
+      //           ...comment,
+      //           replies: comment.replies.map((reply) =>
+      //             reply._id === replyId
+      //               ? { ...reply, content: editContent }
+      //               : reply
+      //           ),
+      //         }
+      //       : comment
+      //   )
+      // );
 
       setEditingReply({});
       setEditContent("");
@@ -386,11 +430,13 @@ const PostDetail = () => {
 
                 {/* Comments Section */}
                 <div className="mt-10">
-                  <h2 className="text-xl max-sm:text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">
-                    Comments
-                  </h2>
+                  {comments.length > 0 && (
+                    <h2 className="text-xl max-sm:text-lg sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">
+                      Comments
+                    </h2>
+                  )}
 
-                  {displayedComments.map((comment) => (
+                  {comments.map((comment) => (
                     <div
                       key={comment._id}
                       className="mb-4 bg-gray-50 rounded-lg p-4 shadow"
@@ -597,7 +643,7 @@ const PostDetail = () => {
                     </div>
                   ))}
 
-                  {displayedComments.length < comments.length && (
+                  {/* {displayedComments.length < comments.length && (
                     <div className="flex justify-center items-center">
                       <button
                         onClick={loadMoreComments}
@@ -606,7 +652,7 @@ const PostDetail = () => {
                         View More Comments
                       </button>
                     </div>
-                  )}
+                  )} */}
 
                   {/* Add New Comment */}
                   {currentUser && (
