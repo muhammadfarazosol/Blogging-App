@@ -391,8 +391,15 @@ const changeAvatar = async (req, res, next) => {
 //PROTECTED
 const editUser = async (req, res, next) => {
   try {
-    const { name, email, currentPassword, newPassword, confirmNewPassword } =
-      req.body;
+    const {
+      name,
+      email,
+      currentPassword,
+      newPassword,
+      confirmNewPassword,
+      headline,
+      bio,
+    } = req.body;
 
     // Get user from the database
     const user = await User.findById(req.user.id);
@@ -453,6 +460,24 @@ const editUser = async (req, res, next) => {
       // Hash new password
       const salt = await bcrypt.genSalt(10);
       updates.password = await bcrypt.hash(newPassword, salt);
+    }
+
+    // Update headline if provided and within character limit
+    if (headline) {
+      if (headline.length > 150) {
+        return next(
+          new HttpError("Headline must not exceed 150 characters", 422)
+        );
+      }
+      updates.headline = headline;
+    }
+
+    // Update bio if provided and within character limit
+    if (bio) {
+      if (bio.length > 300) {
+        return next(new HttpError("Bio must not exceed 300 characters", 422));
+      }
+      updates.bio = bio;
     }
 
     // If no updates are provided, throw an error

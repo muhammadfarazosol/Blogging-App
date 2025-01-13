@@ -12,7 +12,7 @@ import Authors from "./pages/Authors";
 import Blogs from "./pages/Blogs";
 import Auth from "./auth/Auth";
 import PostDetail from "./pages/PostDetail";
-import UserProfile from "./pages/UserProfile";
+import UserProfile from "./pages/UserProfileT";
 import CreatePost from "./pages/CreatePost";
 import CategoryPosts from "./pages/CategoryPosts";
 import AuthorPosts from "./pages/AuthorPosts";
