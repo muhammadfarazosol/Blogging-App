@@ -113,13 +113,16 @@ const Authors = () => {
                 </div>
 
                 {/* Content Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 translate-y-[40%]">
+                <div className="absolute bottom-0 left-0 right-0 translate-y-[55%] mb-10y">
                   <div className="mx-4">
                     <div className="bg-[#4285F4] text-white rounded-tl-[1.25rem] rounded-br-[1.25rem] p-4 text-center shadow-lg">
                       <h3 className="text-xl font-semibold mb-1">{name}</h3>
                       <p className="text-sm text-white/90 mb-3">
                         Blogs Published: {posts}
                       </p>
+                      <button className=" bg-white px-3 text-sm font-normal leading-6 text-[#4285F4] capitalize duration-100 transform border-[1px] rounded-lg cursor-pointer focus:outline-none hover:shadow-lg hover:-translate-y-1">
+                        View Profile
+                      </button>
                     </div>
                   </div>
                 </div>

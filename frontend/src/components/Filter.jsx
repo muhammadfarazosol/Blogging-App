@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const categories = [
-  { name: "Filter", path: "" },
+  { name: "Filter by category", path: "" },
   { name: "C++", path: "/posts/categories/Cpp" },
   { name: "Javascript", path: "/posts/categories/Javascript" },
   { name: "Python", path: "/posts/categories/Python" },
@@ -16,7 +16,7 @@ const categories = [
   // { name: "Ruby", path: "/posts/categories/Ruby" },
 ];
 
-export default function Filter({ onFilter }) {
+export default function Filter({ onFilter, onQueryChange }) {
   const [searchInput, setSearchInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +63,7 @@ export default function Filter({ onFilter }) {
     fetchSuggestions(query);
   };
 
-  const fetchPosts = async (query) => {
+  const fetchPosts = async (query, isSuggestion = false) => {
     if (!query) {
       onFilter([]);
       return;
@@ -75,6 +75,9 @@ export default function Filter({ onFilter }) {
       onFilter(response.data);
       setSuggestions([]);
       setSearchInput("");
+      if (onQueryChange) {
+        onQueryChange(isSuggestion ? null : query); // Pass `null` for suggestions
+      }
     } catch (error) {
       console.error("Error fetching posts", error);
     }
@@ -83,6 +86,9 @@ export default function Filter({ onFilter }) {
   const handleSearch = () => {
     fetchPosts(searchInput);
     setSearchInput("");
+    if (onQueryChange) {
+      onQueryChange(searchInput);
+    }
   };
 
   return (
@@ -135,7 +141,7 @@ export default function Filter({ onFilter }) {
               {suggestions.map((suggestion) => (
                 <div
                   key={suggestion._id}
-                  onClick={() => fetchPosts(suggestion?.title)}
+                  onClick={() => fetchPosts(suggestion?.title, true)}
                   className="px-4 py-2 text-gray-700 hover:bg-blue-50 cursor-pointer"
                 >
                   {suggestion?.title}

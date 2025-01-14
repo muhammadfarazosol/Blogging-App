@@ -8,6 +8,7 @@ export default function Blogs() {
   const [allPosts, setAllPosts] = useState([]);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
+  const [executedQuery, setExecutedQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
@@ -38,6 +39,10 @@ export default function Blogs() {
     setCurrentPage(1);
   };
 
+  const handleQueryChange = (query) => {
+    setExecutedQuery(query);
+  };
+
   const handleViewAll = () => {
     setFilteredPosts(allPosts);
     setIsFiltered(false);
@@ -66,19 +71,26 @@ export default function Blogs() {
   return (
     <div className="bg-[#c9dcf3]">
       <div className="min-h-screen">
-        <Filter onFilter={handleFilteredPosts} />
+        <Filter
+          onFilter={handleFilteredPosts}
+          onQueryChange={handleQueryChange}
+        />
         {isFiltered && (
-          <div className="text-center mt-4 mb-4">
+          <div className="text-center">
             <button
               onClick={handleViewAll}
-              className="bg-[#3e95fb] text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              className="bg-[#3e95fb] text-white px-2 rounded-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-300"
             >
-              View All Blogs
+              Clear Search Results
             </button>
           </div>
         )}
         {isFiltered ? (
-          <h1 className="blogs-heading">Search Results</h1>
+          <h1 className="blogs-heading">
+            {executedQuery
+              ? `Search Results for "${executedQuery}"`
+              : "Search Results"}
+          </h1>
         ) : (
           <h1 className="blogs-heading">Explore Our Blogs</h1>
         )}
