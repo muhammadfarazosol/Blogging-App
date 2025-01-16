@@ -10,6 +10,8 @@ const CommentDisplay = () => {
   const requestRef = useRef(null);
   const speed = 1;
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   useEffect(() => {
     fetchComments();
   }, []);
@@ -26,7 +28,7 @@ const CommentDisplay = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/comments/all");
+      const response = await fetch(`${API_BASE_URL}/comments/all`);
       const data = await response.json();
       setComments(data);
       setLoading(false);

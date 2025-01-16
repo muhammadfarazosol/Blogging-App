@@ -22,6 +22,9 @@ export default function EditPost() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -105,9 +108,7 @@ export default function EditPost() {
     setIsLoading(true);
     const getPost = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/posts/${id}`
-        );
+        const response = await axios.get(`${API_BASE_URL}/posts/${id}`);
         setTitle(response.data.title);
         setDescription(response.data.description);
         setCategory(response.data.category);
@@ -168,7 +169,7 @@ export default function EditPost() {
 
     try {
       const response = await axios.patch(
-        `http://localhost:5000/api/posts/${id}`,
+        `${API_BASE_URL}/posts/${id}`,
         postData,
         {
           withCredentials: true,
@@ -228,7 +229,7 @@ export default function EditPost() {
                     />
                   ) : thumbnailURL ? (
                     <img
-                      src={`http://localhost:5000/uploads/${thumbnailURL}`}
+                      src={`${APP_ASSESTS_URL}/uploads/${thumbnailURL}`}
                       alt="Existing Thumbnail"
                       className="h-full w-full object-fit rounded-lg"
                     />

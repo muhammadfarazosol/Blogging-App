@@ -49,12 +49,14 @@ const CategoryPosts = () => {
   const postsPerPage = 6;
   const { category } = useParams();
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   useEffect(() => {
     const fetchedPosts = async () => {
       setIsLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/posts/categories/${category}`
+          `${API_BASE_URL}/posts/categories/${category}`
         );
         setAllPosts(response?.data);
         setFilteredPosts(response?.data);

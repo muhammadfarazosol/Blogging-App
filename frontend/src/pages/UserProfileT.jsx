@@ -34,6 +34,9 @@ const UserProfile = () => {
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   // Password visibility handlers
   const toggleCurrentPasswordVisibility = () => {
     setShowCurrentPassword((prev) => !prev);
@@ -76,7 +79,7 @@ const UserProfile = () => {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/users/${currentUser.id}`,
+        `${API_BASE_URL}/users/${currentUser.id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -91,9 +94,7 @@ const UserProfile = () => {
       const formattedDate = new Date(userData.createdAt).toLocaleDateString();
       setCreatedAt(formattedDate);
       setAvatar(
-        userData.avatar
-          ? `http://localhost:5000/uploads/${userData.avatar}`
-          : ""
+        userData.avatar ? `${APP_ASSESTS_URL}/uploads/${userData.avatar}` : ""
       );
       setCurrentUser({ ...currentUser, ...userData });
     } catch (err) {
@@ -110,7 +111,7 @@ const UserProfile = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/change-avatar",
+        `${API_BASE_URL}/users/change-avatar`,
         formData,
         {
           headers: {
@@ -121,7 +122,7 @@ const UserProfile = () => {
       );
 
       if (response.status === 200) {
-        const newAvatarUrl = `http://localhost:5000/uploads/${response.data.avatar}`;
+        const newAvatarUrl = `${APP_ASSESTS_URL}/uploads/${response.data.avatar}`;
         setAvatar(newAvatarUrl);
         setCurrentUser({ ...currentUser, avatar: response.data.avatar });
         return newAvatarUrl;
@@ -201,7 +202,7 @@ const UserProfile = () => {
     setIsLoading(true);
     try {
       const response = await axios.patch(
-        "http://localhost:5000/api/users/edit-user",
+        `${API_BASE_URL}/users/edit-user`,
         {
           name,
           email,
@@ -242,7 +243,7 @@ const UserProfile = () => {
   const handleDelete = async (password) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/users/${currentUser?.id}`,
+        `${API_BASE_URL}/users/${currentUser?.id}`,
         { password },
         { headers: { Authorization: `Bearer ${token}` } }
       );

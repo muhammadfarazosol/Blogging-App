@@ -9,11 +9,14 @@ const Authors = () => {
   const [authors, setAuthors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   useEffect(() => {
     const getAuthors = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/api/users`);
+        const response = await axios.get(`${API_BASE_URL}/users`);
         setAuthors(response?.data);
       } catch (error) {
         console.log(error);
@@ -105,7 +108,7 @@ const Authors = () => {
                     className="w-full h-full object-cover"
                     src={
                       avatar
-                        ? `http://localhost:5000/uploads/${avatar}`
+                        ? `${APP_ASSESTS_URL}/uploads/${avatar}`
                         : ProfileImage
                     }
                     alt={`${name}'s profile picture`}

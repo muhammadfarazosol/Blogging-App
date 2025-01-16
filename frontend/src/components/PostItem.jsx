@@ -20,6 +20,9 @@ const PostItem = ({
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   const formattedDate = `${day}-${month}-${year}`;
+
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   return (
     <motion.div
       className="px-8 py-6"
@@ -37,7 +40,7 @@ const PostItem = ({
           <Link to={`/posts/${id}`}>
             <motion.img
               className="w-full h-full object-fill transition-transform duration-300 ease-in-out hover:scale-110"
-              src={`http://localhost:5000/uploads/${thumbnail}`}
+              src={`${APP_ASSESTS_URL}/uploads/${thumbnail}`}
               alt={title}
               whileHover={{ scale: 1.1 }}
             />

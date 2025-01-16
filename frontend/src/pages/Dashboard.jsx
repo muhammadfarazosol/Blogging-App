@@ -16,6 +16,9 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   const { currentUser } = useContext(UserContext);
   const token = currentUser?.token;
   const navigate = useNavigate();
@@ -33,15 +36,12 @@ const Dashboard = () => {
     const fetchPosts = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/posts/users/${id}`,
-          {
-            withCredentials: true,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get(`${API_BASE_URL}/posts/users/${id}`, {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setPosts(response.data);
       } catch (error) {
         console.log(error);
@@ -75,7 +75,7 @@ const Dashboard = () => {
                   <div className="relative">
                     <img
                       className="w-full h-48 object-cover"
-                      src={`http://localhost:5000/uploads/${post.thumbnail}`}
+                      src={`${APP_ASSESTS_URL}/uploads/${post.thumbnail}`}
                       alt="Avatar"
                     />
                     <div

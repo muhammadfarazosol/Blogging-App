@@ -13,12 +13,13 @@ TimeAgo.addLocale(ru);
 const PostAuthor = ({ authorID, createdAt }) => {
   const [author, setAuthor] = useState({});
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   useEffect(() => {
     const getAuthor = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:5000/api/users/${authorID}`
-        );
+        const response = await axios.get(`${API_BASE_URL}/users/${authorID}`);
         setAuthor(response?.data);
       } catch (error) {
         console.log(error);
@@ -35,7 +36,7 @@ const PostAuthor = ({ authorID, createdAt }) => {
           className="h-12 w-12 rounded-full object-cover"
           src={
             author?.avatar
-              ? `http://localhost:5000/uploads/${author?.avatar}`
+              ? `${APP_ASSESTS_URL}/uploads/${author?.avatar}`
               : ProfileImage
           }
           alt="Profile Image"

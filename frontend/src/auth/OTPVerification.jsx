@@ -117,6 +117,8 @@ const OTPVerification = ({ email, onVerificationSuccess }) => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -130,7 +132,7 @@ const OTPVerification = ({ email, onVerificationSuccess }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/verify-otp",
+        `${API_BASE_URL}/users/verify-otp`,
         { otp },
         { withCredentials: true }
       );

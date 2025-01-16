@@ -26,6 +26,8 @@ const ForgotPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -48,7 +50,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/forgot-password",
+        `${API_BASE_URL}/users/forgot-password`,
         { email }
       );
       toast.success(response.data.message);
@@ -76,7 +78,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/users/reset-password",
+        `${API_BASE_URL}/users/reset-password`,
         {
           email,
           newPassword,

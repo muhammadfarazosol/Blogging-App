@@ -9,12 +9,13 @@ import NoPostFound from "../components/NoPostFound";
 const RecentPosts = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
   useEffect(() => {
     const fetchedPosts = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/api/posts`);
+        const response = await axios.get(`${API_BASE_URL}/posts`);
         setPosts(response?.data);
       } catch (error) {
         console.log(error);

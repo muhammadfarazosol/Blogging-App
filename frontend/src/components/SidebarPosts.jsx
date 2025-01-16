@@ -10,11 +10,14 @@ const SidebarPosts = ({ category, currentPostId }) => {
   const [isCategoryEmpty, setIsCategoryEmpty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/posts/categories/${category}`
+          `${API_BASE_URL}/posts/categories/${category}`
         );
         const filteredPosts = response.data
           .filter((post) => post._id !== currentPostId)
@@ -30,7 +33,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
 
     const fetchFallbackPosts = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/posts`);
+        const response = await axios.get(`${API_BASE_URL}/posts`);
         const otherPosts = response.data
           .filter((post) => post._id !== currentPostId)
           .slice(0, 3);
@@ -70,7 +73,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
             >
               <img
                 className="rounded-t-lg w-full h-full min-h-24 object-fill"
-                src={`http://localhost:5000/uploads/${post.thumbnail}`}
+                src={`${APP_ASSESTS_URL}/uploads/${post.thumbnail}`}
                 alt={post.title}
                 onError={(e) => {
                   e.target.onerror = null;
@@ -99,7 +102,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
             >
               <img
                 className="rounded-t-lg w-full h-full min-h-24 object-fill"
-                src={`http://localhost:5000/uploads/${post.thumbnail}`}
+                src={`${APP_ASSESTS_URL}/uploads/${post.thumbnail}`}
                 alt={post.title}
                 onError={(e) => {
                   e.target.onerror = null;

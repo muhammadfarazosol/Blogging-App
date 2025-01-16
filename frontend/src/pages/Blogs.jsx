@@ -13,11 +13,13 @@ export default function Blogs() {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   useEffect(() => {
     const fetchAllPosts = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get("http://localhost:5000/api/posts");
+        const response = await axios.get(`${API_BASE_URL}/posts`);
         setAllPosts(response.data);
         setFilteredPosts(response.data);
       } catch (error) {

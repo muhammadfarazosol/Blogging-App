@@ -29,6 +29,7 @@ const SignUp = ({ onSwitchMode }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [nameError, setNameError] = useState(false);
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -99,7 +100,7 @@ const SignUp = ({ onSwitchMode }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/users/register`,
+        `${API_BASE_URL}/users/register`,
         formData,
         { withCredentials: true }
       );

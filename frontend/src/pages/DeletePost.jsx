@@ -11,6 +11,9 @@ const DeletePost = ({ postId: id, variant = "default" }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = currentUser?.token;
+
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   const navigate = useNavigate();
   useEffect(() => {
     if (!token) {
@@ -21,15 +24,12 @@ const DeletePost = ({ postId: id, variant = "default" }) => {
   const removePost = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.delete(
-        `http://localhost:5000/api/posts/${id}`,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${API_BASE_URL}/posts/${id}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       if (response.status === 200) {
         toast.success("Blog post deleted successfully");
         if (location.pathname === `/myposts/${currentUser.id}`) {

@@ -12,19 +12,20 @@ const AuthorPosts = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   useEffect(() => {
     const fetchAuthorAndPosts = async () => {
       setIsLoading(true);
       try {
         // Fetch author details
-        const authorResponse = await axios.get(
-          `http://localhost:5000/api/users/${id}`
-        );
+        const authorResponse = await axios.get(`${API_BASE_URL}/users/${id}`);
         setAuthor(authorResponse?.data);
 
         // Fetch posts by the author
         const postsResponse = await axios.get(
-          `http://localhost:5000/api/posts/users/${id}`
+          `${API_BASE_URL}/posts/users/${id}`
         );
         setPosts(postsResponse?.data);
       } catch (error) {
@@ -63,7 +64,7 @@ const AuthorPosts = () => {
               <img
                 src={
                   author.avatar
-                    ? `http://localhost:5000/uploads/${author.avatar}`
+                    ? `${APP_ASSESTS_URL}/uploads/${author.avatar}`
                     : ProfileImage
                 }
                 alt={author.name}

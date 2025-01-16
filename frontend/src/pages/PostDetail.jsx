@@ -30,6 +30,9 @@ const PostDetail = () => {
   const [editingReply, setEditingReply] = useState({});
   const [editContent, setEditContent] = useState("");
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+  const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -39,7 +42,7 @@ const PostDetail = () => {
   const refreshComments = async () => {
     try {
       const commentsResponse = await axios.get(
-        `http://localhost:5000/api/comments/posts/${id}`
+        `${API_BASE_URL}/comments/posts/${id}`
       );
       setComments(commentsResponse.data);
       // setDisplayedComments(commentsResponse.data);
@@ -52,9 +55,7 @@ const PostDetail = () => {
     const getPost = async () => {
       setIsLoading(true);
       try {
-        const postResponse = await axios.get(
-          `http://localhost:5000/api/posts/${id}`
-        );
+        const postResponse = await axios.get(`${API_BASE_URL}/posts/${id}`);
         setPost(postResponse.data);
         await refreshComments();
       } catch (error) {
@@ -67,12 +68,9 @@ const PostDetail = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/api/comments/posts/${id}`,
-        {
-          headers: { Authorization: `Bearer ${currentUser?.token}` },
-        }
-      );
+      const response = await axios.get(`${API_BASE_URL}/comments/posts/${id}`, {
+        headers: { Authorization: `Bearer ${currentUser?.token}` },
+      });
 
       const updatedComments = response.data.map((comment) => ({
         ...comment,
@@ -100,7 +98,7 @@ const PostDetail = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/comments/posts/${id}`,
+        `${API_BASE_URL}/comments/posts/${id}`,
         { content: newComment },
         { headers: { Authorization: `Bearer ${currentUser?.token}` } }
       );
@@ -135,7 +133,7 @@ const PostDetail = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/comments/${commentId}/replies`,
+        `${API_BASE_URL}/comments/${commentId}/replies`,
         { content: replyContent[commentId] },
         { headers: { Authorization: `Bearer ${currentUser?.token}` } }
       );
@@ -178,7 +176,7 @@ const PostDetail = () => {
     const getAuthor = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/users/${currentUser?.id}`
+          `${API_BASE_URL}/users/${currentUser?.id}`
         );
         setAuthor(response?.data);
       } catch (error) {
@@ -191,7 +189,7 @@ const PostDetail = () => {
   }, [currentUser]);
 
   const getAvatarUrl = (avatar) => {
-    return avatar ? `http://localhost:5000/uploads/${avatar}` : ProfileImage;
+    return avatar ? `${APP_ASSESTS_URL}/uploads/${avatar}` : ProfileImage;
   };
 
   // const loadMoreComments = () => {
@@ -207,7 +205,7 @@ const PostDetail = () => {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/comments/${commentId}`, {
+      await axios.delete(`${API_BASE_URL}/comments/${commentId}`, {
         headers: { Authorization: `Bearer ${currentUser?.token}` },
       });
 
@@ -228,7 +226,7 @@ const PostDetail = () => {
   const handleDeleteReply = async (commentId, replyId) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/comments/${commentId}/replies/${replyId}`,
+        `${API_BASE_URL}/comments/${commentId}/replies/${replyId}`,
         {
           headers: { Authorization: `Bearer ${currentUser?.token}` },
         }
@@ -274,7 +272,7 @@ const PostDetail = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/comments/${commentId}`,
+        `${API_BASE_URL}/comments/${commentId}`,
         { content: editContent },
         { headers: { Authorization: `Bearer ${currentUser?.token}` } }
       );
@@ -311,7 +309,7 @@ const PostDetail = () => {
 
     try {
       await axios.put(
-        `http://localhost:5000/api/comments/${commentId}/replies/${replyId}`,
+        `${API_BASE_URL}/comments/${commentId}/replies/${replyId}`,
         { content: editContent },
         { headers: { Authorization: `Bearer ${currentUser?.token}` } }
       );
@@ -414,7 +412,7 @@ const PostDetail = () => {
               <div className="space-y-6 rounded-lg bg-white p-6 shadow-lg">
                 <div className="mb-6">
                   <img
-                    src={`http://localhost:5000/uploads/${post.thumbnail}`}
+                    src={`${APP_ASSESTS_URL}/uploads/${post.thumbnail}`}
                     alt="Blog post cover"
                     className="w-full h-auto max-h-[300px] object-cover rounded-lg shadow-lg"
                   />

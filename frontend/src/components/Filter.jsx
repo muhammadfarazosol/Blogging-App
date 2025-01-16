@@ -24,6 +24,8 @@ export default function Filter({ onFilter, onQueryChange }) {
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -49,7 +51,7 @@ export default function Filter({ onFilter, onQueryChange }) {
     if (!query) return setSuggestions([]);
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/posts/suggestions?title=${query}`
+        `${API_BASE_URL}/posts/suggestions?title=${query}`
       );
       setSuggestions(response.data);
     } catch (error) {
@@ -70,7 +72,7 @@ export default function Filter({ onFilter, onQueryChange }) {
     }
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/posts/search?title=${query}`
+        `${API_BASE_URL}/posts/search?title=${query}`
       );
       onFilter(response.data);
       setSuggestions([]);

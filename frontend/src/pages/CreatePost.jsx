@@ -262,6 +262,8 @@ export default function CreatePost() {
   const token = currentUser?.token;
   const navigate = useNavigate();
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -346,17 +348,13 @@ export default function CreatePost() {
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:5000/api/posts`,
-        postData,
-        {
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${API_BASE_URL}/posts`, postData, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (response.status === 201) {
         toast.success("Your masterpiece has been posted");
         navigate(`/blogs`);

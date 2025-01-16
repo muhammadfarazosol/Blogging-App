@@ -28,6 +28,8 @@ const Login = ({ onSwitchMode }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -45,7 +47,7 @@ const Login = ({ onSwitchMode }) => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/users/login`,
+        `${API_BASE_URL}/users/login`,
         userData
       );
 
