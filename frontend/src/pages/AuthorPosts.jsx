@@ -97,7 +97,7 @@ const AuthorPosts = () => {
           ))}
         </section>
       ) : (
-        <div>
+        <div className="pb-36">
           <NoPostFound />
         </div>
       )}
