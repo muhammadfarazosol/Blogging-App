@@ -1,7 +1,12 @@
 import SocialIcons from "../components/SocialMediaIcons";
 
 const Footer = () => {
-  const navItems = ["Blogs", "Terms of Services", "Privacy", "Content Policy"];
+  const navItems = [
+    { label: "Blogs", link: "/blogs" },
+    { label: "Terms of Services", link: "/terms-of-services" },
+    { label: "Privacy", link: "/privacy" },
+    { label: "Content Policy", link: "/content-policy" },
+  ];
 
   return (
     <>
@@ -12,10 +17,10 @@ const Footer = () => {
               {navItems.map((item) => (
                 <li key={item}>
                   <a
-                    href="#"
+                    href={item.link}
                     className="text-white hover:text-black transition-colors"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}
@@ -25,8 +30,14 @@ const Footer = () => {
             <SocialIcons />
           </div>
           <div className="text-center text-white text-sm">
-            © {new Date().getFullYear()} NeuroNest, Inc. All rights reserved by
-            OSOL
+            © {new Date().getFullYear()} NeuroNest, Inc. All rights reserved by{" "}
+            <a
+              href="https://osoltech.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              OSOL
+            </a>
           </div>
         </div>
       </footer>

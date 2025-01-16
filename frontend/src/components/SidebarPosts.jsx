@@ -71,22 +71,22 @@ const SidebarPosts = ({ category, currentPostId }) => {
               key={post._id}
               className="min-w-sm rounded-lg shadow dark:bg-gray-600"
             >
-              <img
-                className="rounded-t-lg w-full h-full min-h-24 object-fill"
-                src={`${APP_ASSESTS_URL}/uploads/${post.thumbnail}`}
-                alt={post.title}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = demoImage;
-                }}
-              />
-              <div className="p-2">
-                <Link to={`/posts/${post._id}`}>
+              <Link to={`/posts/${post._id}`}>
+                <img
+                  className="rounded-t-lg w-full h-full min-h-24 object-fill"
+                  src={`${APP_ASSESTS_URL}/uploads/${post.thumbnail}`}
+                  alt={post.title}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = demoImage;
+                  }}
+                />
+                <div className="p-2">
                   <h5 className="mb-2 text-[16px] font-bold tracking-tight dark:text-white">
                     {post.title}
                   </h5>
-                </Link>
-              </div>
+                </div>
+              </Link>
             </div>
           ))}
         </>
@@ -100,22 +100,22 @@ const SidebarPosts = ({ category, currentPostId }) => {
               key={post._id}
               className="min-w-sm rounded-lg shadow bg-gray-600"
             >
-              <img
-                className="rounded-t-lg w-full h-full min-h-24 object-fill"
-                src={`${APP_ASSESTS_URL}/uploads/${post.thumbnail}`}
-                alt={post.title}
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = demoImage;
-                }}
-              />
-              <div className="p-2">
-                <Link to={`/posts/${post._id}`}>
+              <Link to={`/posts/${post._id}`}>
+                <img
+                  className="rounded-t-lg w-full h-full min-h-24 object-fill"
+                  src={`${APP_ASSESTS_URL}/uploads/${post.thumbnail}`}
+                  alt={post.title}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = demoImage;
+                  }}
+                />
+                <div className="p-2">
                   <h5 className="mb-2 text-[16px] font-bold tracking-tight dark:text-white">
                     {post.title}
                   </h5>
-                </Link>
-              </div>
+                </div>
+              </Link>
             </div>
           ))}
         </>

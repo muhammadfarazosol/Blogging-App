@@ -22,6 +22,9 @@ import Logout from "./pages/Logout";
 import DeletePost from "./pages/DeletePost";
 import UserProvider from "./context/userContext.jsx";
 import ForgotPassword from "./auth/ForgotPassword.jsx";
+import ContentPolicy from "./footerContent/ContentPolicy.jsx";
+import Privacy from "./footerContent/Privacy.jsx";
+import TermOfServices from "./footerContent/TermOfServices.jsx";
 
 function App() {
   const router = createBrowserRouter([
@@ -97,6 +100,18 @@ function App() {
         {
           path: "forgot-password",
           element: <ForgotPassword />,
+        },
+        {
+          path: "content-policy",
+          element: <ContentPolicy />,
+        },
+        {
+          path: "privacy",
+          element: <Privacy />,
+        },
+        {
+          path: "terms-of-services",
+          element: <TermOfServices />,
         },
       ],
     },
