@@ -15,10 +15,10 @@ const ContentPolicy = () => {
 
         <div className="space-y-6">
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               1. Prohibited Content
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               Users are not allowed to post content that is illegal, harmful,
               harassing, defamatory, obscene or violates any third-party rights.
               This includes hate speech, violence and spam.
@@ -26,10 +26,10 @@ const ContentPolicy = () => {
           </div>
 
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               2. Intellectual Property
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               Ensure that all content shared respects copyright and intellectual
               property laws. Do not upload materials unless you own the rights
               or have proper authorization.
@@ -37,10 +37,10 @@ const ContentPolicy = () => {
           </div>
 
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               3. User Responsibility
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               Users are responsible for the accuracy, legality, and
               appropriateness of the content they publish. Violations of this
               policy may result in content removal or account suspension.
@@ -48,10 +48,10 @@ const ContentPolicy = () => {
           </div>
 
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               4. Reporting Violations
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               If you come across content that violates this policy, please
               report it by contacting us at{" "}
               <a

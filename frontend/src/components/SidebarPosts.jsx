@@ -69,7 +69,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
           {fallbackPosts.map((post) => (
             <div
               key={post._id}
-              className="min-w-sm rounded-lg shadow dark:bg-gray-600"
+              className="min-w-sm rounded-lg shadow dark:bg-gray-200"
             >
               <Link to={`/posts/${post._id}`}>
                 <img
@@ -82,7 +82,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
                   }}
                 />
                 <div className="p-2">
-                  <h5 className="mb-2 text-[16px] font-bold tracking-tight dark:text-white">
+                  <h5 className="mb-2 text-[16px] font-bold tracking-tight dark:text-black">
                     {post.title}
                   </h5>
                 </div>
@@ -98,7 +98,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
           {posts.map((post) => (
             <div
               key={post._id}
-              className="min-w-sm rounded-lg shadow bg-gray-600"
+              className="min-w-sm rounded-lg shadow bg-gray-200"
             >
               <Link to={`/posts/${post._id}`}>
                 <img
@@ -111,7 +111,7 @@ const SidebarPosts = ({ category, currentPostId }) => {
                   }}
                 />
                 <div className="p-2">
-                  <h5 className="mb-2 text-[16px] font-bold tracking-tight dark:text-white">
+                  <h5 className="mb-2 text-[16px] font-bold tracking-tight dark:text-black">
                     {post.title}
                   </h5>
                 </div>

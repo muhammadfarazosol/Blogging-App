@@ -45,13 +45,13 @@ const AuthorPosts = () => {
   }
 
   return (
-    <div className="bg-[#c9dcf3] pt-4">
+    <div className="bg-[#e1ebfa] pt-4">
       <h2 className="blogs-heading">Insights from our author</h2>
 
       {/* Author Details */}
       {author && (
         <>
-          <div className="flex flex-col md:flex-row items-center bg-[#e1ebfa] rounded-lg shadow-lg p-6 md:p-10 mx-8">
+          <div className="flex flex-col md:flex-row items-center bg-[#c9dcf3] rounded-lg shadow-lg p-6 md:p-10 mx-8">
             {/* Profile Detail Section */}
             <div className="flex-1">
               <h1 className="text-4xl font-bold mb-4">{author.name}</h1>

@@ -1,7 +1,7 @@
 const TermOfServices = () => {
   return (
-    <div className="min-h-screen bg-[#c9dcf3] text-gray-800 flex items-center justify-center px-4 py-8">
-      <div className="max-w-4xl w-full bg-[#e1ebfa] rounded-lg shadow-lg p-6 md:p-10">
+    <div className="min-h-screen bg-[#e1ebfa] text-gray-800 flex items-center justify-center px-4 py-8">
+      <div className="max-w-4xl w-full bg-[#c9dcf3] rounded-lg shadow-lg p-6 md:p-10">
         <h1 className="text-2xl md:text-4xl font-bold text-center mb-6 text-black">
           Terms of Services
         </h1>
@@ -13,10 +13,10 @@ const TermOfServices = () => {
 
         <div className="space-y-6">
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               1. Acceptance of Terms
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               By using our services, you agree to these Terms of Services and
               our Privacy Policy. If you do not agree with any part of these
               terms, you may not use our services.
@@ -24,10 +24,10 @@ const TermOfServices = () => {
           </div>
 
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               2. User Responsibilities
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               Users are responsible for the content they publish on our
               platform. You agree not to post any content that is illegal,
               harmful, defamatory, or violates any third-party rights.
@@ -35,10 +35,10 @@ const TermOfServices = () => {
           </div>
 
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               3. Content Ownership
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               You retain ownership of the content you create and share on our
               platform. However, by posting content, you grant us a
               non-exclusive, royalty-free license to use, modify, and distribute
@@ -47,10 +47,10 @@ const TermOfServices = () => {
           </div>
 
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               4. Termination of Use
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               We reserve the right to suspend or terminate your account if you
               violate these terms or engage in activities that harm the platform
               or its users.
@@ -58,20 +58,20 @@ const TermOfServices = () => {
           </div>
 
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               5. Modifications to Terms
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               We may update these Terms of Services from time to time. Changes
               will be notified to users through the platform or via email.
             </p>
           </div>
 
           <div>
-            <h2 className="text-lg md:text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg md:text-xl font-semibold mb-2 text-black">
               6. Contact Information
             </h2>
-            <p className="text-sm md:text-base leading-relaxed text-gray-600">
+            <p className="text-sm md:text-base leading-relaxed text-black">
               If you have any questions or concerns about these terms, please
               contact us at{" "}
               <a
