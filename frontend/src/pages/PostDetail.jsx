@@ -404,7 +404,7 @@ const PostDetail = () => {
                         Edit
                       </button>
                     </Link>
-                    <DeletePost postId={id} variant="alternative" />
+                    {/* <DeletePost postId={id} variant="alternative" /> */}
                   </div>
                 )}
               </div>
