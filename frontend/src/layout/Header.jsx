@@ -35,7 +35,6 @@ const Header = () => {
           `${API_BASE_URL}/users/${currentUser?.id}`
         );
         setAuthors(response?.data);
-        console.log(response?.data);
       } catch (error) {
         console.log(error);
       }

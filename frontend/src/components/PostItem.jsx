@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import PostAuthor from "./PostAuthor";
+import axios from "axios";
+import { BsHandThumbsUpFill } from "react-icons/bs";
 
 const PostItem = ({
   id,
@@ -20,8 +22,25 @@ const PostItem = ({
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();
   const formattedDate = `${day}-${month}-${year}`;
+  const [likes, setLikes] = useState(0);
 
+  const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
   const APP_ASSESTS_URL = import.meta.env.VITE_APP_ASSESTS_URL;
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/reactions/${id}/likes`
+        );
+        setLikes(response.data.likes);
+      } catch (error) {
+        console.error("Error fetching likes:", error);
+      }
+    };
+
+    fetchLikes();
+  }, [id]);
 
   return (
     <motion.div
@@ -47,10 +66,14 @@ const PostItem = ({
           </Link>
         </div>
         <div className="p-6">
-          <div>
+          <div className="flex justify-between">
             {" "}
             <p className="inline-block text-xs font-semibold tracking-wide text-gray-500">
               {formattedDate}
+            </p>
+            <p className="flex items-center text-sm gap-x-1 font-semibold tracking-wide text-gray-500">
+              <BsHandThumbsUpFill />
+              {likes}
             </p>
           </div>
           {/* category */}

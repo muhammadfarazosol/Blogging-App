@@ -512,47 +512,49 @@ const UserProfile = () => {
               ) : (
                 <div className="space-y-6">
                   {/* Display Static Data */}
-                  <div class="flex flex-col">
-                    <div class="relative flex flex-col rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
-                      <div class="grid grid-cols-2 gap-4 px-2 w-full">
-                        <div class="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
-                          <p class="text-base text-gray-600">Name</p>
-                          <p class="text-sm font-medium text-navy-700 break-words">
+                  <div className="flex flex-col">
+                    <div className="relative flex flex-col rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500">
+                      <div className="grid grid-cols-2 gap-4 px-2 w-full">
+                        <div className="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
+                          <p className="text-base text-gray-600">Name</p>
+                          <p className="text-sm font-medium text-navy-700 break-words">
                             {name}
                           </p>
                         </div>
 
-                        <div class="flex flex-col justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
-                          <p class="text-base text-gray-600">Email</p>
-                          <p class="text-sm font-medium text-navy-700 break-words">
+                        <div className="flex flex-col justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
+                          <p className="text-base text-gray-600">Email</p>
+                          <p className="text-sm font-medium text-navy-700 break-words">
                             {email}
                           </p>
                         </div>
 
-                        <div class="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
-                          <p class="text-base text-gray-600">Password</p>
-                          <p class="text-sm font-medium text-navy-700">
+                        <div className="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
+                          <p className="text-base text-gray-600">Password</p>
+                          <p className="text-sm font-medium text-navy-700">
                             *************
                           </p>
                         </div>
 
-                        <div class="flex flex-col justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
-                          <p class="text-base text-gray-600">Member Since</p>
-                          <p class="text-sm font-medium text-navy-700">
+                        <div className="flex flex-col justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
+                          <p className="text-base text-gray-600">
+                            Member Since
+                          </p>
+                          <p className="text-sm font-medium text-navy-700">
                             {createdAt}
                           </p>
                         </div>
 
-                        <div class="flex flex-col rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
-                          <p class="text-base text-gray-600">Headline</p>
-                          <p class="text-sm font-medium text-navy-700">
+                        <div className="flex flex-col rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
+                          <p className="text-base text-gray-600">Headline</p>
+                          <p className="text-sm font-medium text-navy-700">
                             {headline || "-"}
                           </p>
                         </div>
 
-                        <div class="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
-                          <p class="text-base text-gray-600">Bio</p>
-                          <p class="text-sm font-medium text-navy-700">
+                        <div className="flex flex-col items-start justify-center rounded-2xl bg-white bg-clip-border px-3 py-4 shadow-3xl shadow-shadow-500 ">
+                          <p className="text-base text-gray-600">Bio</p>
+                          <p className="text-sm font-medium text-navy-700">
                             {bio || "-"}
                           </p>
                         </div>

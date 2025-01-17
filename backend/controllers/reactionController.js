@@ -91,8 +91,24 @@ const getUserReaction = async (req, res, next) => {
   }
 };
 
+const getLikesForPost = async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+
+    const likeCount = await Reaction.countDocuments({
+      post: postId,
+      reaction: "like",
+    });
+
+    res.status(200).json({ likes: likeCount });
+  } catch (error) {
+    return next(new HttpError(error.message || "Error fetching likes", 500));
+  }
+};
+
 module.exports = {
   addReaction,
   getReactions,
   getUserReaction,
+  getLikesForPost,
 };
