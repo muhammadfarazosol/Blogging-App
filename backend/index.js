@@ -8,12 +8,13 @@ const session = require("express-session");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const reactionRoutes = require("./routes/reactionRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 
 const app = express();
 app.use(
   cors({
-    origin: true,
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );
@@ -39,6 +40,7 @@ app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/reactions", reactionRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

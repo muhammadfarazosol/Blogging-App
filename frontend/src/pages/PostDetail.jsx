@@ -12,6 +12,7 @@ import { FaReplyAll } from "react-icons/fa";
 import SidebarPosts from "../components/SidebarPosts";
 import { toast } from "react-toastify";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import BlogReaction from "../components/BlogReaction";
 
 // const COMMENTS_PER_PAGE = 1;
 
@@ -425,6 +426,9 @@ const PostDetail = () => {
                 <div className="prose prose-lg max-w-none text-gray-700">
                   <p dangerouslySetInnerHTML={{ __html: post.description }}></p>
                 </div>
+
+                {/* Blog Like Dislike Section */}
+                {currentUser?.id && <BlogReaction />}
 
                 {/* Comments Section */}
                 <div className="mt-10">
