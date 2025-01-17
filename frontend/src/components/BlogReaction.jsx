@@ -49,27 +49,29 @@ const BlogReaction = () => {
   };
 
   return (
-    <div className="flex items-center space-x-6 bg-[#c9dcf3] px-4 py-1 rounded-full shadow-md">
+    <div className="flex items-center justify-between bg-[#c9dcf3] px-8 py-1.5 rounded-full shadow-md">
       <p className="text-gray-700 font-medium">Do you like this blog?</p>
-      <button
-        className={`py-1.5 px-3 ${
-          userReaction === "like" ? "bg-green-600 text-white" : ""
-        } hover:scale-105 hover:shadow text-center border border-black rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2`}
-        onClick={() => handleReaction("like")}
-      >
-        <BsHandThumbsUp />
-        <span className="text-black">{likes}</span>
-      </button>
+      <div className="flex space-x-3">
+        <button
+          className={`py-1.5 px-3 ${
+            userReaction === "like" ? "bg-green-600 text-white" : ""
+          } hover:scale-105 hover:shadow text-center border border-black rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2`}
+          onClick={() => handleReaction("like")}
+        >
+          <BsHandThumbsUp />
+          <span className="text-black">{likes}</span>
+        </button>
 
-      <button
-        className={`py-1.5 px-3 ${
-          userReaction === "dislike" ? "bg-red-500 text-white" : ""
-        } hover:scale-105 hover:shadow text-center border border-black rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2`}
-        onClick={() => handleReaction("dislike")}
-      >
-        <BsHandThumbsDown />
-        <span className="text-black">{dislikes}</span>
-      </button>
+        <button
+          className={`py-1.5 px-3 ${
+            userReaction === "dislike" ? "bg-red-500 text-white" : ""
+          } hover:scale-105 hover:shadow text-center border border-black rounded-md h-8 text-sm flex items-center gap-1 lg:gap-2`}
+          onClick={() => handleReaction("dislike")}
+        >
+          <BsHandThumbsDown />
+          <span className="text-black">{dislikes}</span>
+        </button>
+      </div>
     </div>
   );
 };

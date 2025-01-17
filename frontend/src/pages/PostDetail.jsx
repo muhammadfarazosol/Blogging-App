@@ -13,6 +13,7 @@ import SidebarPosts from "../components/SidebarPosts";
 import { toast } from "react-toastify";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import BlogReaction from "../components/BlogReaction";
+import BlogLikeDisplay from "../components/BlogLikeDisplay";
 
 // const COMMENTS_PER_PAGE = 1;
 
@@ -395,6 +396,7 @@ const PostDetail = () => {
                     </span>
                   </Link>
                 </div>
+                {!currentUser?.id && <BlogLikeDisplay />}
                 {currentUser?.id === post?.creator && (
                   <div className="flex space-x-4 sm:space-x-8 border-t py-4">
                     <Link to={`/posts/${post?._id}/edit`}>
