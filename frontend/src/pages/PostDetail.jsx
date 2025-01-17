@@ -513,6 +513,22 @@ const PostDetail = () => {
                             </p>
                           </div>
                         )}
+                        {currentUser?.id === post?.creator && (
+                          <div
+                            className={`flex space-x-3 ${
+                              currentUser?.id === comment.author?._id
+                                ? "hidden"
+                                : ""
+                            }`}
+                          >
+                            <p
+                              className="text-red-600 cursor-pointer"
+                              onClick={() => handleDeleteComment(comment._id)}
+                            >
+                              <RiDeleteBin5Line className="text-lg" />
+                            </p>
+                          </div>
+                        )}
                       </div>
 
                       {/* Replies */}
@@ -590,6 +606,24 @@ const PostDetail = () => {
                                   <CiEdit className="text-lg" />
                                 </p>
 
+                                <p
+                                  className="text-xs text-red-600 cursor-pointer"
+                                  onClick={() =>
+                                    handleDeleteReply(comment._id, reply._id)
+                                  }
+                                >
+                                  <RiDeleteBin5Line className="text-lg" />
+                                </p>
+                              </div>
+                            )}
+                            {currentUser?.id === post?.creator && (
+                              <div
+                                className={`flex space-x-3 ${
+                                  currentUser?.id === reply.author?._id
+                                    ? "hidden"
+                                    : ""
+                                }`}
+                              >
                                 <p
                                   className="text-xs text-red-600 cursor-pointer"
                                   onClick={() =>

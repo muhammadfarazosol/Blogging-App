@@ -141,7 +141,15 @@ const deleteComment = async (req, res, next) => {
       return next(new HttpError("Comment not found", 404));
     }
 
-    if (comment.author.toString() !== userId) {
+    const post = await Post.findById(comment.post);
+    if (!post) {
+      return next(new HttpError("Post not found", 404));
+    }
+
+    if (
+      comment.author.toString() !== userId &&
+      post.creator.toString() !== userId
+    ) {
       return next(
         new HttpError("You are not authorized to delete this comment", 403)
       );
@@ -167,6 +175,11 @@ const deleteReply = async (req, res, next) => {
       return next(new HttpError("Comment not found", 404));
     }
 
+    const post = await Post.findById(comment.post);
+    if (!post) {
+      return next(new HttpError("Post not found", 404));
+    }
+
     const replyIndex = comment.replies.findIndex(
       (reply) => reply._id.toString() === replyId
     );
@@ -174,7 +187,10 @@ const deleteReply = async (req, res, next) => {
       return next(new HttpError("Reply not found", 404));
     }
 
-    if (comment.replies[replyIndex].author.toString() !== userId) {
+    if (
+      comment.replies[replyIndex].author.toString() !== userId &&
+      post.creator.toString() !== userId
+    ) {
       return next(
         new HttpError("You are not authorized to delete this reply", 403)
       );
