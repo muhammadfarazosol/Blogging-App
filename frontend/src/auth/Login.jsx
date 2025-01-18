@@ -107,11 +107,11 @@ const Login = ({ onSwitchMode }) => {
           <Stack spacing={2}>
             <Stack spacing={1}>
               <Typography color="#000000">
-                Email <span style={{ color: "red" }}>*</span>
+                Email / Username <span style={{ color: "red" }}>*</span>
               </Typography>
               <TextField
                 name="email"
-                type="email"
+                type="text"
                 value={userData.email}
                 onChange={handleChange}
                 required

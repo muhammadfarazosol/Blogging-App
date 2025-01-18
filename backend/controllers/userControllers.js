@@ -198,11 +198,18 @@ const sendOTP = async (email, otp, actionType) => {
 
 const registerUser = async (req, res, next) => {
   try {
-    const { name, email, password, password2 } = req.body;
+    const { name, email, password, password2, username } = req.body;
     if (!name || !email || !password) {
       return next(new HttpError("Fill in all fields", 422));
     }
     const newEmail = email.toLowerCase();
+
+    if (username) {
+      const usernameExists = await User.findOne({ username });
+      if (usernameExists) {
+        return next(new HttpError("Username already exists", 422));
+      }
+    }
 
     const emailExists = await User.findOne({ email: newEmail });
     if (emailExists) {
@@ -237,7 +244,13 @@ const registerUser = async (req, res, next) => {
     await sendOTP(newEmail, otp, "registration");
 
     // Store user data and OTP in session
-    req.session.pendingUser = { name, email: newEmail, password, otp };
+    req.session.pendingUser = {
+      name,
+      email: newEmail,
+      password,
+      otp,
+      username,
+    };
     await req.session.save();
 
     res.status(200).json({ message: "OTP sent to your email" });
@@ -265,6 +278,7 @@ const verifyOTPAndRegister = async (req, res, next) => {
       name: pendingUser.name,
       email: pendingUser.email,
       password: hashedPass,
+      username: pendingUser.username || null,
     });
 
     // Clear the pending user data
@@ -287,9 +301,10 @@ const loginUser = async (req, res, next) => {
     if (!email || !password) {
       return next(new HttpError("Fill in all fields", 422));
     }
-    const newEmail = email.toLowerCase();
+    const user = await User.findOne({
+      $or: [{ email: email.toLowerCase() }, { username: email }],
+    });
 
-    const user = await User.findOne({ email: newEmail });
     if (!user) {
       return next(new HttpError("Invalid credentials", 422));
     }
@@ -298,7 +313,7 @@ const loginUser = async (req, res, next) => {
       return next(new HttpError("Invalid credentials", 422));
     }
 
-    const { id: id, name } = user;
+    const { id, name } = user;
     const token = jwt.sign({ id, name }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -399,6 +414,7 @@ const editUser = async (req, res, next) => {
       confirmNewPassword,
       headline,
       bio,
+      username,
     } = req.body;
 
     // Get user from the database
@@ -422,6 +438,16 @@ const editUser = async (req, res, next) => {
         return next(new HttpError("Email already exists", 422));
       }
       updates.email = email;
+    }
+
+    if (username) {
+      const usernameExists = await User.findOne({
+        username: req.body.username,
+      });
+      if (usernameExists && usernameExists._id.toString() !== req.user.id) {
+        return next(new HttpError("Username already exists", 422));
+      }
+      updates.username = req.body.username;
     }
 
     // Update password if currentPassword, newPassword, and confirmNewPassword are provided

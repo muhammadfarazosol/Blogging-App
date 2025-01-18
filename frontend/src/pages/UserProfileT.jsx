@@ -13,6 +13,7 @@ const UserProfile = () => {
   const [avatar, setAvatar] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
@@ -89,6 +90,7 @@ const UserProfile = () => {
       const userData = response.data;
       setName(userData.name || "");
       setEmail(userData.email || "");
+      setUsername(userData.username || "");
       setHeadline(userData.headline || "");
       setBio(userData.bio || "");
       const formattedDate = new Date(userData.createdAt).toLocaleDateString();
@@ -167,8 +169,28 @@ const UserProfile = () => {
       return;
     }
 
+    if (name.length > 15) {
+      toast.error("Name must be 15 characters or less");
+      return;
+    }
+
     if (!email.trim()) {
       toast.error("Email cannot be empty");
+      return;
+    }
+
+    const usernameRegex = /^(?=(.*[a-zA-Z]){4})[a-zA-Z0-9_]{6,15}$/;
+    if (username) {
+      if (!usernameRegex.test(username)) {
+        toast.error(
+          "Username must be 6-15 characters,alphanumeric,at least 4 letters and can include underscores"
+        );
+        return;
+      }
+    }
+
+    if (!username.trim() && currentUser.username) {
+      toast.error("Username cannot be empty as it was previously set");
       return;
     }
 
@@ -206,6 +228,7 @@ const UserProfile = () => {
         {
           name,
           email,
+          username,
           currentPassword,
           newPassword,
           confirmNewPassword,
@@ -225,6 +248,7 @@ const UserProfile = () => {
           ...currentUser,
           name: response.data.name,
           email: response.data.email,
+          username: response.data.username,
           headline: response.data.headline,
           bio: response.data.bio,
         });
@@ -321,6 +345,7 @@ const UserProfile = () => {
 
                 <div className="text-center space-y-1">
                   <h2 className="text-xl font-semibold">{name}</h2>
+                  <p className="text-sm text-gray-500">@{username}</p>
                   <p className="text-sm text-gray-500">Author</p>
                 </div>
                 <p className="text-center text-sm text-gray-600">
@@ -380,6 +405,21 @@ const UserProfile = () => {
                       </div>
                       <div className="space-y-2">
                         <p className="text-sm font-medium text-gray-700">
+                          Username
+                        </p>
+                        <input
+                          id="username"
+                          type="text"
+                          placeholder="Enter your username"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <p className="text-sm font-medium text-gray-700">
                           Email address
                         </p>
                         <input
@@ -389,8 +429,6 @@ const UserProfile = () => {
                           className="w-full px-3 py-2 cursor-not-allowed border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                       </div>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2 relative">
                         <p className="text-sm font-medium text-gray-700">
                           Current Password

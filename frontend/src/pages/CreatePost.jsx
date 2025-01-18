@@ -329,12 +329,12 @@ export default function CreatePost() {
       return;
     }
 
-    if (description.length <= 3500 || description.length > 6000) {
+    if (description.length <= 3500) {
       setIsLoading(false);
       if (description.length <= 3500) {
         toast.error("Description must be greater than 3500 characters");
       } else {
-        toast.error("Description must not exceed 6000 characters");
+        toast.error("Description must not exceed 20000 characters");
       }
       return;
     }

@@ -17,6 +17,7 @@ const SignUp = ({ onSwitchMode }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    username: "",
     password: "",
     password2: "",
   });
@@ -29,6 +30,7 @@ const SignUp = ({ onSwitchMode }) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [nameError, setNameError] = useState(false);
+  const [usernameError, setUsernameError] = useState(false);
   const API_BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
   const togglePasswordVisibility = () => {
@@ -73,6 +75,19 @@ const SignUp = ({ onSwitchMode }) => {
         setIsSignUpDisabled(true);
       } else {
         setEmailError("");
+        setIsSignUpDisabled(false);
+      }
+    }
+
+    if (name === "username") {
+      const usernameRegex = /^(?=(.*[a-zA-Z]){4})[a-zA-Z0-9_]{6,15}$/;
+      if (value.length > 0 && !usernameRegex.test(value)) {
+        setUsernameError(
+          "Username must be 6-15 characters,alphanumeric,at least 4 letters and can include underscores"
+        );
+        setIsSignUpDisabled(true);
+      } else {
+        setUsernameError("");
         setIsSignUpDisabled(false);
       }
     }
@@ -195,6 +210,20 @@ const SignUp = ({ onSwitchMode }) => {
               {emailError && (
                 <Typography color="error" variant="body2">
                   {emailError}
+                </Typography>
+              )}
+            </Stack>
+            <Stack spacing={1}>
+              <Typography color="#000000">Username</Typography>
+              <TextField
+                name="username"
+                type="username"
+                value={formData.username}
+                onChange={handleChange}
+              />
+              {usernameError && (
+                <Typography color="error" variant="body2">
+                  {usernameError}
                 </Typography>
               )}
             </Stack>
