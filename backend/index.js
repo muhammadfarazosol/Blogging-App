@@ -4,6 +4,7 @@ const { connect } = require("mongoose");
 require("dotenv").config();
 const upload = require("express-fileupload");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
@@ -28,8 +29,11 @@ app.use(
     secret: process.env.SESSION_SECRET || "your_session_secret",
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+    }),
     cookie: {
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       maxAge: 1000 * 60 * 10, // 10 minutes
     },
   })

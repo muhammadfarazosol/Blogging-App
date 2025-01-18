@@ -345,7 +345,9 @@ const UserProfile = () => {
 
                 <div className="text-center space-y-1">
                   <h2 className="text-xl font-semibold">{name}</h2>
-                  <p className="text-sm text-gray-500">@{username}</p>
+                  <p className="text-sm text-gray-500">
+                    {username && `@${username}`}
+                  </p>
                   <p className="text-sm text-gray-500">Author</p>
                 </div>
                 <p className="text-center text-sm text-gray-600">
