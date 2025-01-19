@@ -68,7 +68,7 @@ export default function EditPost() {
         { indent: "-1" },
         { indent: "+1" },
       ],
-      ["link", "image", "video"],
+      ["link", "image"],
       ["clean"],
     ],
     clipboard: {
@@ -90,7 +90,7 @@ export default function EditPost() {
     "indent",
     "link",
     "image",
-    "video",
+    // "video",
   ];
 
   const POST_Categories = [

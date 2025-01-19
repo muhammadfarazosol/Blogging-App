@@ -33,7 +33,9 @@ app.use(
       mongoUrl: process.env.MONGO_URI,
     }),
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
+      // secure: true,
+      // secure: process.env.NODE_ENV === "production",
       maxAge: 1000 * 60 * 10, // 10 minutes
     },
   })

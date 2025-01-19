@@ -50,7 +50,9 @@ const BlogReaction = () => {
 
   return (
     <div className="flex items-center justify-between bg-[#c9dcf3] px-8 py-1.5 rounded-full shadow-md">
-      <p className="text-gray-700 font-medium">Do you like this blog?</p>
+      <p className="text-gray-700 font-medium text-sm">
+        Your feedback is our favorite! Share your thoughts about this blog
+      </p>
       <div className="flex space-x-3">
         <button
           className={`py-1.5 px-3 ${
