@@ -52,7 +52,6 @@ const Login = ({ onSwitchMode }) => {
       );
 
       const user = await response.data;
-      console.log(user);
 
       setCurrentUser(user);
       toast.success("Welcome to NeuroNest");

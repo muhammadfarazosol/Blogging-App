@@ -305,7 +305,7 @@ const PostDetail = () => {
 
   const handleEditReply = async (commentId, replyId) => {
     if (editContent.length < 1 || editContent.length > 200) {
-      toast.error("Comment must be between 1 and 200 characters");
+      toast.error("Reply must be between 1 and 200 characters");
       return;
     }
 

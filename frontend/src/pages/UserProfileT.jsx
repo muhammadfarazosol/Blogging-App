@@ -169,8 +169,8 @@ const UserProfile = () => {
       return;
     }
 
-    if (name.length > 15) {
-      toast.error("Name must be 15 characters or less");
+    if (name.length > 30) {
+      toast.error("Name must be 30 characters or less");
       return;
     }
 

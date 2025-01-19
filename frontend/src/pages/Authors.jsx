@@ -28,7 +28,7 @@ const Authors = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-[400px] bg-[#c9dcf3] pt-32">
+      <div className="min-h-screen bg-[#c9dcf3] pt-[250px]">
         <Loader />
       </div>
     );
@@ -95,7 +95,7 @@ const Authors = () => {
     //   )}
     // </div>
 
-    <div className="bg-[#c9dcf3] min-h-screen pt-10 pb-20">
+    <div className="bg-[#c9dcf3] min-h-screen pt-10 pb-28">
       <h2 className="blogs-heading">Meet the Minds Behind the Words</h2>
       {authors.length > 0 ? (
         <section className="grid grid-cols-1 gap-y-32 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto px-4">

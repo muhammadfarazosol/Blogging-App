@@ -149,7 +149,11 @@ const Header = () => {
                 alt={`${currentUser?.name}'s profile`}
                 className="h-8 w-8 rounded-full object-cover"
               />
-              <span className="font-semibold text-xs text-white">
+              <span
+                className={`font-semibold text-xs text-white ${
+                  currentUser?.name.length > 20 && "max-sm:hidden"
+                }`}
+              >
                 {currentUser?.name}
               </span>
               <FiChevronDown
