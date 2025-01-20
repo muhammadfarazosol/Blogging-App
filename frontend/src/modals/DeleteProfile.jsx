@@ -108,13 +108,13 @@ const DeleteProfileModal = ({ isOpen, onClose, onConfirm }) => {
             <div className="flex gap-2">
               <button
                 onClick={onClose}
-                className="bg-red-600 hover:bg-red-400 transition-colors text-white font-semibold w-full py-2 rounded"
+                className="bg-white hover:opacity-90 transition-opacity text-indigo-600 font-semibold w-full py-2 rounded"
               >
                 Cancel
               </button>
               <button
                 onClick={handleConfirm}
-                className="bg-white hover:opacity-90 transition-opacity text-indigo-600 font-semibold w-full py-2 rounded"
+                className="bg-red-600 hover:bg-red-400 transition-colors text-white font-semibold w-full py-2 rounded"
               >
                 {isExpanded ? "Delete" : "Confirm Delete"}
               </button>
